@@ -1,20 +1,18 @@
-
-load_data <- function(file) {
-  setwd("~/workbook")
+load_data <- function(data) {
   con <- dbConnect(RSQLite::SQLite(), "trade_union_data.db")
-  file <- as_tibble(dbReadTable(con, "LAT-02.19.24"))
+  data <- as_tibble(dbReadTable(con, "LAT-02.19.24"))
   # disconnet from DB
   dbDisconnect(con)
-  return(file)
+  return(data)
 }
 
-transform_data <- function(file) {
+transform_data <- function(data) {
 # Convert Timestamp column to POSIXct format
-file$Timestamp <- as.POSIXct(file$Timestamp,
+data$Timestamp <- as.POSIXct(data$Timestamp,
   format = "%m/%d/%Y %H:%M:%S"
 )
 # mutate zip code to a character
-file <- file %>%
+data <- data %>%
   mutate(
     ZipCode = as.character(ZipCode),
     BargainingUnitSize = parse_number(as.character(BargainingUnitSize)),
@@ -25,20 +23,21 @@ file <- file %>%
     Year = format(Timestamp, "%Y"),
     DurationAmount = as.integer(DurationAmount)
   )
+return(data)
 }
 
 
-plot_data <- function(state_var) {
-  years <- unique(file$Year)  # Extract unique years from the 'Year' column in 'file'
+plot_data <- function(state_var, transformed_data) {
+  years <- unique(transformed_data$Year)
   if (length(years) == 1) {
-    d <- file %>%
+    d <- transformed_data %>%
       filter(State == state_var, Year == years) %>%
       ggplot(aes(x = month)) +
       geom_bar() +
       labs(title = paste("Number of Strikes in", state_var)) +
       common_theme()
   } else {
-    d <- file %>%
+    d <- transformed_data %>%
       filter(State == state_var, Year %in% years) %>%
       ggplot(aes(x = month)) +
       geom_bar() +
@@ -46,5 +45,11 @@ plot_data <- function(state_var) {
       facet_wrap(~Year, scales = "free_x") +
       common_theme()
   }
-  return(d)
+  # Save the plot as a file
+  plot_filename <- paste0(state_var, "_plot.png")
+  ggsave(plot_filename, plot = d, width = 10, height = 6, dpi = 300)
+  return(plot_filename)  # Return the filename for downstream targets
 }
+
+
+

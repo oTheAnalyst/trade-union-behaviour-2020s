@@ -1,7 +1,7 @@
 library(targets)
 library(tarchetypes)
 
-source("functions/functions.R")
+source("~/Lab4/functions/functions.R")
 options(clustermq.scheduler = "multicore")
 
 tar_option_set(
@@ -11,21 +11,23 @@ tar_option_set(
   )
 )
 
+
+dmv <- c("Maryland","Virginia","Disctrict of Columbia")
+
 list(
   tar_target(
-            file,
-            load_data(),
-            format = 'qs'
+    data,
+    load_data(data = "LAT-02.19.24"),
+    format = "qs"
   ),
   tar_target(
-             file,
-             transform_data(),
-             format = 'qs'
-
-  ),
+    transformed_data,
+    transform_data(data = data),
+    format = "qs"),
   tar_target(
-             "Maryland",
-             plot_data(),
-             format = 'qs'
+    plot_states,
+    plot_data(state_var = dmv, transformed_data),
+    format = "qs"
   )
 )
+
