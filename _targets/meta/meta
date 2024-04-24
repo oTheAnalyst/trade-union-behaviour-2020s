@@ -1,5 +1,19 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-transform_data|function|23c649c2f8c2f486
-load_data|function|9f10df11ff41e8fa
-plot_data|function|00c240ab02e9c80d
-dmv|object|dd17695b00b8c0d2
+common_theme|function|f0443c3f027c252b|||||||||||||||
+data|stem|230c136f8b3b0bf8|b6837ec5bd622ce8|dd271be84a8afe4c|33550471||t19835.888366154s|7799bc7453967ab6|971138|feather|local|vector|||0.394|Column ZipCode mixed type, first seen values of type integer, coercing other values of type string|
+dmv|object|e7e29888fc13a5dc|||||||||||||||
+load_data|function|c84d5136d6bc1b28|||||||||||||||
+number_of|function|06110d84aa604862|||||||||||||||
+plot_data|function|e7f256b665601fca|||||||||||||||
+plot_states|stem|8de21c242008b26e|39cd62ae295016b8|377fa7b56fca6b2d|-1194649933||t19837.1207611264s|3f1ea365301ba13c|424|fst|local|vector|||0.56|There was 1 warning in filter.ℹ In argument State  state_var  Year in years.Caused by warning in State  state_var longer object length is not a multiple of shorter object length. filename must have length 1, not length 3. Only the first, Maryland_plot.png, will be used.|
+plot_time_series|function|46bebe7871222216|||||||||||||||
+plot_time_series_virginia|stem||afa3604f21ff3de9|6c9b628fb82ccaa2|1144966985||t19837.1651439756s||0|fst|local|vector|||||_build_ cannot coerce class cgg, ggplot to a data.frame
+strikes_dc|stem|90ca2b2ab8da57a2|18500c2d891f873f|dbb669e04a656d00|-1402354796||t19837.1451190758s|e7702cd8439ff0b9|642|fst|local|vector|||0.025||
+strikes_maryland|stem|6f987e761792a088|707836d4a229b053|dbb669e04a656d00|527301418||t19837.1451192687s|19aff18b3c08b36f|606|fst|local|vector|||0.012||
+strikes_virginia|stem|e619a70774091adc|dcf00dcecf788f53|dbb669e04a656d00|-46845443||t19837.1451195002s|68a996f8a5c4d3fb|639|fst|local|vector|||0.014||
+table_matrix|stem|6f987e761792a088|c38ed559ee7322b6|dcc66d80e7091dc6|1402666269||t19837.1424862218s|19aff18b3c08b36f|606|fst|local|vector|||0.025||
+the.year|object|681e196d7a37e8a7|||||||||||||||
+theme|stem|33a4c1eea5302518|36029f6549eddd71|706e727db6c251de|1451312577||t19837.0765772436s||449|rds|local|vector|||||_build_ cannot coerce class ctheme, gg to a data.frame
+transform_data|function|23c649c2f8c2f486|||||||||||||||
+transformed_data|stem|edcab65871d86963|d1ae7f291d7d76ea|92b8d035d65eb7fb|1300509434||t19835.8892976021s|3a35eb7c1c642f85|1011290|feather|local|vector|||0.059||
+year_var|object|681e196d7a37e8a7|||||||||||||||

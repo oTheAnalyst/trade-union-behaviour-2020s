@@ -1,2 +1,9 @@
 name|type|parent|branches|progress
-data|stem|data|0|dispatched
+data|stem|data|0|skipped
+transformed_data|stem|transformed_data|0|skipped
+strikes_dc|stem|strikes_dc|0|skipped
+strikes_virginia|stem|strikes_virginia|0|skipped
+plot_states|stem|plot_states|0|skipped
+strikes_maryland|stem|strikes_maryland|0|skipped
+plot_time_series_virginia|stem|plot_time_series_virginia|0|dispatched
+plot_time_series_virginia|stem|plot_time_series_virginia|0|errored
