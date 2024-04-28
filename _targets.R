@@ -1,7 +1,6 @@
 library(targets)
 library(tarchetypes)
 
-
 source("~/Lab4/functions/functions.R")
 options(clustermq.scheduler = "multicore")
 
@@ -13,7 +12,6 @@ tar_option_set(
 )
 
 
-dmv <- c("Maryland", "Virginia", "District of Columbia")
 
 list(
   tar_target(
@@ -32,8 +30,7 @@ list(
     format = "fst"
   ),
   tar_target(
-    strikes_virginia,
-    number_of(state_var = "Virginia", transformed_data),
+    strikes_virginia, number_of(state_var = "Virginia", transformed_data),
     format = "fst"
   ),
   tar_target(
@@ -42,12 +39,15 @@ list(
     format = "fst"
   ),
   tar_target(
-    plot_states,
-    plot_data(state_var = dmv, transformed_data),
-    format = "fst"
+    plot_virginia,
+    make_plot_strikes(strikes_virginia, "Virginia")
   ),
   tar_target(
-    plot_time_series_virginia,
-    plot_time_series(data = strikes_virginia, state = "Virginia"),
-    format = "fst")
+    plot_maryland,
+    make_plot_strikes(strikes_dc, "Maryland")
+  ),
+  tar_target(
+    plot_dc,
+    make_plot_strikes(strikes_dc, "District of Columbia")
   )
+)

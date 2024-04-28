@@ -26,30 +26,6 @@ transform_data <- function(data) {
   return(data)
 }
 
-
-plot_data <- function(state_var, transformed_data) {
-  years <- unique(transformed_data$Year)
-  if (length(years) == 1) {
-    d <- transformed_data %>%
-      filter(State == state_var & Year == years) %>%
-      ggplot(aes(x = month))
-      geom_bar() +
-      labs(title = paste("Number of Strikes in", state_var))
-  } else {
-    d <- transformed_data %>%
-      filter(State == state_var & Year %in% years) %>%
-      ggplot(aes(x = month)) +
-      geom_bar() +
-      labs(title = paste("Number of Strikes in", state_var, "Per Month")) +
-      facet_wrap(~Year, scales = "free_x")
-  }
-  # Save the plot as a file
-  plot_filename <- paste0(state_var, "_plot.png")
-  ggsave(plot_filename, plot = d, width = 10, height = 6, dpi = 300)
-  plot_filename # Return the filename for downstream targets
-}
-
-
 number_of <- function(state_var, transformed_data) {
   if (!is.vector(state_var)) {
     state_var <- as.vector(state_var)
@@ -64,24 +40,24 @@ number_of <- function(state_var, transformed_data) {
     )
 }
 
-plot_time_series <- function(data, state) {
-  # Filter the data for the specified state
-  state_data <- data[data$State == state, ]
 
-  # Convert Year to a date format for time series plotting
-  state_data$Year <- as.Date(paste0(state_data$Year, "-01-01"))
+make_plot_strikes <- function(strikes_data, state) {
+p <- ggplot(strikes_data %>% filter(Year != "2024")) +
+  geom_line(aes(x = Year, y = labor_org_count, color = 'Labor Organization Count', group = 1)) +
+  geom_line(aes(x = Year, y = strikes, color = 'Strikes', group = 2)) +
+  scale_color_manual(
+    values = c('Labor Organization Count' = 'blue', 'Strikes' = 'red'),
+    labels = c('Labor Organization Count' = 'Active Labor \n Organization Count', 'Strikes' = 'Strikes')
+  ) +
+  labs(
+    title = paste("Labour Actions in", state),
+    subtitle = paste("Source: Labour Action Tracker, Cornell University"),
+    caption = paste("Data for", state)
+  )
 
-  # Create the dual-axis line chart
-  p <- ggplot(state_data, aes(x = Year)) +
-    geom_line(aes(y = strikes, color = "Strikes"), size = 1.5) +
-    geom_line(aes(y = labor_org_count * 10, color = "Labor Org Count"), linetype = "dashed", size = 1.5) +
-    scale_color_manual(values = c("Strikes" = "blue", "Labor Org Count" = "red"),
-                       labels = c("Strikes", "Labor Org Count")) +
-    labs(title = paste("Strikes and Labor Organization Count Over Time in", state),
-         x = "Year",
-         y = "Count") +
-    theme_minimal()
+  # Save the plot locally with a dynamic filename
+  filename <- paste("plot_", gsub(" ", "_", state), ".png", sep = "")
+  ggsave(filename, plot = p, width = 10, height = 6, dpi = 300)
 
   return(p)
 }
-

@@ -3,11 +3,21 @@ common_theme|function|f0443c3f027c252b|||||||||||||||
 data|stem|230c136f8b3b0bf8|b6837ec5bd622ce8|dd271be84a8afe4c|33550471||t19835.888366154s|7799bc7453967ab6|971138|feather|local|vector|||0.394|Column ZipCode mixed type, first seen values of type integer, coercing other values of type string|
 dmv|object|e7e29888fc13a5dc|||||||||||||||
 load_data|function|c84d5136d6bc1b28|||||||||||||||
+make_plot_strikes|function|1b702e9738777200|||||||||||||||
 number_of|function|06110d84aa604862|||||||||||||||
+number_of_and_plot|function|fb9976470cb81311|||||||||||||||
+number_of_and_plot_state|stem|0e16346e3bcab0a6|b6bcf71e63860629|612ae851486c535c|1958827553||t19841.0013241939s|f86abfe85cef05fa|656936|rds|local|vector|||0.458|There was 1 warning in filter.ℹ In argument State  state_var.Caused by warning in State  state_var longer object length is not a multiple of shorter object length. filename must have length 1, not 50. Only the first, plot_Alabama.png, will be used.|
+number_of_and_plot_virginia|stem|77f8e533a364bb54|dfede98f261ecb76|5460d0493b71931c|776423334||t19840.9628857231s|2dfe11f17db681ed|654518|rds|local|vector|||0.375||
 plot_data|function|e7f256b665601fca|||||||||||||||
+plot_dc|stem|e239f57b8394aac4|cf3489092537e48d|0d5ae471aa056ebd|-903637546||t19841.0067455651s|c7e149681a5616af|118223|rds|local|vector|||0.51||
+plot_maryland|stem|0a2611181c08ea21|102a6b0ee34b3ae7|0d5ae471aa056ebd|1872719758||t19840.9554566454s|7812f768bcd4788b|118226|rds|local|vector|||0.34||
 plot_states|stem|8de21c242008b26e|39cd62ae295016b8|377fa7b56fca6b2d|-1194649933||t19837.1207611264s|3f1ea365301ba13c|424|fst|local|vector|||0.56|There was 1 warning in filter.ℹ In argument State  state_var  Year in years.Caused by warning in State  state_var longer object length is not a multiple of shorter object length. filename must have length 1, not length 3. Only the first, Maryland_plot.png, will be used.|
-plot_time_series|function|46bebe7871222216|||||||||||||||
-plot_time_series_virginia|stem||afa3604f21ff3de9|6c9b628fb82ccaa2|1144966985||t19837.1651439756s||0|fst|local|vector|||||_build_ cannot coerce class cgg, ggplot to a data.frame
+plot_strikes|stem|0e16346e3bcab0a6|b6bcf71e63860629|612ae851486c535c|723749780||t19841.0013175581s|f86abfe85cef05fa|656936|rds|local|vector|||0.544|There was 1 warning in filter.ℹ In argument State  state_var.Caused by warning in State  state_var longer object length is not a multiple of shorter object length. filename must have length 1, not 50. Only the first, plot_Alabama.png, will be used.|
+plot_time_series|function|03130ea3718c20e4|||||||||||||||
+plot_time_series_virginia|stem|b5b2b342d493f718|afa3604f21ff3de9|8e2d91a5bac3924b|1144966985||t19837.1861966771s||534|fst|local|vector|||0.006||could not find function plot_time_series
+plot_time_strikes_virginia|stem||1b33aee47da01221|8e2d91a5bac3924b|1795879754||t19840.1614880732s||0|fst|local|vector|||0.004||could not find function plot_time_series
+plot_virginia|stem|d62bcd3315419087|ea69578ab6dea350|42b0bcf0bb0071bc|1785376272||t19840.9554600791s|c0da615054457f65|118235|rds|local|vector|||0.254||
+states|object|216845a4ba0d55cd|||||||||||||||
 strikes_dc|stem|90ca2b2ab8da57a2|18500c2d891f873f|dbb669e04a656d00|-1402354796||t19837.1451190758s|e7702cd8439ff0b9|642|fst|local|vector|||0.025||
 strikes_maryland|stem|6f987e761792a088|707836d4a229b053|dbb669e04a656d00|527301418||t19837.1451192687s|19aff18b3c08b36f|606|fst|local|vector|||0.012||
 strikes_virginia|stem|e619a70774091adc|dcf00dcecf788f53|dbb669e04a656d00|-46845443||t19837.1451195002s|68a996f8a5c4d3fb|639|fst|local|vector|||0.014||
