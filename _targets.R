@@ -1,53 +1,45 @@
+setwd("~/Lab4/")
 library(targets)
 library(tarchetypes)
-
 source("~/Lab4/functions/functions.R")
-options(clustermq.scheduler = "multicore")
-
+options(clustermq.schedular = "multicore")
 tar_option_set(
   packages = c(
-    "tibble", "dplyr", "stringr", "readr",
-    "ggplot2", "purrr", "magrittr", "DBI", "RSQLite", "forcats"
-  )
+    "tibble", "dplyr", "stringr", "readr", "readxl",
+    "ggplot2", "purrr", "lubridate", "DBI", "RSQLite", "readr"
+  ), format = "rds"
 )
-
-
 
 list(
   tar_target(
-    data,
-    load_data(data = "LAT-02.19.24"),
-    format = "feather"
-  ),
-  tar_target(
     transformed_data,
-    transform_data(data = data),
-    format = "feather"
+    load_and_transform_data("~/Lab4/",
+      "~/Lab4/_targets/objects/datalist"),
+    format = "rds"
   ),
   tar_target(
-    strikes_maryland,
-    number_of(state_var = "Maryland", transformed_data),
-    format = "fst"
+    data_frame,
+    load_and_extract_df("~/Lab4/_targets/objects/datalist", 4),
+    format = "rds"
   ),
   tar_target(
-    strikes_virginia, number_of(state_var = "Virginia", transformed_data),
-    format = "fst"
+    dc_data,
+    number_of("District of Columbia", data_frame),
+    format = "rds"
   ),
   tar_target(
-    strikes_dc,
-    number_of(state_var = "District of Columbia", transformed_data),
-    format = "fst"
+    md_data,
+    number_of("Maryland", data_frame),
+    format = "rds"
   ),
   tar_target(
-    plot_virginia,
-    make_plot_strikes(strikes_virginia, "Virginia")
+    va_data,
+    number_of("Virginia", data_frame),
+    format = "rds"
   ),
   tar_target(
-    plot_maryland,
-    make_plot_strikes(strikes_dc, "Maryland")
-  ),
-  tar_target(
-    plot_dc,
-    make_plot_strikes(strikes_dc, "District of Columbia")
+    national_data,
+    number_of("national", data_frame),
+    format = "rds"
   )
 )
