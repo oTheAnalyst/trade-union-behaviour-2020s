@@ -1,9 +1,3 @@
-library(lubridate)
-library(readxl)
-library(dplyr)
-library(purrr)
-library(readr)
-
 load_and_transform_data <- function(directory, save_path) {
   # Get a list of all xlsx files in the specified directory
   file_paths <- list.files(
@@ -50,21 +44,23 @@ number_of <- function(state_var, transformed_data) {
     transformed_data %>%
       group_by(Year) %>%
       summarise(
-       labor_org_count = n_distinct(`Labor Organization`,
-        na.rm = TRUE),
+        labor_org_count = n_distinct(`Labor Organization`,
+          na.rm = TRUE
+        ),
+        employer_facing_strikes = n_distinct(`Employer`),
         strikes = n(),
         .groups = "drop"
       )
   } else {
-  transformed_data %>%
-    filter(State == state_var) %>%
-    group_by(State, Year) %>%
-    summarise(
-      labor_org_count = n_distinct(`Labor Organization`,
-        na.rm = TRUE), #use back tics with vectors operations
-      strikes = n(),
-      .groups = "drop"
-    )
+    transformed_data %>%
+      filter(State == state_var) %>%
+      group_by(State, Year) %>%
+      summarise(
+        labor_org_count = n_distinct(`Labor Organization`, na.rm = TRUE),
+        employer_facing_strikes = n_distinct(`Employer`),
+        strikes = n(),
+        .groups = "drop"
+      )
   }
 }
 
@@ -76,9 +72,3 @@ load_and_extract_df <- function(rds_file, index) {
   return(extracted_df)
 }
 
-load_and_transform_data("~/Lab4/", "~/Lab4/_targets/objects/datalist.rds")
-data_frame <- load_and_extract_df("~/Lab4/_targets/objects/datalist.rds",4)
-number_of("District of Columbia", data_frame)
-number_of("Maryland", data_frame)
-number_of("Virginia", data_frame)
-number_of("National", data_frame)
