@@ -77,9 +77,8 @@ load_and_extract_df <- function(rds_file, index) {
 }
 
 load_and_transform_data("~/Lab4/", "~/Lab4/_targets/objects/datalist.rds")
-saved_list <- readRDS("~/Lab4/_targets/objects/datalist.rds")
-data_frame <- as_tibble(saved_list[[4]])
+data_frame <- load_and_extract_df("~/Lab4/_targets/objects/datalist.rds",4)
 number_of("District of Columbia", data_frame)
 number_of("Maryland", data_frame)
 number_of("Virginia", data_frame)
-number_of("national", data_frame)
+number_of("National", data_frame)
