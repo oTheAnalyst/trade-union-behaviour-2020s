@@ -46,15 +46,28 @@ number_of <- function(state_var, transformed_data) {
   if (!is.vector(state_var)) {
     state_var <- as.vector(state_var)
   }
+  if (tolower(state_var) == "national") {
+    transformed_data %>%
+      group_by(Year) %>%
+      summarise(
+       labor_org_count = n_distinct(`Labor Organization`,
+        na.rm = TRUE),
+        strikes = n(),
+        .groups = "drop"
+      )
+  } else {
   transformed_data %>%
     filter(State == state_var) %>%
     group_by(State, Year) %>%
     summarise(
-      labor_org_count = n_distinct(`Labor Organization`, na.rm = TRUE), #use back tics with vectors operations
+      labor_org_count = n_distinct(`Labor Organization`,
+        na.rm = TRUE), #use back tics with vectors operations
       strikes = n(),
       .groups = "drop"
     )
+  }
 }
+
 load_and_extract_df <- function(rds_file, index) {
   # Load the RDS file
   saved_list <- readRDS(rds_file)
@@ -62,9 +75,11 @@ load_and_extract_df <- function(rds_file, index) {
   extracted_df <- as_tibble(saved_list[[index]])
   return(extracted_df)
 }
+
 load_and_transform_data("~/Lab4/", "~/Lab4/_targets/objects/datalist.rds")
 saved_list <- readRDS("~/Lab4/_targets/objects/datalist.rds")
 data_frame <- as_tibble(saved_list[[4]])
 number_of("District of Columbia", data_frame)
 number_of("Maryland", data_frame)
 number_of("Virginia", data_frame)
+number_of("national", data_frame)
