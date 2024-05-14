@@ -1,9 +1,6 @@
 name|type|parent|branches|progress
-data|stem|data|0|skipped
-transformed_data|stem|transformed_data|0|skipped
-strikes_dc|stem|strikes_dc|0|skipped
-strikes_maryland|stem|strikes_maryland|0|skipped
-strikes_virginia|stem|strikes_virginia|0|skipped
-plot_dc|stem|plot_dc|0|skipped
-plot_maryland|stem|plot_maryland|0|skipped
-plot_virginia|stem|plot_virginia|0|skipped
+transformed_|stem|transformed_|0|skipped
+dc_data|stem|dc_data|0|skipped
+va_data|stem|va_data|0|skipped
+md_data|stem|md_data|0|skipped
+national_data|stem|national_data|0|skipped

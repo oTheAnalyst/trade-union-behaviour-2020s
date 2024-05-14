@@ -1,29 +1,9 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-common_theme|function|f0443c3f027c252b|||||||||||||||
-data|stem|230c136f8b3b0bf8|b6837ec5bd622ce8|dd271be84a8afe4c|33550471||t19835.888366154s|7799bc7453967ab6|971138|feather|local|vector|||0.394|Column ZipCode mixed type, first seen values of type integer, coercing other values of type string|
-dmv|object|e7e29888fc13a5dc|||||||||||||||
-load_data|function|c84d5136d6bc1b28|||||||||||||||
-make_plot_strikes|function|1b702e9738777200|||||||||||||||
-number_of|function|06110d84aa604862|||||||||||||||
-number_of_and_plot|function|fb9976470cb81311|||||||||||||||
-number_of_and_plot_state|stem|0e16346e3bcab0a6|b6bcf71e63860629|612ae851486c535c|1958827553||t19841.0013241939s|f86abfe85cef05fa|656936|rds|local|vector|||0.458|There was 1 warning in filter.ℹ In argument State  state_var.Caused by warning in State  state_var longer object length is not a multiple of shorter object length. filename must have length 1, not 50. Only the first, plot_Alabama.png, will be used.|
-number_of_and_plot_virginia|stem|77f8e533a364bb54|dfede98f261ecb76|5460d0493b71931c|776423334||t19840.9628857231s|2dfe11f17db681ed|654518|rds|local|vector|||0.375||
-plot_data|function|e7f256b665601fca|||||||||||||||
-plot_dc|stem|e239f57b8394aac4|cf3489092537e48d|0d5ae471aa056ebd|-903637546||t19841.0067455651s|c7e149681a5616af|118223|rds|local|vector|||0.51||
-plot_maryland|stem|0a2611181c08ea21|102a6b0ee34b3ae7|0d5ae471aa056ebd|1872719758||t19840.9554566454s|7812f768bcd4788b|118226|rds|local|vector|||0.34||
-plot_states|stem|8de21c242008b26e|39cd62ae295016b8|377fa7b56fca6b2d|-1194649933||t19837.1207611264s|3f1ea365301ba13c|424|fst|local|vector|||0.56|There was 1 warning in filter.ℹ In argument State  state_var  Year in years.Caused by warning in State  state_var longer object length is not a multiple of shorter object length. filename must have length 1, not length 3. Only the first, Maryland_plot.png, will be used.|
-plot_strikes|stem|0e16346e3bcab0a6|b6bcf71e63860629|612ae851486c535c|723749780||t19841.0013175581s|f86abfe85cef05fa|656936|rds|local|vector|||0.544|There was 1 warning in filter.ℹ In argument State  state_var.Caused by warning in State  state_var longer object length is not a multiple of shorter object length. filename must have length 1, not 50. Only the first, plot_Alabama.png, will be used.|
-plot_time_series|function|03130ea3718c20e4|||||||||||||||
-plot_time_series_virginia|stem|b5b2b342d493f718|afa3604f21ff3de9|8e2d91a5bac3924b|1144966985||t19837.1861966771s||534|fst|local|vector|||0.006||could not find function plot_time_series
-plot_time_strikes_virginia|stem||1b33aee47da01221|8e2d91a5bac3924b|1795879754||t19840.1614880732s||0|fst|local|vector|||0.004||could not find function plot_time_series
-plot_virginia|stem|d62bcd3315419087|ea69578ab6dea350|42b0bcf0bb0071bc|1785376272||t19840.9554600791s|c0da615054457f65|118235|rds|local|vector|||0.254||
-states|object|216845a4ba0d55cd|||||||||||||||
-strikes_dc|stem|90ca2b2ab8da57a2|18500c2d891f873f|dbb669e04a656d00|-1402354796||t19837.1451190758s|e7702cd8439ff0b9|642|fst|local|vector|||0.025||
-strikes_maryland|stem|6f987e761792a088|707836d4a229b053|dbb669e04a656d00|527301418||t19837.1451192687s|19aff18b3c08b36f|606|fst|local|vector|||0.012||
-strikes_virginia|stem|e619a70774091adc|dcf00dcecf788f53|dbb669e04a656d00|-46845443||t19837.1451195002s|68a996f8a5c4d3fb|639|fst|local|vector|||0.014||
-table_matrix|stem|6f987e761792a088|c38ed559ee7322b6|dcc66d80e7091dc6|1402666269||t19837.1424862218s|19aff18b3c08b36f|606|fst|local|vector|||0.025||
-the.year|object|681e196d7a37e8a7|||||||||||||||
-theme|stem|33a4c1eea5302518|36029f6549eddd71|706e727db6c251de|1451312577||t19837.0765772436s||449|rds|local|vector|||||_build_ cannot coerce class ctheme, gg to a data.frame
-transform_data|function|23c649c2f8c2f486|||||||||||||||
-transformed_data|stem|edcab65871d86963|d1ae7f291d7d76ea|92b8d035d65eb7fb|1300509434||t19835.8892976021s|3a35eb7c1c642f85|1011290|feather|local|vector|||0.059||
-year_var|object|681e196d7a37e8a7|||||||||||||||
+data_frame|stem||58723efcbf99e682|2c530c1562a7fbd1|1984307675||t19857.6304201749s||0|rds|local|vector|||0.706||could not find function load_and_extract_df
+dc_data|stem|b612fba95ced89a1|62b084930a77a24b|3a9935df21d9f70c|500645749||t19857.6318959806s|926fba0b13bbd9f6|250|rds|local|vector|||0.015||
+load_and_transform_data|function|a5dbcf8fb5946ad4|||||||||||||||
+md_data|stem|dbeaa15ed0213fe4|78da2d6cd2fc63d0|3a9935df21d9f70c|1960564856||t19857.631896405s|fe613b74dc561b12|232|rds|local|vector|||0.005||
+national_data|stem|4bbdebf8ba67a64d|e96fd3c930afaf47|3a9935df21d9f70c|598103538||t19857.6318965207s|1acc23da44a82060|239|rds|local|vector|||0.006||
+number_of|function|221c9b5f81ba66f3|||||||||||||||
+transformed_|stem|7984ddd376af1e55|9401f8e3d31ec906|6bdb00b96a28bad8|435777524||t19857.6318956719s|9867dce4499c8377|537100|rds|local|vector|||0.969||
+va_data|stem|364166d5480c6833|7da287a8314610d1|3a9935df21d9f70c|-1156806124||t19857.6318963278s|cb5de256bff6bdf1|247|rds|local|vector|||0.025||

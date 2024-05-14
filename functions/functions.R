@@ -1,7 +1,7 @@
-load_and_transform_data <- function(directory, save_path) {
+load_and_transform_data <- function(index) {
   # Get a list of all xlsx files in the specified directory
   file_paths <- list.files(
-    path = directory,
+    path = "~/Lab4/",
     pattern = "\\.xlsx$",
     full.names = TRUE
   )
@@ -30,10 +30,10 @@ load_and_transform_data <- function(directory, save_path) {
   }
   # Read all Excel files, store them as tibbles, and transform data
   transformed_data_list <- map(file_paths, read_and_transform)
-  # Save the list of transformed tibbles locally
-  saveRDS(transformed_data_list, file = save_path)
+  transformed_ <- as_tibble(transformed_data_list[[index]])
+  return(transformed_)
   # Return a message indicating successful saving
-  message("Transformed data list saved successfully at ", save_path)
+  message("Transformed data saved successfully")
 }
 
 number_of <- function(state_var, transformed_data) {
@@ -62,13 +62,5 @@ number_of <- function(state_var, transformed_data) {
         .groups = "drop"
       )
   }
-}
-
-load_and_extract_df <- function(rds_file, index) {
-  # Load the RDS file
-  saved_list <- readRDS(rds_file)
-  # Extract the desired data frame from the list
-  extracted_df <- as_tibble(saved_list[[index]])
-  return(extracted_df)
 }
 
