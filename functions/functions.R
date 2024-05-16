@@ -13,6 +13,7 @@ load_and_transform_data <- function(index) {
       format = "%m/%d/%Y %H:%M:%S", tz = "UTC"
     )
     excel_tibble$Year <- year(excel_tibble$Timestamp)
+    excel_tibble$Month <- month(excel_tibble$Timestamp)
     return(excel_tibble)
     # Mutate columns as needed
     transformed_data <- excel_tibble %>%
@@ -55,6 +56,35 @@ number_of <- function(state_var, transformed_data) {
     transformed_data %>%
       filter(State == state_var) %>%
       group_by(State, Year) %>%
+      summarise(
+        `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
+        employers = n_distinct(`Employer`),
+        strikes = n(),
+        .groups = "drop"
+      )
+  }
+}
+
+month_year_var_number <- function(state_var, year_var, transformed_data) {
+  if (!is.vector(state_var)) {
+    state_var <- as.vector(state_var)
+  }
+  if (tolower(state_var) == "national") {
+    transformed_data %>%
+      filter(Year == year_var) %>%
+      group_by(Month) %>%
+      summarise(
+        `labor org count` = n_distinct(`Labor Organization`,
+          na.rm = TRUE
+        ),
+        employers = n_distinct(`Employer`),
+        strikes = n(),
+        .groups = "drop"
+      )
+  } else {
+    transformed_data %>%
+      filter(State == state_var, Year == year_var) %>%
+      group_by(State, Month) %>%
       summarise(
         `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
         employers = n_distinct(`Employer`),

@@ -13,7 +13,7 @@ tar_option_set(
 list(
   tar_target(
     transformed_,
-    load_and_transform_data(1),
+    load_and_transform_data(4),
     format = "rds"
   ),
   tar_target(
@@ -34,6 +34,12 @@ list(
   tar_target(
     national_data,
     number_of("national", transformed_),
+    format = "rds"
+  ),
+  tar_target(
+    national.monthly.strikes,
+    month_year_var_number(state_var = "national",
+      year_var = 2024, transformed_data = transformed_),
     format = "rds"
   ),
   tar_render(

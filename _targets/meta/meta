@@ -1,10 +1,13 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
 data_frame|stem||58723efcbf99e682|2c530c1562a7fbd1|1984307675||t19857.6304201749s||0|rds|local|vector|||0.706||could not find function load_and_extract_df
-dc_data|stem|17b2a1cb31380c13|62b084930a77a24b|222a081bc9040132|500645749||t19859.6962095228s|44ea8b179a7369a2|237|rds|local|vector|||0.017||
-load_and_transform_data|function|a5dbcf8fb5946ad4|||||||||||||||
-md_data|stem|223342a7c38a2e17|78da2d6cd2fc63d0|222a081bc9040132|1960564856||t19859.6962099086s|eaa90a5348cc99e5|224|rds|local|vector|||0.006||
-national_data|stem|1f929396ddf27a3b|e96fd3c930afaf47|222a081bc9040132|598103538||t19859.6962100244s|b5e39c70485bce0f|228|rds|local|vector|||0.005||
+dc_data|stem|bf3443c72a7cffeb|62b084930a77a24b|28276eb331a2bbb3|500645749||t19859.8394911782s|cb5de256bff6bdf1|247|rds|local|vector|||0.015||
+load_and_transform_data|function|aa6d1385c4673067|||||||||||||||
+md_data|stem|7c366b4660376c35|78da2d6cd2fc63d0|28276eb331a2bbb3|1960564856||t19859.8394914097s|1585a292a20e5533|236|rds|local|vector|||0.015||
+month_2024_number|function|0464a48672931c30|||||||||||||||
+month_year_var_number|function|1e3fa930b1342438|||||||||||||||
+national_data|stem|f6d68013f09e8e64|e96fd3c930afaf47|28276eb331a2bbb3|598103538||t19859.8394914869s|b5e39c70485bce0f|228|rds|local|vector|||0.006||
+national.monthly.strikes|stem|93d2fad704ef9774|f4dcdd3bc0560077|01eee8def2249a98|1184539069||t19859.8394916026s|0a700977bf7778a0|226|rds|local|vector|||0.005||
 number_of|function|15f44dc05a5d8d69|||||||||||||||
-paper|stem|9bd5a547720e2c88|734c3918e659a17a|ca149a8909d0d993|-1607195735|paper/strike_analysis.pdf*paper/strike_analysis.rmd|t19859.7434652337s|43d3811e3443140c|135506|file|local|vector|||2.771||
-transformed_|stem|7984ddd376af1e55|9401f8e3d31ec906|6bdb00b96a28bad8|435777524||t19857.6318956719s|9867dce4499c8377|537100|rds|local|vector|||0.969||
-va_data|stem|8a739f18ebbd61c9|7da287a8314610d1|222a081bc9040132|-1156806124||t19859.6962097929s|1585a292a20e5533|236|rds|local|vector|||0.018||
+paper|stem|eeb816fa0529de0c|ffe090aff761fda2|fc518d63ffc658fe|-1607195735|paper/strike_analysis.pdf*paper/strike_analysis.rmd|t19859.8395174514s|209ac9b7bc59068f|161412|file|local|vector|||2.235||
+transformed_|stem|219c0617b7af09ed|f4e6999c996ff905|de91e5414b76b05d|435777524||t19859.839490831s|b186f225770b9b37|576174|rds|local|vector|||1.082||
+va_data|stem|f9564388c5aac3d5|7da287a8314610d1|28276eb331a2bbb3|-1156806124||t19859.8394917183s|ef7f9a4a5db64333|234|rds|local|vector|||0.007||
