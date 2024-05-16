@@ -44,10 +44,10 @@ number_of <- function(state_var, transformed_data) {
     transformed_data %>%
       group_by(Year) %>%
       summarise(
-        labor_org_count = n_distinct(`Labor Organization`,
+        `labor org count` = n_distinct(`Labor Organization`,
           na.rm = TRUE
         ),
-        employer_facing_strikes = n_distinct(`Employer`),
+        employers = n_distinct(`Employer`),
         strikes = n(),
         .groups = "drop"
       )
@@ -56,8 +56,8 @@ number_of <- function(state_var, transformed_data) {
       filter(State == state_var) %>%
       group_by(State, Year) %>%
       summarise(
-        labor_org_count = n_distinct(`Labor Organization`, na.rm = TRUE),
-        employer_facing_strikes = n_distinct(`Employer`),
+        `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
+        employers = n_distinct(`Employer`),
         strikes = n(),
         .groups = "drop"
       )

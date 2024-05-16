@@ -10,7 +10,8 @@ tar_option_set(
   ), format = "rds"
 )
 
-list( tar_target(
+list(
+  tar_target(
     transformed_,
     load_and_transform_data(1),
     format = "rds"
@@ -34,5 +35,9 @@ list( tar_target(
     national_data,
     number_of("national", transformed_),
     format = "rds"
+  ),
+  tar_render(
+    paper,
+    "~/Lab4/paper/strike_analysis.rmd"
   )
 )
