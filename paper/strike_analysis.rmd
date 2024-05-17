@@ -1,7 +1,6 @@
 ---
 title: "Stike Analysis DMV region"
-author: "Michael Cumbo"
-output: pdf_document
+output: html_document
 ---
 
 ```{r setup, include = FALSE}
@@ -15,12 +14,14 @@ I was recently reading a copy of "Means and Ends" By Zoe Baker a Anarchist Histo
 
 The table below shows the District of Columbia, the year, labor organization count, employers and strikes. `labor org count` represent the number of active labor organizations engaging in strike actions. `employers` are the organizations  the labor organization are campaigning against. `strikes` are the number of recorded strikes within a state.   For the year `2024` the data is incomplete, the data is expected to be fully populated by 2025 sometime in January. But for now the data will be populated on a monthly bases. In the future there will be visualization & tables showings months that have activity. For now data tables will be the main way I demonstrate this information.  
 
-```{r dc_data, fig.cap = "Test", echo = FALSE, fig.show="hold", out.width="50%"}
+```{r dc_data, echo = FALSE}
 xfun::pkg_load2(c("htmltools", "mime"))
 library(targets)
 library(knitr)
 dc_data <- tar_read(dc_data)
 knitr::kable(dc_data, "simple")
+```
+```{r va&md, fig.cap = "Test", echo = FALSE, fig.show="hold", out.width="50%"}
 md_data <- tar_read(md_data)
 knitr::kable(md_data, "simple")
 va_data <- tar_read(va_data)
@@ -31,11 +32,18 @@ In Figure \@ref(fig:md_data)
 In Figure \@ref(fig:va_data)
 
 \newpage
+### National Data Set
 
-```{r}
+The national data describes the number of strikes in the US, table 4 breaks down the total number of strikes occurring year to year. Table 5 breaks down the 2024 nationally month to month. 
+
+```{r, echo = FALSE}
 national_data <- tar_read(national_data)
 knitr::kable(national_data, "simple")
 national_strikes <- tar_read(national.monthly.strikes)
-knitr::kable(national_strikes,"simple")
+knitr::kable(national_strikes, "simple")
 ```
 In Figure \@ref(fig:national_data)
+
+```
+<div class='tableauPlaceholder' id='viz1715952501954' style='position: relative'><noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;un&#47;unionworkbook&#47;d2&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='unionworkbook&#47;d2' /><param name='tabs' value='yes' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;un&#47;unionworkbook&#47;d2&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-US' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1715952501954');                    var vizElement = divElement.getElementsByTagName('object')[0];                    if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='1016px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='1014px';vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='1016px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='1014px';vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.minWidth='1016px';vizElement.style.maxWidth='100%';vizElement.style.minHeight='1250px';vizElement.style.maxHeight=(divElement.offsetWidth*1.77)+'px';}                     var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
+```
