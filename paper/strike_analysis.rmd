@@ -1,6 +1,6 @@
 ---
 title: "Stike Analysis DMV region"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include = FALSE}

@@ -49,7 +49,7 @@ number_of <- function(state_var, transformed_data) {
           na.rm = TRUE
         ),
         employers = n_distinct(`Employer`),
-        strikes = n(),
+        strikes = sum(`Strike or Protest` == "Strike"),
         .groups = "drop"
       )
   } else {
@@ -59,7 +59,7 @@ number_of <- function(state_var, transformed_data) {
       summarise(
         `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
         employers = n_distinct(`Employer`),
-        strikes = n(),
+        strikes = sum(`Strike or Protest` == "Strike"),
         .groups = "drop"
       )
   }
@@ -74,11 +74,9 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
       filter(Year == year_var) %>%
       group_by(Month) %>%
       summarise(
-        `labor org count` = n_distinct(`Labor Organization`,
-          na.rm = TRUE
-        ),
+        `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
         employers = n_distinct(`Employer`),
-        strikes = n(),
+        strikes = sum(`Strike or Protest` == "Strike"),
         .groups = "drop"
       )
   } else {
@@ -88,9 +86,8 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
       summarise(
         `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
         employers = n_distinct(`Employer`),
-        strikes = n(),
+        strikes = sum(`Strike or Protest` == "Strike"),
         .groups = "drop"
       )
   }
 }
-
