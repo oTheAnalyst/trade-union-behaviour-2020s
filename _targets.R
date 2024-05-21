@@ -6,7 +6,9 @@ options(clustermq.schedular = "multicore")
 tar_option_set(
   packages = c(
     "tidyverse",
+    "targets",
     "rmarkdown",
+    "openxlsx",
     "readxl"
   ), format = "rds"
 )

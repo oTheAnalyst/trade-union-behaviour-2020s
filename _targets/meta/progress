@@ -1,6 +1,5 @@
 name|type|parent|branches|progress
-transformed_|stem|transformed_|0|dispatched
-transformed_|stem|transformed_|0|completed
+transformed_|stem|transformed_|0|skipped
 dc_data|stem|dc_data|0|skipped
 md_data|stem|md_data|0|skipped
 national_data|stem|national_data|0|skipped
