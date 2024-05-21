@@ -1,7 +1,7 @@
 load_and_transform_data <- function(index) {
   # Get a list of all xlsx files in the specified directory
   file_paths <- list.files(
-    path = "~/Lab4/",
+    path = "~/Lab4/_targets/data/",
     pattern = "\\.xlsx$",
     full.names = TRUE
   )
@@ -43,23 +43,27 @@ number_of <- function(state_var, transformed_data) {
   }
   if (tolower(state_var) == "national") {
     transformed_data %>%
+      filter(`Strike or Protest` == "Strike") %>%
       group_by(Year) %>%
       summarise(
         `labor org count` = n_distinct(`Labor Organization`,
           na.rm = TRUE
         ),
         employers = n_distinct(`Employer`),
-        strikes = sum(`Strike or Protest` == "Strike"),
+        strikes = n(),
         .groups = "drop"
       )
   } else {
     transformed_data %>%
-      filter(State == state_var) %>%
+      filter(
+        State == state_var,
+        `Strike or Protest` == "Strike"
+      ) %>%
       group_by(State, Year) %>%
       summarise(
         `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
         employers = n_distinct(`Employer`),
-        strikes = sum(`Strike or Protest` == "Strike"),
+        strikes = n(),
         .groups = "drop"
       )
   }
@@ -71,22 +75,28 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
   }
   if (tolower(state_var) == "national") {
     transformed_data %>%
-      filter(Year == year_var) %>%
+      filter(
+        Year == year_var,
+        `Strike or Protest` == "Strike"
+      ) %>%
       group_by(Month) %>%
       summarise(
         `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
         employers = n_distinct(`Employer`),
-        strikes = sum(`Strike or Protest` == "Strike"),
+        strikes = n(),
         .groups = "drop"
       )
   } else {
     transformed_data %>%
-      filter(State == state_var, Year == year_var) %>%
+      filter(
+        State == state_var, Year == year_var,
+        `Strike or Protest` == "Strike"
+      ) %>%
       group_by(State, Month) %>%
       summarise(
         `labor org count` = n_distinct(`Labor Organization`, na.rm = TRUE),
         employers = n_distinct(`Employer`),
-        strikes = sum(`Strike or Protest` == "Strike"),
+        strikes = n(),
         .groups = "drop"
       )
   }

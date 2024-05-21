@@ -5,8 +5,9 @@ source("~/Lab4/functions/functions.R")
 options(clustermq.schedular = "multicore")
 tar_option_set(
   packages = c(
-    "tibble", "dplyr", "stringr", "readr", "readxl",
-    "ggplot2", "purrr", "lubridate", "DBI", "RSQLite", "readr"
+    "tidyverse",
+    "rmarkdown",
+    "readxl"
   ), format = "rds"
 )
 
