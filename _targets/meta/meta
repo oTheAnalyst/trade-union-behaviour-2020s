@@ -6,17 +6,17 @@ build_wb|function|7c4dd21d973ef9fa|||||||||||||||
 data_frame|stem||58723efcbf99e682|2c530c1562a7fbd1|1984307675||t19857.6304201749s||0|rds|local|vector|||0.706||could not find function load_and_extract_df
 data_list|stem||98ebe7fa9128d1fb|77414f426f2fcdbe|2033452966||t19864.8125602018s||0|rds|local|vector|||0.628||target data_list attempted to run targetstar_read to during a pipeline, which is unsupported except when format in cfile, file_fast and repository  local, or if you are reading from a data store that does not belong to the current pipeline. This is because functions like tar_read attempt to access or modify the local data store, which may not exist or be properly synced in certain situations. Also, please be aware that some functions like tar_make and tar_destroy should never run inside a target. Please find a different workaround for your use case.
 dc_data|stem|5ced604f13691cd5|62b084930a77a24b|dfc091acbbd79348|500645749||t19864.6942641079s|0a700977bf7778a0|226|rds|local|vector|||0.016||
-load_and_transform_data|function|d2c76d9a842dc5e5|||||||||||||||
+load_and_transform_data|function|5fe3591f26be3f66|||||||||||||||
 md_data|stem|95c276c076e4a628|78da2d6cd2fc63d0|dfc091acbbd79348|1960564856||t19864.7022155147s|a61a2112050ca606|218|rds|local|vector|||0.016||
 month_2024_number|function|0464a48672931c30|||||||||||||||
 month_year_var_number|function|5f9e9b9ec0adff71|||||||||||||||
 national_data|stem|7437bba427dd74b0|e96fd3c930afaf47|dfc091acbbd79348|598103538||t19864.7022157847s|0a700977bf7778a0|226|rds|local|vector|||0.018||
 national.monthly.strikes|stem|8fa037b48a863cd9|f4dcdd3bc0560077|b9345c2b8313b31f|1184539069||t19862.6350909114s|7c549b96d24a0a01|221|rds|local|vector|||0.024||
 number_of|function|91bf8bb61aaa8c48|||||||||||||||
-paper|stem|26c5618c228ab7dd|ffe090aff761fda2|bfc68f3db911ed7d|-1607195735|paper/strike_analysis.pdf*paper/strike_analysis.rmd|t19862.8332579858s|b702c5fa4a03889e|114944|file|local|vector|||2.439||
+paper|stem|18c618d3619b7115|ffe090aff761fda2|bfc68f3db911ed7d|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t19865.7110866659s|2c017bf777669eff|631396|file|local|vector|||1.672||
 tableau_|stem||1db25713bee6f8a2|27eafd4e504cdcb9|-2089575078||t19864.8335141605s||0|file|local|vector|||0.721||object data_list not found
 tableau_upload|stem|798af464fb2f6b30|743315038de3d393|da8b3b2e37ca17a4|879937892||t19864.8379759819s|4b5db3c5a8219e22|50|rds|local|vector|||0.033||
 tar_data_list|stem|8717a602d492af1c|a9bdbb783e72007c|27d6924d385c0a96|-1165379550||t19864.8375556121s|b1b25f7c3fdf8f19|45|rds|local|vector|||0.739||
-transformed_|stem|219c0617b7af09ed|f4e6999c996ff905|ed2bf9739fb72638|435777524||t19864.7118485008s|b186f225770b9b37|576174|rds|local|vector|||0.936||
+transformed_|stem|219c0617b7af09ed|f4e6999c996ff905|7f0049464fcd4aa5|435777524||t19865.6944917727s|b186f225770b9b37|576174|rds|local|vector|||1.176||
 va_data|stem|0d17df89b623cedf|7da287a8314610d1|dfc091acbbd79348|-1156806124||t19864.7022159391s|fe613b74dc561b12|232|rds|local|vector|||0.006||
 wb|stem||2f6bf3047e809f76|2625c7a0decdba83|1625001502||t19864.7925543804s||0|rds|local|vector|||0.778||object data_list not found
