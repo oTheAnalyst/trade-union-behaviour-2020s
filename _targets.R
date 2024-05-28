@@ -53,3 +53,6 @@ list(
     "~/Lab4/paper/strike_analysis.rmd"
   )
 )
+
+
+tar_make()
