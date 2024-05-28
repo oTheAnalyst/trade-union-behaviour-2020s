@@ -101,3 +101,14 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
       )
   }
 }
+
+
+write_data_to_excel <- function(data_list, output_path) {
+  wb <- createWorkbook()
+  map2(names(data_list), data_list, function(name, data) {
+    addWorksheet(wb, name)
+    writeData(wb, name, data)
+  })
+  saveWorkbook(wb, output_path, overwrite = TRUE)
+  return(output_path)
+}

@@ -5,5 +5,6 @@ md_data|stem|md_data|0|skipped
 national_data|stem|national_data|0|skipped
 national.monthly.strikes|stem|national.monthly.strikes|0|skipped
 va_data|stem|va_data|0|skipped
-paper|stem|paper|0|dispatched
-paper|stem|paper|0|completed
+all_data|stem|all_data|0|skipped
+paper|stem|paper|0|skipped
+output_file|stem|output_file|0|skipped
