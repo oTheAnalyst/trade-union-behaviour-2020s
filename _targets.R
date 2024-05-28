@@ -17,7 +17,7 @@ tar_option_set(
 list(
   tar_target(
     transformed_,
-    load_and_transform_data(1),
+    load_and_transform_data(4),
     format = "rds"
   ),
   tar_target(
@@ -59,14 +59,15 @@ list(
       list(
         dc_data = dc_data,
         md_data = md_data,
+        va_data = va_data,
         national_data = national_data,
-        va_data = va_data
+        national.monthly.strikes = national.monthly.strikes
       )
     }
   ),
   tar_target(
     output_file,
-    write_data_to_excel(all_data, "data/tableau_upload.xlsx"),
+    write_data_to_excel(all_data, "data/output/tableau_upload.xlsx"),
     format = "file"
   )
 )
