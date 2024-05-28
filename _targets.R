@@ -1,6 +1,7 @@
 setwd("~/Lab4/")
 library(targets)
 library(tarchetypes)
+library(openxlsx)
 source("~/Lab4/functions/functions.R")
 options(clustermq.schedular = "multicore")
 tar_option_set(
@@ -16,7 +17,7 @@ tar_option_set(
 list(
   tar_target(
     transformed_,
-    load_and_transform_data(4),
+    load_and_transform_data(1),
     format = "rds"
   ),
   tar_target(
@@ -51,8 +52,35 @@ list(
   tar_render(
     paper,
     "~/Lab4/paper/strike_analysis.rmd"
+  ),
+  tar_target(
+    all_data,
+    {
+      # Combine all objects into a list
+      list(
+        dc_data = dc_data,
+        md_data = md_data,
+        national_data = national_data,
+        transformed_ = transformed_,
+        va_data = va_data
+      )
+    }
+  ),
+  tar_target(
+    output_file,
+    {
+      # Write the list to an Excel file with multiple sheets
+      wb <- createWorkbook()
+      addWorksheet(wb, "dc_data")
+      writeData(wb, "dc_data", all_data$dc_data)
+      addWorksheet(wb, "md_data")
+      writeData(wb, "md_data", all_data$md_data)
+      addWorksheet(wb, "national_data")
+      writeData(wb, "national_data", all_data$national_data)
+      addWorksheet(wb, "va_data")
+      writeData(wb, "va_data", all_data$va_data)
+      saveWorkbook(wb, "data/output.xlsx", overwrite = TRUE)
+    },
+    format = "file"
   )
 )
-
-
-tar_make()

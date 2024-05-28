@@ -2,24 +2,25 @@ library(purrr)
 library(targets)
 library(tidyverse)
 library(openxlsx)
+
 # the problem with code snippet is
 # that I can't include tar_read in the target list.
 # consider a work around
-build_list <- function() {
-  targets_ <- tar_load(dc_data,md_data,va_data,
-    monthly_strikes_data,national_data)
-  data_list <- tar_read(targets)
-  print(data_list)
-}
-tar_objects()
+the_list <- tar_objects()
 # [1] "dc_data"                  "md_data"
 # [3] "monthly_strikes_data"     "national.monthly.strikes"
 # [5] "national_data"            "transformed_"
 # [7] "va_data"
+data_list <- readRDS(the_list)
 
-datalist <- tar_objects(names = dc_data,md_data,va_data)
+tar_load(dc_data)
+tar_read("dc_data")
+tar_read(md_data)
+
+data_list <- purrr::map(the_list, tar_read)
 
 build_wb <- function(data_list) {
+  data_list <- as.list(data_list)
   sheets_list <- paste0("sheet_", seq(1, length(data_list)))
   wb <- createWorkbook()
   sheets_list %>%
@@ -37,3 +38,5 @@ build_wb <- function(data_list) {
     overwrite = TRUE
   )
 }
+
+build_wb(data_list)
