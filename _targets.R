@@ -56,7 +56,6 @@ list(
   tar_target(
     all_data,
     {
-      # Combine all objects into a list
       list(
         dc_data = dc_data,
         md_data = md_data,
@@ -79,7 +78,9 @@ list(
       writeData(wb, "national_data", all_data$national_data)
       addWorksheet(wb, "va_data")
       writeData(wb, "va_data", all_data$va_data)
-      saveWorkbook(wb, "data/output.xlsx", overwrite = TRUE)
+      output_path <- "data/output.xlsx"
+      saveWorkbook(wb, output_path, overwrite = TRUE)
+      output_path # Return the file path
     },
     format = "file"
   )

@@ -13,7 +13,7 @@ month_year_var_number|function|5f9e9b9ec0adff71|||||||||||||||
 national_data|stem|5eba5bece8571c35|e96fd3c930afaf47|758c3a229c1bd9df|598103538||t19871.5390565395s|17127103920e410f|225|rds|local|vector|||0.006||
 national.monthly.strikes|stem|0fdf0332942b719c|f4dcdd3bc0560077|2ed00f32366bff4e|1184539069||t19871.5390566552s|afd7f87dad3f6f11|195|rds|local|vector|||0.005||
 number_of|function|91bf8bb61aaa8c48|||||||||||||||
-output_file|stem||2b0cc619006692df|d1d76fa383b03121|1792710323||t19871.610219581s||0|file|local|vector|||||_build_ target output_file did not return a character. dynamic files targets with format  file must return character vectors of file or directory paths.
+output_file|stem|53e04f5fb572d2a0|c8bf18c221a49c9f|d1d76fa383b03121|1792710323|data/output.xlsx|t19871.6177751136s|83349de719f4f74e|11541|file|local|vector|||0.188||
 paper|stem|d053ff3cfdf1afb0|ffe090aff761fda2|cdab2ade08a44985|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t19871.5390761376s|145c7b2f69a344f7|631016|file|local|vector|||1.704||
 tableau_|stem||1db25713bee6f8a2|27eafd4e504cdcb9|-2089575078||t19864.8335141605s||0|file|local|vector|||0.721||object data_list not found
 tableau_upload|stem|798af464fb2f6b30|743315038de3d393|da8b3b2e37ca17a4|879937892||t19864.8379759819s|4b5db3c5a8219e22|50|rds|local|vector|||0.033||
