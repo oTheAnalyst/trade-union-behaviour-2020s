@@ -41,7 +41,7 @@ list(
     format = "rds"
   ),
   tar_target(
-    national.monthly.strikes,
+    year.strikes.2024.monthly,
     month_year_var_number(
       state_var = "national",
       year_var = 2024,
@@ -61,7 +61,7 @@ list(
         md_data = md_data,
         va_data = va_data,
         national_data = national_data,
-        national.monthly.strikes = national.monthly.strikes
+        year.strikes.2024.monthly = year.strikes.2024.monthly
       )
     }
   ),
