@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-all_data|stem|40f1a7057a3abaa9|05d3982c0fc145e1|c4f7e338c2a8a732|215858948||t19871.6102169551s|82233d5c509d36bc|539064|rds|local|vector|||0||
+all_data|stem|58acb40ed621fc69|7d7d80c9cf630fb8|45375e38ac3e8f9d|215858948||t19871.6314872437s|4e57ded2a1f37ba3|408|rds|local|vector|||0||
 all_states|object|216845a4ba0d55cd|||||||||||||||
 build_path|function|af1f8d13aef10625|||||||||||||||
 build_wb|function|7c4dd21d973ef9fa|||||||||||||||
@@ -13,11 +13,12 @@ month_year_var_number|function|5f9e9b9ec0adff71|||||||||||||||
 national_data|stem|5eba5bece8571c35|e96fd3c930afaf47|758c3a229c1bd9df|598103538||t19871.5390565395s|17127103920e410f|225|rds|local|vector|||0.006||
 national.monthly.strikes|stem|0fdf0332942b719c|f4dcdd3bc0560077|2ed00f32366bff4e|1184539069||t19871.5390566552s|afd7f87dad3f6f11|195|rds|local|vector|||0.005||
 number_of|function|91bf8bb61aaa8c48|||||||||||||||
-output_file|stem|53e04f5fb572d2a0|c8bf18c221a49c9f|d1d76fa383b03121|1792710323|data/output.xlsx|t19871.6177751136s|83349de719f4f74e|11541|file|local|vector|||0.188||
-paper|stem|d053ff3cfdf1afb0|ffe090aff761fda2|cdab2ade08a44985|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t19871.5390761376s|145c7b2f69a344f7|631016|file|local|vector|||1.704||
+output_file|stem|0e728d8e00a8b168|b468afd6e339a396|9b31ee88f5fc66a5|1792710323|data/tableau_upload.xlsx|t19871.6314897129s|83349de719f4f74e|11541|file|local|vector|||0.205||
+paper|stem|d053ff3cfdf1afb0|41a90e51e730da4e|cdab2ade08a44985|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t19871.6233838161s|145c7b2f69a344f7|631016|file|local|vector|||1.611||
 tableau_|stem||1db25713bee6f8a2|27eafd4e504cdcb9|-2089575078||t19864.8335141605s||0|file|local|vector|||0.721||object data_list not found
 tableau_upload|stem|798af464fb2f6b30|743315038de3d393|da8b3b2e37ca17a4|879937892||t19864.8379759819s|4b5db3c5a8219e22|50|rds|local|vector|||0.033||
 tar_data_list|stem|8717a602d492af1c|a9bdbb783e72007c|27d6924d385c0a96|-1165379550||t19864.8375556121s|b1b25f7c3fdf8f19|45|rds|local|vector|||0.739||
 transformed_|stem|5fa544d891740cbd|9401f8e3d31ec906|7f0049464fcd4aa5|435777524||t19871.5390558837s|fa3f66506351bc6c|538637|rds|local|vector|||1.113||
 va_data|stem|0d17df89b623cedf|7da287a8314610d1|758c3a229c1bd9df|-1156806124||t19871.5390567324s|fe613b74dc561b12|232|rds|local|vector|||0.005||
 wb|stem||2f6bf3047e809f76|2625c7a0decdba83|1625001502||t19864.7925543804s||0|rds|local|vector|||0.778||object data_list not found
+write_data_to_excel|function|58d4d35500238ac5|||||||||||||||

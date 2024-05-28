@@ -2,7 +2,7 @@ setwd("~/Lab4/")
 library(targets)
 library(tarchetypes)
 library(openxlsx)
-source("~/Lab4/functions/functions.R")
+source("functions/functions.R")
 options(clustermq.schedular = "multicore")
 tar_option_set(
   packages = c(
@@ -51,7 +51,7 @@ list(
   ),
   tar_render(
     paper,
-    "~/Lab4/paper/strike_analysis.rmd"
+    "paper/strike_analysis.rmd"
   ),
   tar_target(
     all_data,
@@ -60,28 +60,13 @@ list(
         dc_data = dc_data,
         md_data = md_data,
         national_data = national_data,
-        transformed_ = transformed_,
         va_data = va_data
       )
     }
   ),
   tar_target(
     output_file,
-    {
-      # Write the list to an Excel file with multiple sheets
-      wb <- createWorkbook()
-      addWorksheet(wb, "dc_data")
-      writeData(wb, "dc_data", all_data$dc_data)
-      addWorksheet(wb, "md_data")
-      writeData(wb, "md_data", all_data$md_data)
-      addWorksheet(wb, "national_data")
-      writeData(wb, "national_data", all_data$national_data)
-      addWorksheet(wb, "va_data")
-      writeData(wb, "va_data", all_data$va_data)
-      output_path <- "data/output.xlsx"
-      saveWorkbook(wb, output_path, overwrite = TRUE)
-      output_path # Return the file path
-    },
+    write_data_to_excel(all_data, "data/tableau_upload.xlsx"),
     format = "file"
   )
 )
