@@ -8,7 +8,7 @@ load_and_transform_data <- function(index) {
   # Function to read Excel file, convert to tibble, and transform data
   read_and_transform <- function(file_path) {
     # Read Excel file and convert to tibble
-    excel_tibble <- read_excel(file_path)
+    excel_tibble <- readxl::read_excel(file_path)
     excel_tibble$Timestamp <- as.POSIXct(excel_tibble$Timestamp,
       format = "%m/%d/%Y %H:%M:%S", tz = "UTC"
     )
@@ -31,7 +31,7 @@ load_and_transform_data <- function(index) {
   }
   # Read all Excel files, store them as tibbles, and transform data
   transformed_data_list <- purrr::map(file_paths, read_and_transform)
-  transformed_ <- as_tibble(transformed_data_list[[index]])
+  transformed_ <- tibble::as_tibble(transformed_data_list[[index]])
   return(transformed_)
   # Return a message indicating successful saving
   message("Transformed data saved successfully")
@@ -46,7 +46,8 @@ number_of <- function(state_var, transformed_data) {
       dplyr::filter(`Strike or Protest` == "Strike") |>
       dplyr::group_by(Year) |>
       dplyr::summarise(
-        `labor org count` = dplyr::n_distinct(`Labor Organization`,
+        `labor org count` = dplyr::n_distinct(
+          `Labor Organization`,
           na.rm = TRUE
         ),
         employers = dplyr::n_distinct(`Employer`),
@@ -90,7 +91,8 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
   } else {
     transformed_data |>
       dplyr::filter(
-        State == state_var, Year == year_var,
+        State == state_var,
+        Year == year_var,
         `Strike or Protest` == "Strike"
       ) |>
       dplyr::group_by(State, Month) |>
@@ -99,7 +101,7 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
           dplyr::n_distinct(`Labor Organization`, na.rm = TRUE),
         employers =
           dplyr::n_distinct(`Employer`),
-        strikes = n(),
+        strikes = dplyr::n(),
         .groups = "drop"
       )
   }
