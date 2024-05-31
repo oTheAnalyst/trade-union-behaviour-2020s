@@ -34,7 +34,7 @@ load_and_transform_data <- function(index) {
     return(transformed_data)
   }
   # Read all Excel files, store them as tibbles, and transform data
-  transformed_data_list <- purr::map(file_paths, read_and_transform)
+  transformed_data_list <- purrr::map(file_paths, read_and_transform)
   transformed_ <- dplyr::as_tibble(transformed_data_list[[index]])
   return(transformed_)
   # Return a message indicating successful saving
@@ -121,7 +121,7 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
 
 write_data_to_excel <- function(data_list, output_path) {
   wb <- openxlsx::createWorkbook()
-  purr::map2(names(data_list), data_list, function(name, data) {
+  purrr::map2(names(data_list), data_list, function(name, data) {
     openxlsx::addWorksheet(wb, name)
     openenxlsx::writeData(wb, name, data)
   })
