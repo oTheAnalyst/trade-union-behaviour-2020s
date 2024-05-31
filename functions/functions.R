@@ -62,7 +62,10 @@ number_of <- function(state_var, transformed_data) {
       ) |>
       dplyr::group_by(State, Year) |>
       dplyr::summarise(
-        `labor org count` = dplyr::n_distinct(`Labor Organization`, na.rm = TRUE),
+        `labor org count` =
+          dplyr::n_distinct(`Labor Organization`,
+            na.rm = TRUE
+          ),
         employers = dplyr::n_distinct(`Employer`),
         strikes = dplyr::n(),
         .groups = "drop"
@@ -98,7 +101,9 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
       dplyr::group_by(State, Month) |>
       dplyr::summarise(
         `labor org count` =
-          dplyr::n_distinct(`Labor Organization`, na.rm = TRUE),
+          dplyr::n_distinct(`Labor Organization`,
+            na.rm = TRUE
+          ),
         employers =
           dplyr::n_distinct(`Employer`),
         strikes = dplyr::n(),
