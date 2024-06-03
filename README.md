@@ -9,3 +9,4 @@ This analysis uses `{targets}` to build a reproducible pipeline in R-Programming
 ![image](https://github.com/VtheRtech/trade-union-behavior-2020s/assets/30744769/7efc4627-36e5-4891-bc16-5e6532ac5c9c)
 
 [Link to tableau public Visualization](https://public.tableau.com/app/profile/vcumbo/viz/unionworkbook/d3)
+![image]("~/Lab4/paper/paper_files/d3.png")
