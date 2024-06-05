@@ -1,5 +1,6 @@
 library(rix)
 
+
 rix(
   r_ver = "latest",
   r_pkgs =
@@ -13,8 +14,9 @@ rix(
     ),
   system_pkgs = NULL,
   git_pkgs = NULL,
-  ide = "code",
-  project_path = "~/Lab4/",
+  ide = "other",
+  shell_hook = "Rscript -e 'targets::tar_make()'",
+  project_path = ".",
   overwrite = TRUE,
   print = TRUE
 )
