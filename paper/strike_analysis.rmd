@@ -2,7 +2,8 @@
 title: "Stike Analysis DMV region"
 output:
   html_document:
-    theme: readable highlight: tango
+    theme: readable
+    highlight: tango
 ---
 
 ```{r setup, include = FALSE}
@@ -38,7 +39,7 @@ In Figure \@ref(fig:va_data)
 
 The national data describes the number of strikes in the US, table 4 breaks down the total number of strikes occurring year to year. Table 5 breaks down the 2024 nationally month to month. 
 
-```{r, echo = FALSE}
+```{r test , echo = FALSE}
 national_data <- tar_read(national_data)
 knitr::kable(national_data, "simple")
 ```
@@ -47,12 +48,10 @@ knitr::kable(national_data, "simple")
 ```{r 2023_data, echo = FALSE, out.width="49%", out.height="49%", fig.show='hold', fig.align='center'}
 national_strikes_2023 <- tar_read(year.strikes.2023.monthly)
 knitr::kable(national_strikes_2023, "simple")
-
-national_strikes_2024 <- tar_read(year.strikes.2024.monthly)
-knitr::kable(national_strikes_2024, "simple")
 ```
 
-```{r}
-library(webshot)
-knitr::include_url("https://yihui.org")
+
+```{r 2024, echo = FALSE}
+national_strikes_2024 <- tar_read(year.strikes.2024.monthly)
+knitr::kable(national_strikes_2024, "simple")
 ```

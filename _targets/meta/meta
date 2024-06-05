@@ -14,7 +14,7 @@ national_data|stem|f5fe846848e1bde5|e96fd3c930afaf47|b187e19ec6b23c9b|598103538|
 national.monthly.strikes|stem|8fa037b48a863cd9|f4dcdd3bc0560077|b9345c2b8313b31f|1184539069||t19871.6661290831s|7c549b96d24a0a01|221|rds|local|vector|||0.006||
 number_of|function|16b4ce227683c79f|||||||||||||||
 output_file|stem|44c51b4d0c4f29a1|3342ddcffe80600b|f0bc78d54fd11df9|1792710323|data/output/tableau_upload.xlsx|t19878.4866199924s|1b8e2b0215d0bf0d|15159|file|local|vector|||0.244||
-paper|stem|981b95dbf6556a89|88b12da4895f0c9b|743a3bd0f9c3cd84|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t19878.9284523796s||734826|file|local|vector|||2.369||Scanner error mapping values are not allowed in this context at line 4, column 30
+paper|stem|dfca028d6b9e6db1|88b12da4895f0c9b|743a3bd0f9c3cd84|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t19879.8878312394s|9e71118478652f48|734863|file|local|vector|||0.983||
 tableau_|stem||1db25713bee6f8a2|27eafd4e504cdcb9|-2089575078||t19864.8335141605s||0|file|local|vector|||0.721||object data_list not found
 tableau_upload|stem|798af464fb2f6b30|743315038de3d393|da8b3b2e37ca17a4|879937892||t19864.8379759819s|4b5db3c5a8219e22|50|rds|local|vector|||0.033||
 tar_data_list|stem|8717a602d492af1c|a9bdbb783e72007c|27d6924d385c0a96|-1165379550||t19864.8375556121s|b1b25f7c3fdf8f19|45|rds|local|vector|||0.739||
