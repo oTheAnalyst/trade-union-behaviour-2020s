@@ -2,6 +2,7 @@ setwd("~/Lab4/")
 library(targets)
 library(tarchetypes)
 library(openxlsx)
+
 source("functions/functions.R")
 options(clustermq.schedular = "multicore")
 tar_option_set(
@@ -17,7 +18,7 @@ tar_option_set(
 list(
   tar_target(
     transformed_,
-    load_and_transform_data(4),
+    load_and_transform_data(5),
     format = "rds"
   ),
   tar_target(
@@ -49,25 +50,37 @@ list(
     ),
     format = "rds"
   ),
+  tar_target(
+    year.strikes.2023.monthly,
+    month_year_var_number(
+      state_var = "national",
+      year_var = 2023,
+      transformed_data = transformed_
+    ),
+    format = "rds"
+  ),
   tar_render(
     paper,
     "paper/strike_analysis.rmd"
   ),
   tar_target(
-    all_data,
+    target_list,
     {
       list(
         dc_data = dc_data,
         md_data = md_data,
         va_data = va_data,
         national_data = national_data,
-        year.strikes.2024.monthly = year.strikes.2024.monthly
+        year.strikes.2024.monthly = year.strikes.2024.monthly,
+        year.strikes.2023.monthly = year.strikes.2023.monthly
       )
     }
   ),
-  tar_target(
-    output_file,
-    write_data_to_excel(all_data, "data/output/tableau_upload.xlsx"),
+  tar_target(output_file,
+    write_data_to_excel(
+      target_list,
+      "data/output/tableau_upload.xlsx"
+    ),
     format = "file"
   )
 )
