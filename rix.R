@@ -12,11 +12,11 @@ rix(
       "openxlsx",
       "readxl"
     ),
-  system_pkgs = NULL,
+  system_pkgs = "pandoc",
   git_pkgs = NULL,
   ide = "other",
-  shell_hook = "Rscript -e 'targets::tar_make()'",
-  project_path = ".",
-  overwrite = TRUE,
-  print = TRUE
+  shell_hook = "
+  Rscript -e 'targets::tar_make()
+  '",
+  overwrite = TRUE
 )
