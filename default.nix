@@ -29,7 +29,10 @@ let
       openxlsx
       readxl;
  };
-   
+    propagatedBuildInputs = builtins.attrValues {
+    inherit (pkgs.rPackages) dplyr ggplot2 janitor purrr readxl rlang rvest stringr tidyr openxlsx;
+  };
+ 
  system_packages = builtins.attrValues {
   inherit (pkgs) R glibcLocales nix;
  };
