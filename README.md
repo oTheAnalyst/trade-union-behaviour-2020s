@@ -10,3 +10,21 @@ This analysis uses `{targets}` to build a reproducible pipeline in R-Programming
 
 [Link to tableau public Visualization](https://public.tableau.com/app/profile/vcumbo/viz/unionworkbook/d3)
 ![image]("~/Lab4/paper/paper_files/d3.png")
+
+## How to use
+
+cd in the git repro
+
+```
+cd ~/trade-union-behavior-2020s
+```
+
+run nix inside repro
+
+```
+nix-build
+
+nix-shell
+```
+
+hooks will run tar_make() building the pipeline and the data
