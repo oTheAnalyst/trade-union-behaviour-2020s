@@ -41,7 +41,7 @@ number_of <- function(state_var, transformed_data) {
   if (!is.vector(state_var)) {
     state_var <- as.vector(state_var)
   }
-  if (tolower(state_var) == "national") {
+  if (any(tolower(state_var) == "national")) {
     transformed_data |>
       dplyr::filter(`Strike or Protest` == "Strike") |>
       dplyr::group_by(Year) |>
@@ -57,7 +57,7 @@ number_of <- function(state_var, transformed_data) {
   } else {
     transformed_data |>
       filter(
-        State == state_var,
+        State %in% state_var,
         `Strike or Protest` == "Strike"
       ) |>
       dplyr::group_by(State, Year) |>
@@ -77,7 +77,7 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
   if (!is.vector(state_var)) {
     state_var <- as.vector(state_var)
   }
-  if (tolower(state_var) == "national") {
+  if (any(tolower(state_var) == "national")) {
     transformed_data |>
       filter(
         Year == year_var,
@@ -94,7 +94,7 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
   } else {
     transformed_data |>
       dplyr::filter(
-        State == state_var,
+        State %in% state_var,
         Year == year_var,
         `Strike or Protest` == "Strike"
       ) |>
@@ -112,7 +112,6 @@ month_year_var_number <- function(state_var, year_var, transformed_data) {
   }
 }
 
-
 write_data_to_excel <- function(data_list, output_path) {
   wb <- openxlsx::createWorkbook()
   purrr::map2(names(data_list), data_list, function(name, data) {
@@ -122,3 +121,18 @@ write_data_to_excel <- function(data_list, output_path) {
   openxlsx::saveWorkbook(wb, output_path, overwrite = TRUE)
   return(output_path)
 }
+
+
+united_states_total_states <- function() {
+states_vector <- c(
+    "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+    "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
+    "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+    "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
+    "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming",
+    "District of Columbia",
+    "American Samoa", "Guam", "Northern Mariana Islands", "Puerto Rico", "U.S. Virgin Islands"
+)
+return(states_vector)
+}
+
