@@ -1,8 +1,10 @@
-setwd("~/Lab4/")
 library(targets)
 library(tarchetypes)
+library(here)
 
-source("functions/functions.R")
+here::i_am("_targets.R")
+
+source(here("functions", "functions.R"))
 options(clustermq.schedular = "multicore")
 tar_option_set(
   packages = c(
@@ -70,7 +72,7 @@ list(
   ),
   tar_render(
     paper,
-    "paper/strike_analysis.rmd"
+    here("paper", "strike_analysis.rmd")
   ),
   tar_target(
     target_list,
@@ -89,7 +91,7 @@ list(
   tar_target(output_file,
     write_data_to_excel(
       target_list,
-      "data/output/tableau_upload.xlsx"
+      here("data", "output", "tableau_upload.xlsx")
     ),
     format = "file"
   )
