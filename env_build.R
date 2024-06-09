@@ -1,6 +1,5 @@
 library(rix)
 
-setwd("~/Lab4/")
 
 rix_init(
   project_path = ".",
