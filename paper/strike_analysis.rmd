@@ -11,7 +11,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 ### Introductions
 
-I was recently reading a copy of "Means and Ends" By Zoe Baker a Anarchist Historian from Lough-brougham University. Zoe is someone I have been following a for a couple of years and was absolutely ecstatic when I found out she was publishing a book on the historical accounts anarchist theory and practice. Her historical accounts of trade unionist are fascinating to me, they managed to capture a picture of history I was never taught in school. Inspired by her writings I wanted to create some visualizations that demonstrate current labor activity in united states. The data from the labor action tracker special thanks to Cornell university and the research team providing the data.
+I wanted to create some visualizations that demonstrate current labor activity in united states. The data from the labor action tracker special thanks to Cornell university and the research team providing the data.
 
 ### The Data
 
@@ -50,7 +50,6 @@ national_strikes_2023 <- tar_read(year.strikes.2023.monthly)
 knitr::kable(national_strikes_2023, "simple")
 ```
 
-The trust will die
 ```{r 2024, echo = FALSE}
 national_strikes_2024 <- tar_read(year.strikes.2024.monthly)
 knitr::kable(national_strikes_2024, "simple")
