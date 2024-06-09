@@ -1,5 +1,7 @@
 name|type|parent|branches|progress
+states_vector|stem|states_vector|0|skipped
 transformed_|stem|transformed_|0|skipped
+states_and_territories|stem|states_and_territories|0|skipped
 dc_data|stem|dc_data|0|skipped
 md_data|stem|md_data|0|skipped
 national_data|stem|national_data|0|skipped
@@ -8,4 +10,5 @@ year.strikes.2023.monthly|stem|year.strikes.2023.monthly|0|skipped
 year.strikes.2024.monthly|stem|year.strikes.2024.monthly|0|skipped
 target_list|stem|target_list|0|skipped
 paper|stem|paper|0|skipped
-output_file|stem|output_file|0|skipped
+output_file|stem|output_file|0|dispatched
+output_file|stem|output_file|0|completed

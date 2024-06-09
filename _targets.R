@@ -41,6 +41,16 @@ list(
     format = "rds"
   ),
   tar_target(
+    states_vector,
+    united_states_total_states(),
+    format = "rds"
+  ),
+  tar_target(
+    states_and_territories,
+    number_of(states_vector, transformed_),
+    format = "rds"
+  ),
+  tar_target(
     year.strikes.2024.monthly,
     month_year_var_number(
       state_var = "national",
@@ -71,7 +81,8 @@ list(
         va_data = va_data,
         national_data = national_data,
         year.strikes.2024.monthly = year.strikes.2024.monthly,
-        year.strikes.2023.monthly = year.strikes.2023.monthly
+        year.strikes.2023.monthly = year.strikes.2023.monthly,
+        states_and_territories = states_and_territories
       )
     }
   ),
