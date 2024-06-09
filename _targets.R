@@ -4,7 +4,7 @@ library(here)
 
 here::i_am("_targets.R")
 
-source(here("functions/functions.R"))
+source(here("functions", "functions.R"))
 options(clustermq.schedular = "multicore")
 tar_option_set(
   packages = c(
