@@ -19,7 +19,7 @@ Clone the repo
 git clone https://github.com/VtheRtech/trade-union-behavior-2020s.git
 ```
 
-CD in the git repo
+CD into the git repo
 
 ```
 cd ~/trade-union-behavior-2020s
