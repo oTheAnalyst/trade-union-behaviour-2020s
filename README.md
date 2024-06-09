@@ -15,19 +15,19 @@ This analysis uses `{targets}` to build a reproducible pipeline in R-Programming
 
 Clone the repo
 
-```
+```[bash]
 git clone https://github.com/VtheRtech/trade-union-behavior-2020s.git
 ```
 
 CD into the git repo
 
-```
+```[bash]
 cd ~/trade-union-behavior-2020s
 ```
 
 Run nix inside repo.
 
-```
+```[bash]
 nix-build
 
 nix-shell
