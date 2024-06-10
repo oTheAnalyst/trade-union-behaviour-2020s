@@ -12,6 +12,7 @@ rix(
   r_pkgs =
     c(
       "tidyverse",
+      "here",
       "targets",
       "tarchetypes",
       "rmarkdown",
