@@ -15,21 +15,25 @@ This analysis uses `{targets}` & `{rix}` to build a reproducible pipeline in R-P
 
 Clone the repo
 
-```[bash]
+```{bash}
 git clone https://github.com/VtheRtech/trade-union-behavior-2020s.git
 ```
 
 CD into the git repo
 
-```[bash]
+```{bash}
 cd ~/trade-union-behavior-2020s
 ```
 
-Run nix inside repo.
+Run this to build the shell environment from default.nix
 
-```[bash]
+```{bash}
 nix-build
+```
 
+Running this command will enter the shell environment and automatically build targets.
+
+```{bash}
 nix-shell
 ```
 
