@@ -22,6 +22,9 @@ let
  rpkgs = builtins.attrValues {
   inherit (pkgs.rPackages) 
       tidyverse
+      visNetwork
+      lintr
+      languageserver
       here
       targets
       tarchetypes
@@ -31,7 +34,7 @@ let
  };
    
  system_packages = builtins.attrValues {
-  inherit (pkgs) pandoc R glibcLocales nix;
+  inherit (pkgs) pandoc R glibcLocales nix gnumake libgcc gccgo neovim;
  };
   
 in
