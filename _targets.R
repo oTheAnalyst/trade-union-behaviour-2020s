@@ -7,14 +7,13 @@ here::i_am("_targets.R")
 source(here("functions", "functions.R"))
 options(clustermq.schedular = "multicore")
 tar_option_set(
-  packages = c(
-    "tidyverse",
-    "targets",
-    "rmarkdown",
-    "openxlsx",
-    "readxl"
-  ), format = "rds"
-)
+               packages = c(
+                            "tidyverse",
+                            "targets",
+                            "rmarkdown",
+                            "openxlsx",
+                            "readxl"),
+               format = "rds")
 
 list(
   tar_target(
@@ -89,10 +88,7 @@ list(
     }
   ),
   tar_target(output_file,
-    write_data_to_excel(
-      target_list,
-      here("data", "output", "tableau_upload.xlsx")
-    ),
-    format = "file"
-  )
+             write_data_to_excel(target_list,
+                                 here("data", "output", "tableau_upload.xlsx")),
+             format = "file")
 )
