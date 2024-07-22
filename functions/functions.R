@@ -1,7 +1,7 @@
 load_and_transform_data <- function(index) {
   # Get a list of all xlsx files in the specified directory
   file_paths <- list.files(
-    path = here("data"),
+    path = here::here("data"),
     pattern = "\\.xlsx$",
     full.names = TRUE
   )
