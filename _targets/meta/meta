@@ -6,7 +6,7 @@ build_wb|function|7c4dd21d973ef9fa|||||||||||||||
 data_frame|stem||58723efcbf99e682|2c530c1562a7fbd1|1984307675||t19857.6304201749s||0|rds|local|vector|||0.706||could not find function load_and_extract_df
 data_list|stem||98ebe7fa9128d1fb|77414f426f2fcdbe|2033452966||t19864.8125602018s||0|rds|local|vector|||0.628||target data_list attempted to run targetstar_read to during a pipeline, which is unsupported except when format in cfile, file_fast and repository  local, or if you are reading from a data store that does not belong to the current pipeline. This is because functions like tar_read attempt to access or modify the local data store, which may not exist or be properly synced in certain situations. Also, please be aware that some functions like tar_make and tar_destroy should never run inside a target. Please find a different workaround for your use case.
 dc_data|stem|31bd817e9aa1cffc|beb8416a205d0923|e6e42e016cabf6bd|500645749||t19897.7947497902s|a2ec227a551ed8f0|231|rds|local|vector|||0.025||
-load_and_transform_data|function|9863242a62ceff98|||||||||||||||
+load_and_transform_data|function|6e83747f25e3641b|||||||||||||||
 md_data|stem|86242bc24759c953|3a44509627f6388b|e6e42e016cabf6bd|1960564856||t19897.7947498943s|4607a68113f03185|220|rds|local|vector|||0.005||
 month_2024_number|function|0464a48672931c30|||||||||||||||
 month_year_var_number|function|cf88273c05e92f24|||||||||||||||
@@ -21,7 +21,7 @@ tableau_|stem||1db25713bee6f8a2|27eafd4e504cdcb9|-2089575078||t19864.8335141605s
 tableau_upload|stem|798af464fb2f6b30|743315038de3d393|da8b3b2e37ca17a4|879937892||t19864.8379759819s|4b5db3c5a8219e22|50|rds|local|vector|||0.033||
 tar_data_list|stem|8717a602d492af1c|a9bdbb783e72007c|27d6924d385c0a96|-1165379550||t19864.8375556121s|b1b25f7c3fdf8f19|45|rds|local|vector|||0.739||
 target_list|stem|dd2d6991785263e3|894e845fcab34510|956ea4978f86db2b|934376331||t19897.7947505078s|4f5338fffcd0c592|1535|rds|local|vector|||0.001||
-transformed_|stem|7cd8caa62f20d1b7|0866e4c27d766148|6cc5ad6342f8f1ba|435777524||t19897.7947491999s|3d883882689e01d9|582171|rds|local|vector|||0.356||
+transformed_|stem|7cd8caa62f20d1b7|0866e4c27d766148|8b8ed271a663328b|435777524||t19945.0524310606s|3d883882689e01d9|582171|rds|local|vector|||0.982||
 united_states_total_states|function|5041bfc00a18feef|||||||||||||||
 us_states_and_territories|object|a66317d83a04a740|||||||||||||||
 va_data|stem|03cf4eec05b56e5f|ef61b0f7689b2955|e6e42e016cabf6bd|-1156806124||t19897.7947501027s|3280407603f78daf|233|rds|local|vector|||0.005||

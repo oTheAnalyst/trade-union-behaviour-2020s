@@ -22,6 +22,8 @@ let
  rpkgs = builtins.attrValues {
   inherit (pkgs.rPackages) 
       tidyverse
+      reactable
+      httpgd
       visNetwork
       lintr
       languageserver
