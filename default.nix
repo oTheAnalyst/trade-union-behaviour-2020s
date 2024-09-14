@@ -23,6 +23,8 @@ let
   inherit (pkgs.rPackages) 
       tidyverse
       reactable
+      shiny
+      bslib
       httpgd
       visNetwork
       lintr
