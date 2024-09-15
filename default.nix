@@ -19,8 +19,7 @@
 let
  pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/cd18e2ae9ab8e2a0a8d715b60c91b54c0ac35ff9.tar.gz") {};
  
- rpkgs = builtins.attrValues {
-  inherit (pkgs.rPackages) 
+ rpkgs = with pkgs.rPackages; [
       tidyverse
       reactable
       shiny
@@ -34,8 +33,13 @@ let
       tarchetypes
       rmarkdown
       openxlsx
-      readxl;
- };
+      readxl
+      shinydashboard # dependecy shiny
+      bslib
+      packrat
+      rsconnect
+      shiny
+ ];
    
  system_packages = builtins.attrValues {
   inherit (pkgs) pandoc R glibcLocales nix gnumake libgcc gccgo neovim;
