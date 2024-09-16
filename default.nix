@@ -17,34 +17,66 @@
 # which will install R version latest.
 # Report any issues to https://github.com/b-rodrigues/rix
 let
- pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/cd18e2ae9ab8e2a0a8d715b60c91b54c0ac35ff9.tar.gz") {};
+pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/cd18e2ae9ab8e2a0a8d715b60c91b54c0ac35ff9.tar.gz") {};
  
- rpkgs = with pkgs.rPackages; [
-      tidyverse
-      reactable
-      shiny
-      bslib
-      httpgd
-      visNetwork
-      lintr
-      languageserver
-      here
-      targets
-      tarchetypes
-      rmarkdown
-      openxlsx
-      readxl
-      shinydashboard # dependecy shiny
-      bslib
-      packrat
-      rsconnect
-      shiny
- ];
-   
- system_packages = builtins.attrValues {
+rpkgs = with pkgs.rPackages; [
+    tidyverse
+    reshape2
+    DT
+    palmerpenguins
+    thematic
+    ggridges
+    bsicons
+    reactable
+    shiny
+    bslib
+    httpgd
+    visNetwork
+    lintr
+    languageserver
+    here
+    targets
+    tarchetypes
+    rmarkdown
+    openxlsx
+    readxl
+    shinydashboard # dependecy shiny
+    htmltools
+    bslib
+    packrat
+    rsconnect
+    shiny
+];
+
+
+git_archive_pkgs = [
+  (pkgs.rPackages.buildRPackage {
+    name = "htmltools";
+    src = pkgs.fetchzip {
+      url = "https://cran.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.8.tar.gz";
+      sha256 = "sha256-a7ORSO6bXB2M+lPbn5w460VSY7wCXHTz1KDW+OBqlWQ=";
+    };
+    propagatedBuildInputs = builtins.attrValues {
+      inherit (pkgs.rPackages) 
+        base64enc
+        digest
+        fastmap
+        rlang;
+    };
+  })
+];
+
+system_packages = builtins.attrValues {
   inherit (pkgs) pandoc R glibcLocales nix gnumake libgcc gccgo neovim;
- };
-  
+};
+
+
+
+wrapped_pkgs = pkgs.rstudioWrapper.override {
+  packages = [ git_archive_pkgs rpkgs  ];
+};
+
+
 in
 
  pkgs.mkShell {
@@ -56,7 +88,7 @@ in
    LC_PAPER = "en_US.UTF-8";
    LC_MEASUREMENT = "en_US.UTF-8";
 
-   buildInputs = [  rpkgs  system_packages  ];
+   buildInputs = [  rpkgs  system_packages git_archive_pkgs wrapped_pkgs ];
    shellHook = "
   Rscript -e 'targets::tar_make()
   '";
