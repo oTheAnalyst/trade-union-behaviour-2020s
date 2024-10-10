@@ -90,6 +90,7 @@ in
 
    buildInputs = [  rpkgs  system_packages git_archive_pkgs wrapped_pkgs ];
    shellHook = "
-  Rscript -e 'targets::tar_make()
-  '";
+  Rscript -e 'targets::tar_make()'
+  echo 'Welcome to the trade union analysis shell the data for your models\n has already been build. Please update your data via the inputs\n folder, all your data will be generated in outputs and summarized\n in the paper. When you add more data or make changes\n rebuildthe data by:\n running _targets.R\n then inputting tar_make() in the console'
+  ";
  }
