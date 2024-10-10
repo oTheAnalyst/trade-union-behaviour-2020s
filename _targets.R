@@ -18,7 +18,7 @@ tar_option_set(
 list(
   tar_target(
     transformed_,
-    load_and_transform_data(5),
+    load_and_transform_data(1),
     format = "rds"
   ),
   tar_target(
