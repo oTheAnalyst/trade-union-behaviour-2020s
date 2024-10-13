@@ -17,9 +17,9 @@
 # which will install R version latest.
 # Report any issues to https://github.com/b-rodrigues/rix
 let
-pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/cd18e2ae9ab8e2a0a8d715b60c91b54c0ac35ff9.tar.gz") {};
- 
-rpkgs = with pkgs.rPackages; [
+  pkgs = import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/cd18e2ae9ab8e2a0a8d715b60c91b54c0ac35ff9.tar.gz") {};
+
+  rpkgs = with pkgs.rPackages; [
     tidyverse
     reshape2
     DT
@@ -44,53 +44,54 @@ rpkgs = with pkgs.rPackages; [
     htmltools
     bslib
     packrat
+    ggiraph
+    plotly
     rsconnect
     shiny
-];
+  ];
 
+  git_archive_pkgs = [
+    (pkgs.rPackages.buildRPackage {
+      name = "htmltools";
+      src = pkgs.fetchzip {
+        url = "https://cran.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.8.tar.gz";
+        sha256 = "sha256-a7ORSO6bXB2M+lPbn5w460VSY7wCXHTz1KDW+OBqlWQ=";
+      };
+      propagatedBuildInputs = builtins.attrValues {
+        inherit
+          (pkgs.rPackages)
+          base64enc
+          digest
+          fastmap
+          rlang
+          ;
+      };
+    })
+  ];
 
-git_archive_pkgs = [
-  (pkgs.rPackages.buildRPackage {
-    name = "htmltools";
-    src = pkgs.fetchzip {
-      url = "https://cran.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.8.tar.gz";
-      sha256 = "sha256-a7ORSO6bXB2M+lPbn5w460VSY7wCXHTz1KDW+OBqlWQ=";
-    };
-    propagatedBuildInputs = builtins.attrValues {
-      inherit (pkgs.rPackages) 
-        base64enc
-        digest
-        fastmap
-        rlang;
-    };
-  })
-];
+  system_packages = builtins.attrValues {
+    inherit (pkgs) pandoc R glibcLocales nix gnumake libgcc gccgo neovim;
+  };
 
-system_packages = builtins.attrValues {
-  inherit (pkgs) pandoc R glibcLocales nix gnumake libgcc gccgo neovim;
-};
-
-
-
-wrapped_pkgs = pkgs.rstudioWrapper.override {
-  packages = [ git_archive_pkgs rpkgs  ];
-};
-
-
+  wrapped_pkgs = pkgs.rstudioWrapper.override {
+    packages = [git_archive_pkgs rpkgs];
+  };
 in
+  pkgs.mkShell {
+    LOCALE_ARCHIVE =
+      if pkgs.system == "x86_64-linux"
+      then "${pkgs.glibcLocales}/lib/locale/locale-archive"
+      else "";
+    LANG = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
+    LC_TIME = "en_US.UTF-8";
+    LC_MONETARY = "en_US.UTF-8";
+    LC_PAPER = "en_US.UTF-8";
+    LC_MEASUREMENT = "en_US.UTF-8";
 
- pkgs.mkShell {
-   LOCALE_ARCHIVE = if pkgs.system == "x86_64-linux" then  "${pkgs.glibcLocales}/lib/locale/locale-archive" else "";
-   LANG = "en_US.UTF-8";
-   LC_ALL = "en_US.UTF-8";
-   LC_TIME = "en_US.UTF-8";
-   LC_MONETARY = "en_US.UTF-8";
-   LC_PAPER = "en_US.UTF-8";
-   LC_MEASUREMENT = "en_US.UTF-8";
-
-   buildInputs = [  rpkgs  system_packages git_archive_pkgs wrapped_pkgs ];
-   shellHook = "
+    buildInputs = [rpkgs system_packages git_archive_pkgs wrapped_pkgs];
+    shellHook = "
   Rscript -e 'targets::tar_make()'
   echo 'Welcome to the trade union analysis shell the data for your models\n has already been build. Please update your data via the inputs\n folder, all your data will be generated in outputs and summarized\n in the paper. When you add more data or make changes\n rebuildthe data by:\n running _targets.R\n then inputting tar_make() in the console'
   ";
- }
+  }
