@@ -8,6 +8,7 @@ library(plotly)
 
 # Load pre-saved RDS file
 national_data <- targets::tar_read(national_data)
+monthly_data2024 <- targets::tar_read(year.strikes.2024.monthly)
 
 head(national_data)
 
