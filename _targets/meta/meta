@@ -5,27 +5,27 @@ build_path|function|af1f8d13aef10625|||||||||||||||
 build_wb|function|7c4dd21d973ef9fa|||||||||||||||
 data_frame|stem||58723efcbf99e682|2c530c1562a7fbd1|1984307675||t19857.6304201749s||0|rds|local|vector|||0.706||could not find function load_and_extract_df
 data_list|stem||98ebe7fa9128d1fb|77414f426f2fcdbe|2033452966||t19864.8125602018s||0|rds|local|vector|||0.628||target data_list attempted to run targetstar_read to during a pipeline, which is unsupported except when format in cfile, file_fast and repository  local, or if you are reading from a data store that does not belong to the current pipeline. This is because functions like tar_read attempt to access or modify the local data store, which may not exist or be properly synced in certain situations. Also, please be aware that some functions like tar_make and tar_destroy should never run inside a target. Please find a different workaround for your use case.
-dc_data|stem|ba1c87de489b919c|beb8416a205d0923|4676fcb06c5e5115|500645749||t20006.0601035001s|a2ec227a551ed8f0|231|rds|local|vector|||0.012||
+dc_data|stem|ba1c87de489b919c|beb8416a205d0923|4676fcb06c5e5115|500645749||t20037.7501029909s|a2ec227a551ed8f0|231|rds|local|vector|||0.016||
 load_and_transform_data|function|6e83747f25e3641b|||||||||||||||
-md_data|stem|07e5935898e59281|3a44509627f6388b|4676fcb06c5e5115|1960564856||t20006.0601035811s|7109262deedf9325|229|rds|local|vector|||0.003||
+md_data|stem|07e5935898e59281|3a44509627f6388b|4676fcb06c5e5115|1960564856||t20037.7501031298s|7109262deedf9325|229|rds|local|vector|||0.006||
 month_2024_number|function|0464a48672931c30|||||||||||||||
 month_year_var_number|function|cf88273c05e92f24|||||||||||||||
-national_data|stem|7728f25ce0a858c6|097113805b8a428c|4676fcb06c5e5115|598103538||t20006.0601036621s|d34faae1f346fb15|226|rds|local|vector|||0.003||
+national_data|stem|7728f25ce0a858c6|097113805b8a428c|4676fcb06c5e5115|598103538||t20037.7501033034s|d34faae1f346fb15|226|rds|local|vector|||0.007||
 national.monthly.strikes|stem|8fa037b48a863cd9|f4dcdd3bc0560077|b9345c2b8313b31f|1184539069||t19871.6661290831s|7c549b96d24a0a01|221|rds|local|vector|||0.006||
 number_of|function|f6302548ff97d1b6|||||||||||||||
-output_file|stem|e8eca63b1bf81190|72332ef42401410a|c7d321dd3b513f9e|1792710323|/home/pretender/trade-union-behaviour-2020s/data/output/tableau_upload.xlsx|t20006.0601113588s|2b54a6d68d7bf413|20495|file|local|vector|||0.202||
-paper|stem|4540e98c7c8de00e|0493e52ffaac6a99|694a17c3af4301f8|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t20006.0601086505s|c9ecaad6d6529135|734578|file|local|vector|||0.418||
-states_and_territories|stem|200b861f283d1848|be0f5bc258c12f5f|6e26fa5ad8a64424|219595909||t20006.0601033265s|421702d00297086a|1170|rds|local|vector|||0.02||
-states_vector|stem|40ee5423dcf480b3|e18bc26ba2e1c2d9|3e9e06a428db2545|-825402999||t20005.9961342073s|4e0e57098e2d8350|497|rds|local|vector|||0.465||
+output_file|stem|d960225264bbb3e7|72332ef42401410a|c7d321dd3b513f9e|1792710323|/home/pretender/Public/trade-union-behaviour-2020s/data/output/tableau_upload.xlsx|t20037.7501136726s|19969705c10a58cd|20494|file|local|vector|||0.262||
+paper|stem|4540e98c7c8de00e|b1b184ab43d41e93|694a17c3af4301f8|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t20037.7501102355s|c9ecaad6d6529135|734578|file|local|vector|||0.547||
+states_and_territories|stem|200b861f283d1848|be0f5bc258c12f5f|6e26fa5ad8a64424|219595909||t20037.7501027363s|421702d00297086a|1170|rds|local|vector|||0.022||
+states_vector|stem|40ee5423dcf480b3|e18bc26ba2e1c2d9|3e9e06a428db2545|-825402999||t20037.7500934319s|4e0e57098e2d8350|497|rds|local|vector|||0.72||
 tableau_|stem||1db25713bee6f8a2|27eafd4e504cdcb9|-2089575078||t19864.8335141605s||0|file|local|vector|||0.721||object data_list not found
 tableau_upload|stem|798af464fb2f6b30|743315038de3d393|da8b3b2e37ca17a4|879937892||t19864.8379759819s|4b5db3c5a8219e22|50|rds|local|vector|||0.033||
 tar_data_list|stem|8717a602d492af1c|a9bdbb783e72007c|27d6924d385c0a96|-1165379550||t19864.8375556121s|b1b25f7c3fdf8f19|45|rds|local|vector|||0.739||
-target_list|stem|83779cac162a62be|894e845fcab34510|fc9b4eb3e6e383a3|934376331||t20006.0601041019s|236b74322862ccff|1581|rds|local|vector|||0||
-transformed_|stem|f5d77d734237352e|7d14087ebe540485|8b8ed271a663328b|435777524||t20009.1547917678s|430534f4cd3f2558|635038|rds|local|vector|||1.009||
+target_list|stem|83779cac162a62be|894e845fcab34510|fc9b4eb3e6e383a3|934376331||t20037.7501041251s|236b74322862ccff|1581|rds|local|vector|||0||
+transformed_|stem|f5d77d734237352e|7d14087ebe540485|8b8ed271a663328b|435777524||t20037.7501024123s|430534f4cd3f2558|635038|rds|local|vector|||0.679||
 united_states_total_states|function|5041bfc00a18feef|||||||||||||||
 us_states_and_territories|object|a66317d83a04a740|||||||||||||||
-va_data|stem|03cf4eec05b56e5f|ef61b0f7689b2955|4676fcb06c5e5115|-1156806124||t20006.0601037431s|3280407603f78daf|233|rds|local|vector|||0.003||
+va_data|stem|03cf4eec05b56e5f|ef61b0f7689b2955|4676fcb06c5e5115|-1156806124||t20037.7501034654s|3280407603f78daf|233|rds|local|vector|||0.006||
 wb|stem||2f6bf3047e809f76|2625c7a0decdba83|1625001502||t19864.7925543804s||0|rds|local|vector|||0.778||object data_list not found
 write_data_to_excel|function|462f65a41ba5d389|||||||||||||||
-year.strikes.2023.monthly|stem|93377fd7c133f5fb|19e112ac1464ab9a|6f5206ff00b03de7|-305848574||t20006.0601038704s|2c271ae4f26b7758|273|rds|local|vector|||0.003||
-year.strikes.2024.monthly|stem|57a1dcb766a0fb97|772092897a1d7a05|6f5206ff00b03de7|1529335757||t20006.060104044s|476aaeddbf8d904d|261|rds|local|vector|||0.013||
+year.strikes.2023.monthly|stem|93377fd7c133f5fb|19e112ac1464ab9a|6f5206ff00b03de7|-305848574||t20037.7501036043s|2c271ae4f26b7758|273|rds|local|vector|||0.006||
+year.strikes.2024.monthly|stem|57a1dcb766a0fb97|772092897a1d7a05|6f5206ff00b03de7|1529335757||t20037.7501040441s|476aaeddbf8d904d|261|rds|local|vector|||0.029||
