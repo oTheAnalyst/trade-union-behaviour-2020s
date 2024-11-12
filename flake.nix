@@ -8,6 +8,47 @@
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
+    rPackages = with pkgs.rPackages; [
+      tidyverse
+      reshape2
+      DT
+      palmerpenguins
+      thematic
+      ggridges
+      bsicons
+      reactable
+      shiny
+      bslib
+      httpgd
+      visNetwork
+      lintr
+      languageserver
+      here
+      targets
+      tarchetypes
+      rmarkdown
+      openxlsx
+      readxl
+      shinydashboard
+      htmltools
+      bslib
+      packrat
+      rsconnect
+      shiny
+      (pkgs.rPackages.buildRPackage {
+        name = "htmltools";
+        src = pkgs.fetchzip {
+          url = "https://cran.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.8.tar.gz";
+          sha256 = "sha256-a7ORSO6bXB2M+lPbn5w460VSY7wCXHTz1KDW+OBqlWQ=";
+        };
+        propagatedBuildInputs = with pkgs.rPackages; [
+          base64enc
+          digest
+          fastmap
+          rlang
+        ];
+      })
+    ];
   in {
     devShells.${system}.default =
       pkgs.mkShell {
@@ -16,60 +57,15 @@
 
         buildInputs = with pkgs; [
           pandoc
-          R
           glibcLocales
-          emacs
-          rstudio
           nix
           gnumake
           libgcc
           gccgo
           neovim
 
-          (pkgs.rPackages.buildRPackage {
-            name = "htmltools";
-            src = pkgs.fetchzip {
-              url = "https://cran.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.8.tar.gz";
-              sha256 = "sha256-a7ORSO6bXB2M+lPbn5w460VSY7wCXHTz1KDW+OBqlWQ=";
-            };
-            propagatedBuildInputs = with pkgs.rPackages; [
-              base64enc
-              digest
-              fastmap
-              rlang
-            ];
-          })
-
-          (pkgs.rstudioWrapper.override {
-            packages = with pkgs.rPackages; [
-              tidyverse
-              reshape2
-              DT
-              palmerpenguins
-              thematic
-              ggridges
-              bsicons
-              reactable
-              shiny
-              bslib
-              httpgd
-              visNetwork
-              lintr
-              languageserver
-              here
-              targets
-              tarchetypes
-              rmarkdown
-              openxlsx
-              readxl
-              shinydashboard
-              htmltools
-              bslib
-              packrat
-              rsconnect
-              shiny
-            ];
-          })
+          (rWrapper.override {packages = rPackages;})
+          (rstudioWrapper.override {packages = rPackages;})
         ];
         shellHook = "
   Rscript -e 'targets::tar_make()'
