@@ -74,3 +74,37 @@ clear
 direnv allow
 nix develop --command .#
 exit
+clear
+cd trade-union-behaviour-2020s/
+git switch flake-test 
+git switch -r flake-test 
+git switch -R flake-test 
+git -r switch flake-test 
+git -R switch flake-test 
+git switch -c flake-test 
+git switch flake-test 
+git add .
+git commit -m "updated data"
+git push origin main
+git switch flake-test 
+clear
+ls
+clear
+ls
+clear
+ls
+clear
+ls
+nix develop 
+ls
+emacs _targets.R
+cleara
+ls
+clear
+ls
+git status 
+git add _targets/meta/meta _targets/meta/process data/output/tableau_upload.xlsx 
+git commit -m "new data run"
+git push origin main
+git status 
+exit
