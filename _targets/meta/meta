@@ -13,7 +13,7 @@ month_year_var_number|function|cf88273c05e92f24|||||||||||||||
 national_data|stem|7728f25ce0a858c6|097113805b8a428c|4676fcb06c5e5115|598103538||t20041.1200207494s|d34faae1f346fb15|226|rds|local|vector|||0.005||
 national.monthly.strikes|stem|8fa037b48a863cd9|f4dcdd3bc0560077|b9345c2b8313b31f|1184539069||t19871.6661290831s|7c549b96d24a0a01|221|rds|local|vector|||0.006||
 number_of|function|f6302548ff97d1b6|||||||||||||||
-output_file|stem|e8eca63b1bf81190|72332ef42401410a|c7d321dd3b513f9e|1792710323|/home/pretender/trade-union-behaviour-2020s/data/output/tableau_upload.xlsx|t20041.1181437149s|2b54a6d68d7bf413|20495|file|local|vector|||0.202||
+output_file|stem|e8eca63b1bf81190|72332ef42401410a|c7d321dd3b513f9e|1792710323|/home/pretender/trade-union-behaviour-2020s/data/output/tableau_upload.xlsx|t20041.5662379774s|2b54a6d68d7bf413|20495|file|local|vector|||0.202||
 paper|stem|4540e98c7c8de00e|0493e52ffaac6a99|694a17c3af4301f8|-1607195735|paper/strike_analysis.html*paper/strike_analysis.rmd|t20041.1200342679s|c9ecaad6d6529135|734578|file|local|vector|||1.146||
 states_and_territories|stem|200b861f283d1848|be0f5bc258c12f5f|6e26fa5ad8a64424|219595909||t20041.120020298s|421702d00297086a|1170|rds|local|vector|||0.018||
 states_vector|stem|40ee5423dcf480b3|e18bc26ba2e1c2d9|3e9e06a428db2545|-825402999||t20041.1200125087s|4e0e57098e2d8350|497|rds|local|vector|||0.644||
