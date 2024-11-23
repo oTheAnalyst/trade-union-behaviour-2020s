@@ -37,6 +37,8 @@ load_and_transform_data <- function(index) {
   message("Transformed data saved successfully")
 }
 
+
+
 number_of <- function(state_var, transformed_data) {
   if (!is.vector(state_var)) {
     state_var <- as.vector(state_var)
