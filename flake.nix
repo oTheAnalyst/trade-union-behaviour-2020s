@@ -12,6 +12,8 @@
       tidyverse
       reshape2
       DT
+      DBI
+      RSQLite
       palmerpenguins
       thematic
       ggridges
