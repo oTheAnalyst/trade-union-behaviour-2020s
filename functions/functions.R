@@ -38,6 +38,35 @@ load_and_transform_data <- function(index) {
 }
 
 
+super_function <- function() {
+
+  write_to_sql <- function(data, name) {
+    driver <- RSQLite::dbDriver("SQLite")
+    sql_location <- "~/trade_union-strikes.db"
+    conn <- RSQLite::dbConnect(driver, sql_location)
+    RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
+    RSQLite::dbDisconnect(conn)
+  }
+
+  list_creator <- function() {
+    file_paths <- list.files(
+      path = here::here("data"),
+      pattern = "\\.xlsx$",
+      full.names = TRUE
+    )
+    file_names <- basename(file_paths)
+    file_names <- gsub(".xlsx", "", file_names)
+    list <- purrr::map(file_paths, readxl::read_xlsx)
+    db <- purrr::set_names(list, file_names)
+    return(db)
+  }
+  dblist <- list_creator()
+  names <- names(dblist)
+  lnames <- as.list(names)
+  str(lnames)
+  results <- purrr::pmap(list(data = dblist, name = lnames), write_to_sql)
+  return(results)
+}
 
 number_of <- function(state_var, transformed_data) {
   if (!is.vector(state_var)) {

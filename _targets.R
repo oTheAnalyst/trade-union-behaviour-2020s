@@ -22,6 +22,11 @@ list(
     format = "rds"
   ),
   tar_target(
+    writes_to_sql,
+    super_function(),
+    format = "rds"
+  ),
+  tar_target(
     dc_data,
     number_of("District of Columbia", transformed_),
     format = "rds"
