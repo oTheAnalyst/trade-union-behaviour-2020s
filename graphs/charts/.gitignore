@@ -1,0 +1,11 @@
+#ignore a specific file
+
+~/Lab2/StrikesDC.ods
+*.aux
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.pyg
+*.synctex.gz
+
