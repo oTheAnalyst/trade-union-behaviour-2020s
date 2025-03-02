@@ -18,7 +18,7 @@ tar_option_set(
 list(
   tar_target(
     transformed_,
-    load_and_transform_data(1),
+    load_and_transform_data("Labor-2.3.25.xlsx"),
     format = "rds"
   ),
   tar_target(
@@ -66,6 +66,15 @@ list(
     format = "rds"
   ),
   tar_target(
+    year.strikes.2025.monthly,
+    month_year_var_number(
+      state_var = "national",
+      year_var = 2025,
+      transformed_data = transformed_
+    ),
+    format = "rds"
+  ),
+  tar_target(
     year.strikes.2023.monthly,
     month_year_var_number(
       state_var = "national",
@@ -95,5 +104,17 @@ list(
   tar_target(output_file,
              write_data_to_excel(target_list,
                                  here("data", "output", "tableau_upload.xlsx")),
-             format = "file")
+             format = "file"),
+  tar_target(writes_db,
+             write_to_sql(data = year.strikes.2024.monthly,
+                          name = "time-series-2024"),
+             format = "rds"),
+  tar_target(writes_db3,
+             write_to_sql(data = year.strikes.2025.monthly,
+                          name = "time-series-2025"),
+             format = "rds"),
+  tar_target(writes_db2,
+             write_to_sql(data = year.strikes.2023.monthly,
+                          name = "time-series-2023"),
+             format = "rds")
 )

@@ -30,13 +30,14 @@ load_and_transform_data <- function(index) {
     return(transformed_data)
   }
   # Read all Excel files, store them as tibbles, and transform data
+  names <- base::basename(file_paths)
   transformed_data_list <- purrr::map(file_paths, read_and_transform)
+  transformed_data_list <- transformed_data_list |> purrr::set_names(names)
   transformed_ <- tibble::as_tibble(transformed_data_list[[index]])
   return(transformed_)
   # Return a message indicating successful saving
   message("Transformed data saved successfully")
 }
-
 
 super_function <- function() {
 
@@ -67,6 +68,16 @@ super_function <- function() {
   results <- purrr::pmap(list(data = dblist, name = lnames), write_to_sql)
   return(results)
 }
+
+
+write_to_sql <- function(data, name) {
+  driver <- RSQLite::dbDriver("SQLite")
+  sql_location <- "~/trade_union-strikes.db"
+  conn <- RSQLite::dbConnect(driver, sql_location)
+  RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
+  RSQLite::dbDisconnect(conn)
+}
+
 
 number_of <- function(state_var, transformed_data) {
   if (!is.vector(state_var)) {
