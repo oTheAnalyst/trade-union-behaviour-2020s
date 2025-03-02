@@ -1,0 +1,909 @@
+\documentclass[11pt]{article}
+
+% Packages for graphics & layout
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage[a4paper,margin=0.5in]{geometry}
+\usepackage{lipsum}
+\usepackage{multicol}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+
+% Packages for math
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Package for bibliography
+\usepackage{natbib}
+\usepackage{hyperref}
+
+% listing setup \usepackage{listings}
+\usepackage{color} % For syntax highlighting color
+\captionsetup{labelfont=bf}
+\setlength{\parskip}{0.5\baselineskip}
+
+
+\title{\textbf{Data Analysis Report}}
+\author{Michael V Cumbo}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This paper was written in response to the United Auto Workers strike and the SAG-AFTRA strike of 2023. The goal of this paper is to contextualize the state of trade union power in the United States, blending data analysis with a literature review. The data in this paper will contextualize union power in a select number of nation-states, adding perspective to the modes of influence unions have.
+
+\section{Methodology}
+\subsection*{Libraries Used in the Analysis}
+
+This analysis utilized several R packages, each contributing unique functions essential for data management, manipulation, visualization, and database interaction. Below is a description of each package and its role in our analysis:
+
+\section*{R Packages Overview}
+\begin{enumerate}
+    \item \textbf{Tidyverse}
+    \begin{itemize}[noitemsep]
+        \item Description: An aggregation of several data manipulation packages. Simplifies many aspects of data analysis. Includes packages like \texttt{ggplot2} for data visualization, \texttt{dplyr} for data manipulation, and \texttt{readr} for data import.
+        \item Installation: \texttt{install.packages("tidyverse")}
+        \item Documentation: \href{https://www.tidyverse.org/}{tidyverse.org}
+    \end{itemize}
+
+    \item \textbf{RSQLite}
+    \begin{itemize}[noitemsep]
+        \item Description: Provides a database interface and SQLite driver for R. Allows for storage, management, and retrieval of large datasets efficiently.
+        \item Installation: \texttt{install.packages("RSQLite")}
+        \item Documentation: \href{https://cran.r-project.org/web/packages/RSQLite/index.html}{RSQLite on CRAN}
+    \end{itemize}
+
+    \item \textbf{DBI}
+    \begin{itemize}[noitemsep]
+        \item Description: Defines a common interface between R and database management systems. Essential for establishing database connections and executing queries.
+        \item Installation: \texttt{install.packages("DBI")}
+        \item Documentation: \href{https://cran.r-project.org/web/packages/DBI/index.html}{DBI on CRAN}
+    \end{itemize}
+
+    \item \textbf{Ggplot2}
+    \begin{itemize}[noitemsep]
+        \item Description: Part of the \texttt{tidyverse}, a tool for creating elegant data visualizations in R, based on the Grammar of Graphics.
+        \item Installation: \texttt{install.packages("ggplot2")}
+        \item Documentation: \href{https://ggplot2.tidyverse.org/}{ggplot2.tidyverse.org}
+    \end{itemize}
+
+    \item \textbf{Dplyr}
+    \begin{itemize}[noitemsep]
+        \item Description: Within the \texttt{tidyverse}, used for data manipulation with verbs like filter, select, mutate, and summarize.
+        \item Installation: \texttt{install.packages("dplyr")}
+        \item Documentation: \href{https://dplyr.tidyverse.org/}{dplyr.tidyverse.org}
+    \end{itemize}
+
+    \item \textbf{Forcats}
+    \begin{itemize}[noitemsep]
+        \item Description: Part of the \texttt{tidyverse}, designed for handling categorical variables in R. Provides functions for reordering factor levels and more.
+        \item Installation: \texttt{install.packages("forcats")}
+        \item Documentation: \href{https://forcats.tidyverse.org/}{forcats.tidyverse.org}
+    \end{itemize}
+
+    \item \textbf{GGally}
+    \begin{itemize}[noitemsep]
+        \item Description: An extension of \texttt{ggplot2}, providing additional functions for creating complex multi-plot layouts.
+        \item Installation: \texttt{install.packages("GGally")}
+        \item Documentation: \href{https://cran.r-project.org/web/packages/GGally/index.html}{GGally on CRAN}
+    \end{itemize}
+
+    \item \textbf{Stringr}
+    \begin{itemize}[noitemsep]
+        \item Description: Also part of the \texttt{tidyverse}, it simplifies working with strings (text data) in R.
+        \item Installation: \texttt{install.packages("stringr")}
+        \item Documentation: \href{https://stringr.tidyverse.org/}{stringr.tidyverse.org}
+    \end{itemize}
+\end{enumerate}
+\subsection{Data Collection}
+Data was sourced from the International Labor Organization, OECD datasets, and Harvard datasets.
+\subsection{Data Preparation}
+<<setup, include=FALSE>>=
+library(tidyverse)
+library(RSQLite)
+library(DBI)
+library(ggplot2)
+library(dplyr)
+library(forcats)
+library(GGally)
+library(stringr)
+library(extrafont)
+library(ggExtra)
+
+setwd("~/workbook")
+con <- dbConnect(RSQLite::SQLite(), "trade_union_data.db")
+dbListTables(con)
+tudr <- as_tibble(dbReadTable(con, "TUDR"))
+cbcr <- as_tibble(dbReadTable(con, "CBCR"))
+collective_bargaining <- as_tibble(dbReadTable(con, "CollectiveBargaining"))
+trade_union_density <- as_tibble(dbReadTable(con, "TradeUnionDensity"))
+workplace_rights <- as_tibble(dbReadTable(con, "WorkplaceRights"))
+state_union_membership_density <-
+  as_tibble(dbReadTable(con, "State_Union_Membership_Density_1964-2021"))
+state_union_coverage_density <-
+  as_tibble(dbReadTable(con, "State_Union_Coverage_Density_1977-2021"))
+dbDisconnect(con)
+
+
+# full joined data is below
+joined_data4 <- inner_join(workplace_rights, tudr, by = c("ref_area", "time"))
+joined_full_data_set <- inner_join(joined_data4, cbcr,
+  by = c("ref_area", "time")
+)
+joined_full_data_set <- joined_full_data_set %>%
+  rename(
+    "National_Compliance_wth_Labour_Rights" = obs_value.x,
+    "Union Density" = obs_value.y,
+    "Collective Bargaining Coverage" = obs_value
+  )
+
+
+trade_union_density <- trade_union_density %>%
+  rename("Year" = Time)
+OldData <- inner_join(trade_union_density, collective_bargaining,
+  by = c("Country", "Year")
+)
+colnames(OldData)
+
+#target setups
+southern_states <- c(
+  "Alabama", "Arkansas", "Florida", "Georgia", "Kentucky",
+  "Louisiana", "Mississippi", "North Carolina", "South Carolina",
+  "Tennessee", "Texas", "Virginia", "West Virginia"
+)
+northern_states <- c(
+  "Connecticut", "Illinois", "Indiana", "Iowa", "Maine",
+  "Massachusetts", "Michigan", "Minnesota", "New Hampshire",
+  "New Jersey", "New York", "Ohio", "Pennsylvania", "Rhode Island",
+  "Vermont", "Wisconsin"
+)
+
+# themes
+
+# themes for NorthvsSouth
+plot_theme <- theme_minimal(base_size = 8, base_family = "Roboto") +
+  theme(
+    plot.title = element_text(
+      size = 20, family = "Lobster Two",
+      face = "bold", color = "#2a475e"
+    ),
+    axis.title.x = element_text(size = 15, face = "bold", color = "black"),
+    axis.title.y = element_text(
+      size = 15, face = "bold", color = "black",
+      margin = margin(t = 10, b = 0, l = 10, r = 2)
+    ),
+    axis.text.x = element_text(
+      size = 13, color = "black",
+      margin = margin(t = 5, b = 0, l = 0, r = 0)
+    ),
+    axis.text.y = element_text(
+      size = 13, color = "black",
+      margin = margin(t = 0, b = 5, l = 0, r = 5)
+    ),
+    legend.position = "none",
+    plot.margin = margin(t = 1, r = 1, b = 40, l = 1, unit = "pt"),
+    axis.ticks = element_line(size = 2, colour = "grey50"),
+    axis.line = element_line(colour = "grey50"),
+    panel.grid = element_line(color = "#b4aea9"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(linetype = "dashed"),
+    panel.grid.major.y = element_line(linetype = "dashed"),
+    panel.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4"),
+    plot.background = element_rect(fill = "#fbf9f4", color = "#fbf9f4")
+  )
+
+tstheme <- theme(
+  plot.title = element_text(size = 25, face = "bold"), # Bold and larger title
+  axis.title.x = element_text(size = 15, face = "bold"), # Bold X axis title
+  axis.title.y = element_text(size = 15, face = "bold"), # Bold Y axis title
+  axis.text.x = element_text(
+    size = 13, color = "black",
+    margin = margin(t = 5, b = 0, l = 0, r = 0)
+  ),
+  axis.text.y = element_text(
+    size = 17, color = "black",
+    margin = margin(t = 0, b = 5, l = 0, r = 5)
+  ),
+  panel.grid.major = element_line(color = "gray80"), # Lighter color for major grid lines
+  panel.grid.minor = element_blank(), # Remove minor grid lines
+  plot.margin = margin(1, 1, 1, 1, "cm"), # Adjust plot margins
+  legend.position = "none"
+)
+####                  loop for state_union_membership_density       ###### #
+
+# Assuming your tibble is named state_union_membership_density
+state_union_membership_density <- state_union_membership_density %>%
+  rename_with(~ str_replace(.x, "X.Mem", "19"), starts_with("X.Mem"))
+# Assuming your tibble is named state_union_membership_density
+# Get the current column names
+col_names <- colnames(state_union_membership_density)
+#                             Loop through each column name
+for (i in seq_along(col_names)) {
+  # Extract the year part of the column name and convert it to a numeric value
+  year <- as.numeric(col_names[i])
+  # Check if the year is less than 1960 and starts with 19
+  if (!is.na(year) && year < 1960 && startsWith(col_names[i], "19")) {
+    # Replace "19" with "20" in the year part
+    new_year <- sub("19", "20", col_names[i])
+    # Update the column name
+    col_names[i] <- new_year
+  }
+}
+# Assign the new column names back to the tibble
+colnames(state_union_membership_density) <- col_names
+
+
+#####                   loop for state_union_coverage_density         #####
+state_union_coverage_density <- state_union_coverage_density %>%
+  rename_with(~ str_replace(.x, "X.Cov", "19"), starts_with("X.Cov"))
+# Assuming your tibble is named state_union_coverage_density
+# Get the current column names
+col_names <- colnames(state_union_coverage_density)
+for (i in seq_along(col_names)) {
+  # Extract the year part of the column name and convert it to a numeric value
+  year <- as.numeric(col_names[i])
+  # Check if the year is less than 1960 and starts with 19
+  if (!is.na(year) && year < 1960 && startsWith(col_names[i], "19")) {
+    # Replace "19" with "20" in the year part
+    new_year <- sub("19", "20", col_names[i])
+    # Update the column name
+    col_names[i] <- new_year
+  }
+}
+# Assign the new column names back to the tibble
+colnames(state_union_coverage_density) <- col_names
+
+<<loopsetup, echo=TRUE, message=FALSE, results='hide'>>=
+# Initialize an empty list to store plots
+plots_list <- list()
+# Loop for 'joined_full_data_set' (Union Density)
+country_focus <- unique(joined_full_data_set$ref_area)
+for (country in country_focus) {
+  TUD_country <- joined_full_data_set %>%
+    filter(ref_area == country)
+
+  wrapped_title <- str_wrap(paste("Time Series of Union Density in",
+                                  country, "(ILOdata)"), width = 30) 
+  plot <- ggplot(TUD_country, aes(x = time, y = `Union Density`)) +
+    geom_line(color = "#00BFC4", size = 1.2) +
+    labs(
+      title = wrapped_title,
+      x = "Year",
+      y = "Union Density (in %)"
+    ) +
+    theme_minimal(base_size = 14) +
+    tstheme +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 10),
+                       labels = scales::label_number(auto = TRUE))
+  plots_list[[paste("Union_Density", country)]] <- plot
+}
+# Loop for 'cbcr' data frame
+for (country in unique(cbcr$ref_area)) {
+  cbcr_country <- cbcr %>%
+    filter(ref_area == country)
+  
+  wrapped_title <- str_wrap(paste("Collective Bargaining Coverage Over Time in", 
+                                  country, "(ILOdata)"), width = 30)
+
+  plot <- ggplot(cbcr_country, aes(x = time, y = obs_value)) +
+    geom_line(color = "#2ca02c", size = 1.2) +
+    geom_point(color = "#d62728", size = 2, alpha = 0.7) +
+    labs(
+      title = wrapped_title,
+      x = "Year",
+      y = "Collective Bargaining Coverage (in %)"
+    ) +
+    theme_minimal(base_size = 14) +
+    tstheme
+  plots_list[[paste("CB_Coverage", country)]] <- plot
+}
+
+# Loop for 'workplace_rights' data frame
+for (country in unique(workplace_rights$ref_area)) {
+  workplace_rights_country <- workplace_rights %>%
+    filter(ref_area == country)
+  
+  wrapped_title <- str_wrap(paste("Compliance with International Labor Law Over Time in",
+                                  country, 
+                                  "(ILOdata)"),
+                            width = 35)
+
+  plot <- ggplot(workplace_rights_country, aes(x = time, y = obs_value)) +
+    geom_line(color = "#1f78b4", size = 1.2) +
+    geom_point(color = "#33a02c", size = 2, alpha = 0.7) +
+    labs(
+      title = wrapped_title,
+      x = "Year", 
+      y = "Compliance with International Labor Law (Rating)"
+    ) +
+    theme_minimal(base_size = 14) +
+    tstheme +
+    annotate("text",
+      x = Inf, y = Inf, label = "Source: Your Source Here",
+      hjust = 1.1, vjust = 2, size = 3.5, color = "grey50"
+    )
+  plots_list[[paste("Labor_Compliance", country)]] <- plot
+}
+
+# Convert the list of plots to a tibble
+tsplots_tibble <- tibble::enframe(plots_list, name = "Plot_Type", value = "Plot")
+tsplots_tibble
+<<loopsetupv2, echo=FALSE, message=FALSE, results='hide'>>=
+plots_list2 <- list()
+long_data <- state_union_membership_density %>%
+  pivot_longer(
+    cols = -c(StateName, StateID), # Exclude non-year columns
+    names_to = "Year",
+    values_to = "Value"
+  )
+# Convert Year to a numeric value for plotting
+long_data$Year <- as.numeric(long_data$Year)
+state_focus <- unique(long_data$StateName)
+# loop starts
+for (StateName in state_focus) {
+  # Filter data for the current state in the loop
+  state_data <- long_data[long_data$StateName == StateName, ]
+  title_text <- paste("Time Series of Union Density in", StateName)
+  wrapped_title <- str_wrap(title_text, width = 25)
+  # Create the plot using the filtered data
+  p <- ggplot(state_data, aes(x = Year, y = Value)) +
+    geom_line() +
+    labs(
+      title = wrapped_title,
+      x = "Year",
+      y = "Union Density (%)"
+    ) +
+    tstheme # Add theme
+  plots_list2[[paste("Union Density", StateName)]] <- p
+}
+# loop ends
+long_data <- state_union_coverage_density %>%
+  pivot_longer(
+    cols = -c(StateName, StateID), # Exclude non-year columns
+    names_to = "Year",
+    values_to = "Value"
+  )
+# Convert Year to a numeric value for plotting
+long_data$Year <- as.numeric(long_data$Year)
+state_focus <- unique(long_data$StateName)
+# loop starts
+for (StateName in state_focus) {
+  state_data <- long_data[long_data$StateName == StateName, ]
+  state_focus <- unique(long_data$StateName)
+  title_text <- paste(
+    "Time Series of Collective Bargaining Coverage in",
+    StateName
+  )
+  wrapped_title <- str_wrap(title_text, width = 35)
+  p <- ggplot(state_data, aes(x = Year, y = Value)) +
+    geom_line() +
+    labs(
+      title = wrapped_title,
+      x = "Year",
+      y = "Coverage Density in (%)"
+    ) +
+    tstheme # Add theme
+  plots_list2[[paste("Coverage Density", StateName)]] <- p
+}
+# loop ends
+# convert list to tibble
+usplots_tibble <- tibble::enframe(plots_list2,
+  name = "Plot_Type",
+  value = "Plot"
+)
+@
+
+
+\clearpage
+\section{Discussion}
+Trade unions are the primary focus of this analysis because of their impact on the broader population beyond their membership numbers. Unions come in many different shapes and sizes. Their organizational structure reflects their culture and political climate. Any given country could have a sprawling collection of hierarchical and nonhierarchical unions or have a singular union controlled by the respective state and corporate officers. Dubbed the "spillover effect," the behavior of these unions and how they are structured impact the surrounding population. The publication "Unions and Wellness" lists some of the effects Unions have on their population: Strengthened health and safety. Higher wages and decreased income inequality. Employer-sponsored benefits, including health insurance, retirement, and paid leave. Increased civic engagement and broader community benefits and reduced wage gaps. The range of these spillover effects can vary depending on the nation-state the union is located in, the type of unions that predominate those nation-states, and the nation-state's disposition to unions within its borders.  
+
+In the United States, unions have declined since the US Department of Labor began recording the stats in the 1960s. In the 2010s, there has been a remarkable decline in union density and collective bargaining coverage in the United States.
+\subsection{Simple Linear Regression Analysis}
+\begin{table}[ht]
+\centering
+\begin{minipage}[b]{0.48\linewidth}
+\centering
+\caption{Summary of Linear Model}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Term                & Estimate  & Std. Error & t value & $Pr(>|t|)$      \\ 
+\midrule
+(Intercept)         & 1.278734  & 0.042056   & 30.41   & $<2e^{-16}$ *** \\
+membership\_density & 1.044013  & 0.002723   & 383.42  & $<2e^{-16}$ *** \\
+\bottomrule
+\end{tabular}
+\label{tab:modelsummary}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.48\linewidth}
+\centering
+\caption{Residuals}
+\begin{tabular}{@{}lc@{}}
+\toprule
+Measure & Value      \\ 
+\midrule
+Min     & -2.0368    \\
+1Q      & -0.6320    \\
+Median  & -0.1668    \\
+3Q      & 0.4589     \\
+Max     & 4.2630     \\
+\bottomrule
+\end{tabular}
+\label{tab:residuals}
+\end{minipage}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\caption{Model Fit Statistics}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Statistic                       & Value           \\
+\midrule
+Residual standard error         & 0.9041 on 2293 DF \\
+Multiple R-squared              & 0.9846           \\
+Adjusted R-squared              & 0.9846           \\
+F-statistic                     & 1.47e+05 on 1 and 2293 DF \\
+p-value                         & $<2.2e^{-16}$    \\
+\bottomrule
+\end{tabular}
+\label{tab:modelfitstats}
+\end{table}
+
+The provided output is from a linear regression analysis conducted in R, examining the relationship between Collective Bargaining Coverage and Trade Union Density using a joined dataset dataset. The results indicate a notable relationship between these two variables. The model's intercept is approximately 1.279, suggesting that the expected coverage density is around 1.279 in the absence of membership density. More importantly, the coefficient for membership density is about 1.044, pointing towards a strong positive correlation; as membership density increases by one unit, coverage density is expected to increase by approximately 1.044 units.
+
+The statistical significance of the model is remarkable, with both the intercept and the slope showing extremely low p-values, virtually zero. This indicates a high level of confidence in the relationship between the two variables being more than a chance occurrence. The fit of the model to the data is also exceptionally strong. This is evidenced by the high R-squared value of 0.9846, suggesting that 98.46 percent of the variability in coverage density is explained by variations in membership density. Such a high R-squared value is indicative of a model that captures the relationship between the variables very well.
+
+The analysis of residuals, which are the differences between the observed values and the values predicted by the model, also provides useful insights. The residuals range from -2.037 to 4.263, with the median close to zero. This spread indicates that while there are some outliers, the model generally does not systematically over or under-predict across the data range. In conclusion, this linear regression model demonstrates a very strong and statistically significant relationship between coverage density and membership density. The model fits the data exceptionally well, as evidenced by the high R-squared value and the pattern of residuals. However, it is important to interpret these results with caution. The high degree of fit does not imply causality, and the model's predictive power is limited to the range of the data it was trained on. Extrapolating these findings beyond the observed data or inferring causation without further analysis would be inappropriate.
+
+\clearpage
+\begin{figure}[h]
+\centering
+  \begin{minipage}{.8\linewidth}
+<<TimesSeriesUnitedStates, echo = FALSE,fig.align='center', out.width='.8\\linewidth' >>=
+#                         state_union_membership_density
+# Reshape the data from wide to long format
+long_data <- state_union_membership_density %>%
+  pivot_longer(
+    cols = -c(StateName, StateID), # Exclude non-year columns
+    names_to = "Year",
+    values_to = "Value"
+  )
+# Convert Year to a numeric value for plotting
+long_data$Year <- as.numeric(long_data$Year)
+# wrap and edit citation
+citation_text <- "Source: Barry T. Hirsch, David A. Macpherson, and Wayne G. Vroman, “Estimates of Union Density by State,” Monthly Labor Review, Vol. 124, No. 7, July 2001, pp. 51-55."
+wrapped_citation <- str_wrap(citation_text, width = 50) # Adjust width as needed
+# wrap and edit title
+title_text <- "Time Series of Union Density in the United States"
+wrapped_title <- str_wrap(title_text, width = 30)
+# Define the labels
+plot_labels <- labs(
+  title = wrapped_title,
+  x = "Year",
+  y = "Union Density (in %)"
+)
+cit_style <- annotate(
+  "text",
+  x = max(long_data$Year), y = min(long_data$Value),
+  label = wrapped_citation,
+  hjust = 1, vjust = -9.4,
+  size = 3, color = "grey50",
+  angle = 0
+)
+median_per_year <- long_data  %>%
+  group_by(Year)  %>%
+  summarize(median_line = median(Value, na.rm = TRUE))
+# Create the ggplot object
+p1 <- ggplot(long_data, aes(x = Year, y = Value, color = StateName)) +
+  geom_line() +
+  geom_line(data = median_per_year,
+            aes(x = Year,
+                y = median_line,
+                group = 1),
+            color = "red",
+            linetype = "solid",
+            linewidth = 2) + # Add median lines
+  scale_x_continuous(breaks = seq(min(long_data$Year),
+    max(long_data$Year),
+    by = 5
+  )) +
+  plot_labels + # Add the labels
+    tstheme
+
+# Print the plot
+print(p1)
+@
+  \caption{detialed caption for figure } 
+  \label{fig:usstatesuniondensity}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.9\linewidth}
+<<TimesSeriesUnitedStatesNorth, echo = FALSE,warning = FALSE ,message = FALSE, fig.align='center', out.width='.8\\linewidth' >>=
+title_text <- "Time Series of Union Density in the United States"
+wrapped_title <- str_wrap(title_text, width = 30)
+#           northern_states time series
+# Plotting with ggplot2
+p2 <- ggplot(long_data, aes(x = Year, y = Value, group = StateName)) +
+  # Plot all states not in northern_states in grey
+  geom_line(
+    data = filter(long_data, !StateName %in% northern_states),
+    aes(color = "Other States"), linewidth = 0.5
+  ) +
+  # Highlight northern_states with individual colors
+  geom_line(
+    data = filter(long_data, StateName %in% northern_states),
+    aes(color = StateName), linewidth = 1.5
+  ) +
+  scale_color_manual(values = c(
+    "Other States" = "grey",
+    setNames(rainbow(length(northern_states)), northern_states)
+  )) +
+  scale_x_continuous(breaks = seq(min(long_data$Year),
+    max(long_data$Year),
+    by = 5
+  )) +
+  labs(
+    title = wrapped_title,
+    x = "Year",
+    y = "Union Membership Density(in %)",
+  ) +
+  theme(legend.position = "bottom") +
+  tstheme
+print(p2)
+@
+
+  \caption{[Detailed caption for Figure 2]}
+  \label{fig:3}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.9\linewidth}
+<<TimesSeriesUnitedStatesSouth, echo = FALSE,warning = FALSE, message = FALSE, fig.align='center', out.width='.8\\linewidth' >>=
+title_text <- "Time Series of Union Density in the United States"
+wrapped_title <- str_wrap(title_text, width = 30)
+#          southern_states time series
+p3 <- ggplot(long_data, aes(x = Year, y = Value, group = StateName)) +
+  # Plot all states not in southern_states in grey
+  geom_line(
+    data = filter(long_data, !StateName %in% southern_states),
+    aes(color = "Other States"), linewidth = 0.5
+  ) +
+  # Highlight southern_states with individual colors
+  geom_line(
+    data = filter(long_data, StateName %in% southern_states),
+    aes(color = StateName), linewidth = 1.5
+  ) +
+  scale_color_manual(values = c(
+    "Other States" = "grey",
+    setNames(rainbow(length(southern_states)), southern_states)
+  )) +
+  scale_x_continuous(breaks = seq(min(long_data$Year),
+    max(long_data$Year),
+    by = 5
+  )) +
+  labs(
+    title = wrapped_title,
+    x = "Year",
+    y = "Union Membership Density(in %)",
+  ) +
+  theme(legend.position = "bottom") +
+  tstheme
+print(p3)
+@
+
+  \caption{[Detailed caption for Figure 3]}
+  \label{fig:4}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{0.7\linewidth}
+<<CollectiveBargaining, echo = FALSE, fig.align='center', out.width='0.7\\linewidth' >>=
+# Assuming cbcr is your data frame
+US_cbcr <- cbcr %>%
+  filter(ref_area == "United States") %>%
+  summarize(cbcrValue = mean(obs_value)) %>%
+  .$cbcrValue
+# Calculate the median of Collective Bargaining Coverage
+Median_cbcr <- median(cbcr$obs_value)
+# Create a data frame for the lines
+lines_df_cbcr <- data.frame(
+  xintercept = c(US_cbcr, Median_cbcr),
+  line_id = c("United States", "Median")
+)
+# Create histogram for Collective Bargaining Coverage
+title_text <- " Histogram for International Collective Bargaining Coverage"
+wrapped_title <- str_wrap(title_text, width = 35)
+d3 <- ggplot(cbcr, aes(x = obs_value)) +
+  geom_histogram(bins = 30, fill = "#404080", color = "black") +
+  geom_vline(
+    data = lines_df_cbcr,
+    aes(
+      xintercept = xintercept,
+      linetype = line_id,
+      color = line_id
+    ),
+    size = 3
+  ) +
+  scale_color_manual(
+    name = "Line Type",
+    values = c(
+      "United States" = "red",
+      "Median" = "green"
+    )
+  ) +
+  scale_linetype_manual(
+    name = "Line Type",
+    values = c(
+      "United States" = "dotted",
+      "Median" = "dashed"
+    )
+  ) +
+  labs(
+    title = wrapped_title, 
+    x = "Collective Bargaining Coverage (in %)",
+    y = "Frequency"
+  ) +
+  tstheme +
+  guides(color = guide_legend(override.aes = list(linetype = c("dashed", "dotted"))))
+print(d3)
+@
+  \caption[Collective Bargaining Coverage]{Histogram depicting the frequency distribution of collective bargaining coverage measured in percent recorded by the International Labor Organization database. The data is grouped by country, highlighting the predominance of collective bargaining coverage in the United States compared to the rest of the world.}
+  \label{fig:5}
+  \end{minipage}
+\end{figure}
+\hspace{5pt}
+\begin{figure}[h]
+\centering
+  \begin{minipage}{0.7\linewidth}
+<<UnionDensity, echo = FALSE, fig.align='center', out.width='0.7\\linewidth' >>=
+US_UnionDensity <- trade_union_density %>%
+  filter(Country == "United States") %>%
+  summarize(UnionDensityValue = mean(Value)) %>%
+  .$UnionDensityValue # Extracting the numeric value
+# Calculate the median of the Union Density
+Median_UnionDensity <- median(trade_union_density$Value)
+# Create a data frame for the lines
+lines_df <- data.frame(
+  xintercept = c(US_UnionDensity, Median_UnionDensity),
+  line_id = c("United States", "Median")
+)
+title_text <- "Histogram for Union Density"
+wrapped_title <- str_wrap(title_text, width = 35)
+d1 <- ggplot(trade_union_density, aes(x = Value)) +
+  geom_histogram(bins = 30, fill = "#69b3a2", color = "black") +
+  geom_vline(data = lines_df, aes(
+    xintercept = xintercept,
+    linetype = line_id, color = line_id
+  ), size = 3) +
+  scale_color_manual(name = "Line Type", values = c("United States" = "red", "Median" = "green")) +
+  scale_linetype_manual(name = "Line Type", values = c("United States" = "dotted", "Median" = "dashed")) +
+  labs(
+    title = wrapped_title,
+    x = "Union Density(in %)",
+    y = "Frequency"
+  ) +
+  tstheme +
+  guides(color = guide_legend(override.aes = list(linetype = c("dashed", "dotted"))))
+print(d1)
+@
+  \caption{Histogram depicting the frequency distribution of Union Density in percent. The percentage measures a country's total unionized industries; the higher the percentage, the more of that country's workforce is unionized. This data is grouped by country; the mean of the United States and the mean of the total population are marked on this graph.} 
+  \label{fig:6}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+  \begin{minipage}{0.7\linewidth}
+<<WorkplaceRights, echo = FALSE, fig.align='center', out.width='0.7\\linewidth' >>=
+
+# Assuming workplace_rights is your data frame
+US_workplace_rights <- workplace_rights %>%
+  filter(ref_area == "United States") %>%
+  summarize(workplace_rightsValue = mean(obs_value)) %>%
+  .$workplace_rightsValue
+# Calculate the median of Workplace Rights
+Median_workplace_rights <- median(workplace_rights$obs_value)
+# Create a data frame for the lines
+lines_df_wr <- data.frame(
+  xintercept = c(US_workplace_rights, Median_workplace_rights),
+  line_id = c("United States", "Median")
+)
+title_text <-"Histogram of National Compliance with International Law (ilo)"
+wrapped_title <- str_wrap(title_text, width = 35)
+# Create histogram for Workplace Rights
+d2 <- ggplot(workplace_rights, aes(x = obs_value)) +
+  geom_histogram(bins = 30, fill = "blue", color = "black") +
+  geom_vline(
+    data = lines_df_wr,
+    aes(xintercept = xintercept, linetype = line_id, color = line_id), size = 3
+  ) +
+  scale_color_manual(
+    name = "Line Type",
+    values = c("United States" = "red", "Median" = "green")
+  ) +
+  scale_linetype_manual(
+    name = "Line Type",
+    values = c("United States" = "dotted", "Median" = "dashed")
+  ) +
+  labs(
+    title = wrapped_title,
+    x = "Workplace Rights Compliance with International Law (Rating)",
+    y = "Frequency"
+  ) +
+  tstheme +
+  guides(color = guide_legend(override.aes = list(linetype = c("dashed", "dotted"))))
+print(d2)
+@
+  \caption{Histogram depicting the frequency distribution of Compliance with international law bargaining coverage as scale from 0 to 10 with 10 being the most out of compliance with international law a country could be, and 0 being completely incompliance with international labor law recorded by the International Labor organization. This data is grouped by country, the united states place is marked in the along with the mean of all countries.}
+  \label{fig:7}
+  \end{minipage}
+\end{figure}
+
+\clearpage
+%                                   United States
+\section{Overview District of Columbia}
+\begin{figure}[h!]
+  \centering
+
+  \begin{minipage}{0.48\linewidth}
+<<United Statestradeuniondensity, echo = FALSE, fig.align='center', out.width='0.7\\linewidth'>>=
+  # Then try to retrieve and print the plot
+  desired_plot_row <- tsplots_tibble %>%
+    filter(Plot_Type == "Union_Density United States")
+  desired_plot <- desired_plot_row$Plot[[1]]
+  # Check if the desired plot row is empty
+  if (nrow(desired_plot_row) == 0) {
+    print("No plot found for Trade_Union_Density United States.")
+  } else {
+    print(desired_plot)
+  }
+@
+    \caption{Time Series chart depicting union density in United States from 2016 to 2017}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.48\linewidth}
+<<United StatesCollectiveBargaining, echo=FALSE, fig.align='center', out.width='0.7\\linewidth'>>=
+# Display "CB_Coverage United States" plot
+desired_plot_row <- tsplots_tibble %>%
+  filter(Plot_Type == "CB_Coverage United States")
+desired_plot <- desired_plot_row$Plot[[1]]
+
+print(desired_plot)
+@
+    \caption{Time Series chart of collective bargaining coverage...}
+  \end{minipage}
+
+ \begin{minipage}{0.48\linewidth}
+<<United States West Virginia, echo = FALSE, fig.align='center', out.width='0.7\\linewidth' >>=
+desired_plot_row <- usplots_tibble %>%
+  filter(Plot_Type == "Coverage Density District of Columbia")
+desired_plot <- desired_plot_row$Plot[[1]]
+print(desired_plot)
+@
+    \caption{Time series chart of Compliance with international law...}
+ \end{minipage}
+\hfill
+  \begin{minipage}{0.48\linewidth}
+<<United States labor compliance, echo = FALSE, fig.align='center', out.width='0.7\\linewidth' >>=
+desired_plot_row <- tsplots_tibble %>%
+  filter(Plot_Type == "Labor_Compliance United States")
+desired_plot <- desired_plot_row$Plot[[1]]
+desired_plot
+@
+    \caption{Time series chart of Compliance with international law...}
+  \end{minipage}
+\end{figure}
+
+\clearpage
+%                                         China
+% Top two charts side by side
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{0.48\linewidth}
+<<Chinatradeuniondensity, echo = FALSE, fig.align='center', out.width='0.7\\linewidth'>>=
+# Then try to retrieve and print the plot
+desired_plot_row <- tsplots_tibble %>%
+  filter(Plot_Type == "Union_Density China")
+desired_plot <- desired_plot_row$Plot[[1]]
+
+
+# Check if the desired plot row is empty
+if (nrow(desired_plot_row) == 0) {
+  print("No plot found for Trade_Union_Density China.")
+} else {
+  print(desired_plot)
+}
+@
+    \caption{Time Series chart depicting union density in China from 2016 to 2017}
+    \label{fig:union-density-china}
+  \end{minipage}
+  \hfill % Space between the two minipages
+  \begin{minipage}{0.48\linewidth}
+<<ChinaCollectiveBargaining, echo=FALSE, fig.align='center', out.width='0.7\\linewidth'>>=
+# Display "CB_Coverage China" plot
+desired_plot_row <- tsplots_tibble %>%
+  filter(Plot_Type == "CB_Coverage China")
+desired_plot <- desired_plot_row$Plot[[1]]
+
+print(desired_plot)
+@
+    \caption{Time Series chart of collective bargaining coverage...}
+    \label{fig:china-collective-bargaining}
+  \end{minipage}
+\end{figure}
+
+% Third chart below
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{0.6\linewidth}
+<<China labor compliance, echo = FALSE, fig.align='center', out.width='0.7\\linewidth' >>=
+desired_plot_row <- tsplots_tibble %>%
+  filter(Plot_Type == "Labor_Compliance China")
+desired_plot <- desired_plot_row$Plot[[1]]
+desired_plot
+@
+    \caption{Time series chart of Compliance with international law...}
+    \label{fig:labor-compliance-china}
+  \end{minipage}
+\end{figure}
+
+
+\clearpage
+\begin{figure}[h]
+\centering
+  \begin{minipage}{0.7\linewidth}
+  \includegraphics[width=\linewidth]{~/Lab2/graphs/udstudfy.jpg}
+  \caption{Histogram depicting the distribution of the collective labour force index. The incomplete data availability pushes the Index down to around 72 countries, so the ranking matters less than the Index itself. The picture it paints is the freedom a working person has in the labor force(Union Power). This study is an assessment of union power. It indicates union power by combining and weighing the following stats: Trade Union Density, Collective Bargaining Coverage, Labour Force Participation Rate, Employment in agriculture, Democracy, Core labor rights ratification, hiring and firing constraints, and Hours Regulation. The United States is 62(3.32 index rating) in the Index, and China's place is 68 (1.92 index rating). The data is only recorded from 2010 to 2016. }
+  \label{fig:1}
+  \end{minipage}
+\end{figure}
+
+
+\clearpage
+\section{Conclusion}
+Summarize the main findings and their relevance to the initial objectives of your study.
+
+\clearpage
+
+\section*{References}
+\begin{enumerate}
+  \item Visser, J. (2021). OECD/AIAS database on Institutional Characteristics of Trade Unions, Wage Setting, State Intervention and Social Pacts (ICTWSS) [Data set]. OECD. Retrieved from \url{https://www.oecd.org/employment/ictwss-database.htm}
+  
+  \item International Labour Organization. (2022). Trade union density rate () [Data set]. Industrial Relations Data (IRdata). Retrieved from \url{https://www.ilo.org/shinyapps/bulkexplorer30/?lang=en\&id=ILR\_TUMT\_NOC\_RT\_A}
+  
+  \item International Labour Organization. (2022). Collective bargaining coverage rate () [Data set]. Industrial Relations Data (IRdata). Retrieved from \url{https://www.ilo.org/shinyapps/bulkexplorer36/?lang=en\&id=ILR\_CBCT\_NOC\_RT\_A}
+  
+  \item International Labour Organization. (2023). SDG indicator 8.8.2 - Level of national compliance with labour rights (freedom of association and collective bargaining) based on ILO textual sources and national legislation[Data set]. SDG Labour Market Indicators (ILOSDG). Retrieved from \url{https://www.ilo.org/shinyapps/bulkexplorer30/?lang=en\&id=ILR\_TUMT\_NOC\_RT\_A}
+  
+  \item Palley, T. I., \& LaJeunesse, R. M. (2007). Social attitudes, labor law, and union organizing: Toward a new economics of union density. \textit{Journal of Economic Behavior and Organization}, 62(2), 237–254. \url{https://doi.org/10.1016/j.jebo.2005.02.003}
+  
+  \item Dollard, M. F., \& Neser, D. Y. (2013). Worker health is good for the economy: Union density and psychosocial safety climate as determinants of country differences in worker health and productivity in 31 European countries. \textit{Social Science \& Medicine}, 92, 114–123. \url{https://doi.org/10.1016/j.socscimed.2013.04.028}
+  
+  \item Normann, H. E., \& Tellmann, S. M. (2021). Trade unions' interpretation of a just transition in a fossil fuel economy. \textit{Environmental Innovation and Societal Transitions}, 40, 421–434. \url{https://doi.org/10.1016/j.eist.2021.09.007}
+  
+  \item Flavin, P., \& Radcliff, B. (2011). Labor union membership and voting across nations. \textit{Electoral Studies}, 30(4), 633–641. \url{https://doi.org/10.1016/j.electstud.2011.06.001}
+  
+  \item McFarland, S. (2019). Spatialities of class formation: Urban sprawl and union density in U.S. metropolitan areas. \textit{Geoforum}, 102, 86–96. \url{https://doi.org/10.1016/j.geoforum.2019.03.015}
+
+  \item Unions are not only good for workers, they’re good for communities and for democracy: High unionization levels are associated with positive outcomes across multiple indicators of economic, personal, and democratic well-being. (n.d.). Economic Policy Institute.\url{https://www.epi.org/publication/unions-and-well-being/}
+
+  \item In 2023, the US working class fought back. (2023, December 31) \url {https://jacobin.com/2023/12/year-in-review-labor-2023-uaw-teamsters-amazon-hollywood}
+\end{enumerate}
+
+
+\end{document}
