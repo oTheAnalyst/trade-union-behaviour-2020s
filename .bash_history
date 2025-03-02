@@ -215,3 +215,231 @@ nix develop .
 clear
 ls
 emacs _targets.R
+ls
+git switch nix_reproduce 
+git stash
+git switch nix_reproduce 
+clear
+ls
+nix develop .
+cleaar
+clear
+ls
+git switch flake-test 
+ls
+vflake functions/functions.R 
+clear
+ls
+emacs _targets.R
+emacs _targets.R
+cd Public/trade-union-behaviour-2020s/
+ls
+nix develop .
+cd Public/trade-union-behaviour-2020s/
+ls
+nix develop .
+vflake functions/functions.R 
+emacs functions/functions.R 
+cd Public/trade-union-behaviour-2020s/
+nix develop .
+emacs functions/functions.R 
+ls
+clear
+ls
+cd Public/
+ls
+cd trade-union-behaviour-2020s/
+clear
+ls
+nix develop .
+clear
+ls
+vflake _targets.R
+ls
+cd Public/
+ls
+clear
+ls
+cd trade-union-behaviour-2020s/
+ls
+clear
+ls
+nix develop .
+ls
+emacs _targets.R
+R
+clear
+R
+clear
+ls
+Rscript _targets.R
+Rscript <(zcat _targets.R)>
+Rscript <(cat _targets.R)>
+Rscript <(sed _targets.R)>
+cd Public/trade-union-behaviour-2020s/
+ls
+nix develop .
+cd Public/
+ls
+cd trade-union-behaviour-2020s/
+ls
+clear
+ls
+nix develop .
+clear
+ls
+clear
+ls
+vflake functions/functions.R 
+clear
+ls
+emacs builder.R 
+cd Public/
+ls
+clear
+ls
+clear
+ls
+cd trade-union-behaviour-2020s/
+ls
+emacs _targets.R
+ls
+clear
+ls
+cd Public/
+ls
+cd trade-union-behaviour-2020s/
+clear
+ls
+nix develop .
+ls
+emacs builder.R 
+clear
+ls
+cd Public/
+ls
+clear
+ls
+cd trade-union-behaviour-2020s/
+ls
+nix develop .
+cd Public/trade-union-behaviour-2020s/
+clear
+nix develop .
+ls
+ls
+clear
+ls
+clear
+ls
+ls
+clear
+ls
+emacs builder.R 
+ls
+clear
+ls
+cd Public/
+ls
+cd trade-union-behaviour-2020s/
+lcear
+clear
+ls
+cd Public/
+cd trade-union-behaviour-2020s/
+ls
+cear
+git switch 
+git branch 
+ls
+emacs _targets.R
+nix develop .
+ls
+clear
+ls
+emacs _targets.R
+emacs _targets.R
+emacs _targets.R
+cd Public/
+ls
+clear
+ls
+ls myresume/
+clear
+ls myresume/
+ls myresume/examples/
+ls
+clear
+ls
+clear
+ls
+cd trade-union-behaviour-2020s/
+ls
+ls data/
+ls
+yazi
+ranger
+ls
+clear
+ls
+clear
+ls
+cd Documents/secondbrain/
+ls
+clear
+ls
+cd
+clear
+ls
+ls
+clear
+ls
+cd Public/
+ls
+cd trade-union-behaviour-2020s/
+ls
+clear
+ls
+clear
+ls
+nix develop .
+ls
+clear
+ls
+cat app.R 
+ls
+lcear
+clear
+ls
+clear
+ls
+claedr
+clear
+ls
+clear
+ls
+cat _targets.R
+clear
+ls
+clear
+ls
+clear
+ls
+ls data/
+clear
+ls
+clear
+ls
+emacs _targets.R
+emacs _targets.R
+ls
+clear
+ls
+cd Public/trade-union-behaviour-2020s/
+ls
+emacs _targets.R
+clear
+nix develop .
+emacs _targets.R
+clear
+git status 
