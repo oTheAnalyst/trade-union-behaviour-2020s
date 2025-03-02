@@ -6,11 +6,24 @@ library(targets)
 library(ggplot2)
 library(plotly)
 
-# Load pre-saved RDS file
-national_data <- targets::tar_read(national_data)
-monthly_data2024 <- targets::tar_read(year.strikes.2024.monthly)
+library(DBI)
+library(RSQLite)
 
+file_location <- "~/trade_union-strikes.db"
+con <- DBI::dbConnect(RSQLite::SQLite(), file_location)
+
+RSQLite::dbListTables(con)
+
+data1 <- RSQLite::dbReadTable(con, "kpi_employer_strikes")
+data2 <- RSQLite::dbReadTable(con, "kpi_strikes")
+
+data2$Pay
+data2$Health.and.safety
+
+national_data <- targets::tar_read(national_data)
+# Load pre-saved RDS file
 head(national_data)
+
 
 # Define UI components
 color_by <- selectInput(
@@ -28,9 +41,33 @@ cards <- list(
   )
 )
 
-ui <- page_sidebar(title = "Trade Union Data",
-                   sidebar = color_by,
-                   !!!cards)
+ui <- page_fluid( layout_column_wrap(
+                   value_box(
+                     title = "Pay",
+                     width = 4,
+                     value = data2$Pay,
+                     theme = "white"
+                   ),
+                   value_box(
+                     title = "Staffing",
+                     width = 4,
+                     value = data2$staffing,
+                     theme = "white"
+                   ),
+                   value_box(
+                     title = "Recognition",
+                     width = 4,
+                     value = data2$Union.recognition,
+                     theme = "white"
+                   ),
+                   value_box(
+                     title = "Health and Saftey",
+                     width = 4,
+                     value = data2$Health.and.safety,
+                     theme = "white"
+                   ),
+                   )
+                   )
 
 
 server <- function(input, output) {

@@ -13,6 +13,7 @@
       reshape2
       DT
       DBI
+      plotly
       RSQLite
       palmerpenguins
       thematic
