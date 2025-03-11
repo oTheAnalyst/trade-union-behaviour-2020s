@@ -5,7 +5,6 @@ library(bslib)
 library(targets)
 library(ggplot2)
 library(plotly)
-
 library(DBI)
 library(RSQLite)
 
@@ -17,12 +16,10 @@ RSQLite::dbListTables(con)
 data1 <- RSQLite::dbReadTable(con, "kpi_employer_strikes")
 data2 <- RSQLite::dbReadTable(con, "kpi_strikes")
 
-data2$Pay
-data2$Health.and.safety
-
 national_data <- targets::tar_read(national_data)
+print(national_data)
 # Load pre-saved RDS file
-head(national_data)
+
 
 
 # Define UI components
@@ -41,49 +38,47 @@ cards <- list(
   )
 )
 
-ui <- page_fluid( layout_column_wrap(
-                   value_box(
-                     title = "Pay",
-                     width = 4,
-                     value = data2$Pay,
-                     theme = "white"
-                   ),
-                   value_box(
-                     title = "Staffing",
-                     width = 4,
-                     value = data2$staffing,
-                     theme = "white"
-                   ),
-                   value_box(
-                     title = "Recognition",
-                     width = 4,
-                     value = data2$Union.recognition,
-                     theme = "white"
-                   ),
-                   value_box(
-                     title = "Health and Saftey",
-                     width = 4,
-                     value = data2$Health.and.safety,
-                     theme = "white"
-                   ),
-                   )
-                   )
+ui <- page_fluid( 
+        titlePanel("KPI for Union Strikes"),
+        layout_column_wrap(
+                         value_box(
+                           title = "Pay",
+                           width = 4,
+                           value = data2$Pay,
+                           theme = "white"
+                         ),
+                         value_box(
+                           title = "Staffing",
+                           width = 4,
+                           value = data2$staffing,
+                           theme = "white"
+                         ),
+                         value_box(
+                           title = "Recognition",
+                           width = 4,
+                           value = data2$Union.recognition,
+                           theme = "white"
+                         ),
+                         value_box(
+                           title = "Health and Saftey",
+                           width = 4,
+                           value = data2$Health.and.safety,
+                           theme = "white"
+                         ),
+                 ),
+        mainPanel(
+          plotOutput("strikes"))
+            )
 
 
 server <- function(input, output) {
   # Reactive expression to generate the ggplot
-  gg_plot <- reactive({
-    national_data |>
-      ggplot(aes(x = Year, y = strikes, size = employers, color = !!sym(input$color_var))) + 
-      geom_point() +
-      theme_bw()
+  output$strikes <- renderPlot({
+      ggplot(national_data, aes(x = Year, y = strikes ))+
+       geom_point()+
+      xlab("Year")
   })
-  
-  # Render the interactive plot using ggplotly
-  output$strikes <- renderPlotly({
-    ggplotly(gg_plot())  # Convert the ggplot object to an interactive plotly plot
-  })
+ 
 }
-
 # Run the application
 shinyApp(ui, server)
