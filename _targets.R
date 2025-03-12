@@ -18,7 +18,7 @@ tar_option_set(
 list(
   tar_target(
     transformed_,
-    load_and_transform_data("Labor-2.3.25.xlsx"),
+    load_and_transform_data("Labor-prod.xlsx"),
     format = "rds"
   ),
   tar_target(
