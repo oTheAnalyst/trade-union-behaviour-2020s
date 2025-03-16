@@ -65,3 +65,25 @@ clear
 ls
 yazi
 ranger
+l
+rstudio app.R 
+rstudio app.R 
+rstudio app.R 
+ls
+ls
+cd Public/trade-union-behaviour-2020s/ ; nom develop . ; Rstudio app.R
+clear
+ls
+git pull 
+cd ../
+rm -rf trade-union-behaviour-2020s/
+git clone git@github.com:oTheAnalyst/trade-union-behaviour-2020s.git
+ls
+cd trade-union-behaviour-2020s/
+ls
+clear
+ls
+nom develop .
+ls
+cat app.R 
+nom develop .
