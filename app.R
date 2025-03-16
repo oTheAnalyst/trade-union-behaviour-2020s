@@ -20,7 +20,7 @@ national_data <- targets::tar_read(national_data)
 # Load pre-saved RDS file
 fy24 <- targets::tar_read(year.strikes.2024.monthly)
 fy23 <- targets::tar_read(year.strikes.2023.monthly)
-
+fy25 <- targets::tar_read(year.strikes.2025.monthly)
 
 # Define UI components
 color_by <- selectInput(
@@ -67,8 +67,16 @@ ui <- page_fluid(
                          ),
                  ),
         mainPanel(
+          fluidRow(
+            splitLayout(
+              cellWidths = c("50%","50%"),
+          plotOutput("fy25"), plotOutput("fy23"),
+              ),
+            splitLayout(
+              cellWidths = c("50%","50%"),
           plotOutput("strikes"), plotOutput("fy24"),
-          plotOutput("fy23")
+              )
+            )
           )
         )
 
@@ -86,6 +94,7 @@ server <- function(input, output) {
        geom_line()+
        geom_point()+
       ylim(0, 100)+
+      xlim(0,12)+
       xlab("Year")
   })
   output$fy23 <- renderPlot({
@@ -93,6 +102,15 @@ server <- function(input, output) {
        geom_line()+
        geom_point()+
       ylim(0, 100)+
+      xlim(0,12)+
+      xlab("Year")
+  })
+  output$fy25 <- renderPlot({
+      ggplot(fy25, aes(x = Month, y = strikes ))+
+       geom_line()+
+       geom_point()+
+      ylim(0, 100)+
+      xlim(0,12)+
       xlab("Year")
   })
  
