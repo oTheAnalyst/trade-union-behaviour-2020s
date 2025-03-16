@@ -17,10 +17,10 @@ data1 <- RSQLite::dbReadTable(con, "kpi_employer_strikes")
 data2 <- RSQLite::dbReadTable(con, "kpi_strikes")
 
 national_data <- targets::tar_read(national_data)
-print(national_data)
 # Load pre-saved RDS file
-
-
+fy24 <- targets::tar_read(year.strikes.2024.monthly)
+fy23 <- targets::tar_read(year.strikes.2023.monthly)
+fy25 <- targets::tar_read(year.strikes.2025.monthly)
 
 # Define UI components
 color_by <- selectInput(
@@ -34,7 +34,7 @@ cards <- list(
   card(
     full_screen = TRUE,
     card_header("Strikes"),
-    plotlyOutput("strikes")  # Use plotlyOutput instead of plotOutput for interactive plots
+    plotlyOutput("strikes")  
   )
 )
 
@@ -67,15 +67,50 @@ ui <- page_fluid(
                          ),
                  ),
         mainPanel(
-          plotOutput("strikes"))
+          fluidRow(
+            splitLayout(
+              cellWidths = c("50%","50%"),
+          plotOutput("fy25"), plotOutput("fy23"),
+              ),
+            splitLayout(
+              cellWidths = c("50%","50%"),
+          plotOutput("strikes"), plotOutput("fy24"),
+              )
             )
+          )
+        )
 
 
 server <- function(input, output) {
   # Reactive expression to generate the ggplot
   output$strikes <- renderPlot({
       ggplot(national_data, aes(x = Year, y = strikes ))+
+       geom_line()+
        geom_point()+
+      xlab("Year")
+  })
+  output$fy24 <- renderPlot({
+      ggplot(fy24, aes(x = Month, y = strikes ))+
+       geom_line()+
+       geom_point()+
+      ylim(0, 100)+
+      xlim(0,12)+
+      xlab("Year")
+  })
+  output$fy23 <- renderPlot({
+      ggplot(fy23, aes(x = Month, y = strikes ))+
+       geom_line()+
+       geom_point()+
+      ylim(0, 100)+
+      xlim(0,12)+
+      xlab("Year")
+  })
+  output$fy25 <- renderPlot({
+      ggplot(fy25, aes(x = Month, y = strikes ))+
+       geom_line()+
+       geom_point()+
+      ylim(0, 100)+
+      xlim(0,12)+
       xlab("Year")
   })
  
