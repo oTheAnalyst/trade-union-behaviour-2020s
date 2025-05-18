@@ -11,6 +11,7 @@
     rPackages = with pkgs.rPackages; [
       tidyverse
       reshape2
+      repurrrsive
       esquisse
       DT
       DBI
