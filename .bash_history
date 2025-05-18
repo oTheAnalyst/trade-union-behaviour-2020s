@@ -87,3 +87,32 @@ nom develop .
 ls
 cat app.R 
 nom develop .
+cd Public/trade-union-behaviour-2020s/
+git checkout sqlenhance 
+git stash
+git checkout sqlenhance 
+ls
+clear
+ls
+cat builder.R 
+cat example.R 
+clear
+cat example.R 
+ls
+cat builder.R 
+clear
+ls
+nvim functions/functions.R 
+nom develop .
+clear
+nvim functions/functions.R 
+cd Public/
+cear
+clear
+ls
+cd trade-union-behaviour-2020s/
+clear
+nom develop .
+clear
+ls
+rstudio example.R 
