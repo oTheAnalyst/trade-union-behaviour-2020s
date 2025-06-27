@@ -69,6 +69,7 @@
           libgcc
           gccgo
           neovim
+          sqlite
 
           (rWrapper.override {packages = rPackages;})
           (rstudioWrapper.override {packages = rPackages;})
