@@ -10,6 +10,8 @@
     pkgs = import nixpkgs {inherit system;};
     rPackages = with pkgs.rPackages; [
       tidyverse
+      devtools
+      testthat
       reshape2
       repurrrsive
       esquisse
