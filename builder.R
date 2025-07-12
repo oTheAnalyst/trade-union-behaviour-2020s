@@ -13,3 +13,12 @@ files <- base::gsub(".xlsx", "", files)
 dates <- files[!grepl(paste0(c("prod", "output"), collapse = "|"), files)]
 desc_dates <- lubridate::mdy(dates) |> sort(decreasing = TRUE)
 print(desc_dates)
+
+
+install.packages("esquisse")
+
+library(esquisse)
+esquisse:esquisser()
+
+options("esquisse.display.mode" = "browser")
+esquisser()
