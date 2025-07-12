@@ -61,8 +61,8 @@
 
         buildInputs = with pkgs; [
           pandoc
+          dbt
           glibcLocales
-          emacs
           nix
           gnumake
           libgcc
