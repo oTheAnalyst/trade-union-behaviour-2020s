@@ -11,6 +11,7 @@
     rPackages = with pkgs.rPackages; [
       tidyverse
       reshape2
+      esquisse
       DT
       DBI
       plotly
@@ -60,8 +61,8 @@
 
         buildInputs = with pkgs; [
           pandoc
+          dbt
           glibcLocales
-          emacs
           nix
           gnumake
           libgcc
