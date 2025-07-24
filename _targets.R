@@ -97,6 +97,7 @@ list(
         national_data = national_data,
         year.strikes.2024.monthly = year.strikes.2024.monthly,
         year.strikes.2023.monthly = year.strikes.2023.monthly,
+        year.strikes.2025.monthly = year.strikes.2025.monthly,
         states_and_territories = states_and_territories
       )
     }
@@ -112,6 +113,10 @@ list(
   tar_target(writes_db3,
              write_to_sql(data = year.strikes.2025.monthly,
                           name = "time-series-2025"),
+             format = "rds"),
+  tar_target(writes_db4,
+             write_to_sql(data = transformed_,
+                          name = "Labor-prod"),
              format = "rds"),
   tar_target(writes_db2,
              write_to_sql(data = year.strikes.2023.monthly,

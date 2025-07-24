@@ -5,6 +5,7 @@ load_and_transform_data <- function(index) {
     pattern = "\\.xlsx$",
     full.names = TRUE
   )
+  print(file_paths)
   # Function to read Excel file, convert to tibble, and transform data
   read_and_transform <- function(file_path) {
     # Read Excel file and convert to tibble
@@ -18,14 +19,14 @@ load_and_transform_data <- function(index) {
     # Mutate columns as needed
     transformed_data <- excel_tibble |>
       dplyr::mutate(
-        ZipCode = as.character(Zip.Code),
+        ZipCode = as.character('Zip Code'),
         BargainingUnitSize =
-          readr::parse_number(as.character(Bargaining.Unit.Size)),
+          readr::parse_number(as.character('Bargaining Unit Size')),
         ApproximateNumberofParticipants =
-          readr::parse_number(as.character(Approximate.Number.of.Participants)),
+          readr::parse_number(as.character('Approximate Number of Participants')),
         Date = format(Timestamp, "%m-%d-%Y"),
         month = format(Timestamp, "%B"),
-        DurationAmount = as.integer(Duration.Amount)
+        DurationAmount = as.integer('Duration Amount')
       )
     return(transformed_data)
   }
@@ -39,6 +40,7 @@ load_and_transform_data <- function(index) {
   message("Transformed data saved successfully")
 }
 
+    
 super_function <- function() {
 
   write_to_sql <- function(data, name) {

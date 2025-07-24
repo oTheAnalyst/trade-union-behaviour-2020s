@@ -1,0 +1,93 @@
+---
+title: "Maryland Labour Stike Analysis"
+author: "Michael V Cumbo"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+---
+### Introductions
+
+This report details the strike activity in that has taken place in Maryland the last 5 years, the number of the strikes and the labor unions involved. Thanks to Cornell university and the research team providing the data.
+
+```{r setup, include=TRUE}
+library(ggplot2)
+
+execute_sql <- function(statement) {
+  sql_location <- "~/trade_union-strikes.db"
+  driver <- RSQLite::dbDriver("SQLite")
+  conn <- RSQLite::dbConnect(driver, sql_location)
+  qw <- RSQLite::dbSendQuery(conn, {{statement}})
+  data <- RSQLite::dbFetch(qw)
+  return(data)
+  RSQLite::dbDisconnect(conn)
+}
+
+knitr::opts_chunk$set(
+	echo = FALSE,
+	message = FALSE,
+	warning = FALSE
+)
+md_data <- targets::tar_read(md_data)
+
+ggplot(md_data, aes(x=Year, y=strikes)) +
+  geom_line() + 
+  xlab("")
+
+```
+
+
+
+What is Observed in this data is that strikes have been decreasing year over year in Maryland.
+
+
+```{r Who is Going on Strike?}
+read_sql <- function(name) {
+  driver <- RSQLite::dbDriver("SQLite")
+  conn <- DBI::dbConnect(driver, sql_location)
+  table <- DBI::dbReadTable(conn,{{name}})
+  return(dplyr::as_tibble(table))
+  RSQLite::dbDisconnect(conn)
+}
+
+sql_list <- function() {
+  driver <- RSQLite::dbDriver("SQLite")
+  sql_location <- "~/trade_union-strikes.db"
+  conn <- RSQLite::dbConnect(driver, sql_location)
+  table <- DBI::dbListTables(conn)
+  return(table)
+  RSQLite::dbDisconnect(conn)
+}
+
+execute_sql <- function(statement) {
+  sql_location <- "~/trade_union-strikes.db"
+  driver <- RSQLite::dbDriver("SQLite")
+  conn <- RSQLite::dbConnect(driver, sql_location)
+  qw <- RSQLite::dbSendQuery(conn, {{statement}})
+  data <- RSQLite::dbFetch(qw)
+  return(data)
+  RSQLite::dbDisconnect(conn)
+}
+
+
+execute_sql("SELECT
+            Year, 
+            Employer,
+            Notes
+            FROM 'Labor-prod' WHERE State LIKE '%Maryland%' 
+            " )
+
+
+
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r What does the data Look like nationally, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
