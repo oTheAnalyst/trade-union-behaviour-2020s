@@ -17,6 +17,7 @@
       esquisse
       DT
       DBI
+      gridExtra
       plotly
       RSQLite
       palmerpenguins
@@ -31,6 +32,7 @@
       lintr
       languageserver
       here
+      hrbrthemes
       targets
       tarchetypes
       rmarkdown
@@ -65,7 +67,7 @@
         buildInputs = with pkgs; [
           pandoc
           glibcLocales
-          emacs
+          dbt
           nix
           gnumake
           libgcc
