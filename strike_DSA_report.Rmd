@@ -24,7 +24,12 @@ db = dbConnect(driver, dbname = sql_location)
 ```
 ### Introductions
 
+##### data was updated on **Monday, 7th July 2025**
+
+
 This report details the strike activity that has taken place in Maryland,and the number of the strikes and the labor unions involved. Thanks to Cornell university and the research team providing the data.
+
+The chart below indicates the number of Labor Strikes that have occurred in region over the past year, it does this by counting the number of strikes associated with a given region. Data is updated on a month to month basis, the current month will not be represented within the data. 
 
 ```{r setup,  echo = FALSE, message = FALSE, warning = FALSE }
 library(ragg)
@@ -86,12 +91,10 @@ data |>
 ```
 
 
-The above charts indicates the number of Labor Strikes that have occurred in Maryland over the past year, it does this by counting the number of strikes associated with a given region. Data is updated on a month to month basis, the current month will not be represented within the data. 
-
 \pagebreak
 #### Strikes from formalized labor unions 
 
-Below is a list of labor organization who have gone on strike within the state, along with their reasons for striking. Please note that there are additional records in the charts not included here, which could be strikes conducted without a formalized labor organization.
+Below is a list of labor organization who have gone on strike within the state, along with their reasons for striking. Please note that there are additional records in the charts not included here, which could be strikes conducted without a formalized labor organization. Data is updated on a month to month basis, the current month will not be represented within the data.
 
 
 
@@ -147,6 +150,7 @@ strike_month("Maryland",2025)
 
 ```
 
+##### Citation 
 Kallas, J., Iyer, D. K., & Friedman, E. (2025).
 "Labor Action Tracker" Cornell University ILR School & University of Illinois LER School.
   Addison Wesley, Massachusetts,
