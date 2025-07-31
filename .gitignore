@@ -55,3 +55,7 @@ rsconnect/
 *.html
 
 data/
+
+
+#_targets.R#
+result
