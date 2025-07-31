@@ -16,6 +16,7 @@
       repurrrsive
       esquisse
       DT
+      ragg
       DBI
       gridExtra
       plotly
