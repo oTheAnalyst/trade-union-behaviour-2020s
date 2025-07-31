@@ -3,18 +3,32 @@ title: "Maryland Labour Stike Analysis"
 author: "Michael V Cumbo"
 date: "`r Sys.Date()`"
 output:
-  word_document: default
-  pdf_document: default
   html_document:
     df_print: paged
+  word_document: null
+  pdf_document:
+    latex_engine: xelatex
 ---
+
+```{r connector, include=FALSE}
+
+library(DBI)
+library(RSQLite)
+
+  sql_location <- "~/trade_union-strikes.db"
+  driver <- RSQLite::dbDriver("SQLite")
+  conn <- RSQLite::dbConnect(driver, sql_location)
+db = dbConnect(driver, dbname = sql_location)
+
+
+```
 ### Introductions
 
-This report details the strike activity that has taken place in Maryland the last 5 years, the number of the strikes and the labor unions involved. Thanks to Cornell university and the research team providing the data.
+This report details the strike activity that has taken place in Maryland,and the number of the strikes and the labor unions involved. Thanks to Cornell university and the research team providing the data.
 
 ```{r setup,  echo = FALSE, message = FALSE, warning = FALSE }
+library(ragg)
 library(extrafont)
-library(Cairo)
 ##install.packages("hrbrthemes")
 ##library(hrbrthemes)
 
@@ -66,32 +80,34 @@ data |>
     geom_line( color="grey") +
     geom_point(shape=21, color="black", fill="#69b3a2", size=3) +
     ggplot2::ylim(-2, 30)+
-    hrbrthemes::theme_ipsum() +
+   # hrbrthemes::theme_ipsum() +
     ggtitle("Strikes in Maryland")
 
 ```
 
 
-The above charts indicates the number of Labor Strikes that have occurred in Maryland over the pass year, it does this by counting the number of strikes assocated with a given region in this case Maryland. 
+The above charts indicates the number of Labor Strikes that have occurred in Maryland over the past year, it does this by counting the number of strikes associated with a given region. Data is updated on a month to month basis, the current month will not be represented within the data. 
 
 \pagebreak
-Below is a list of labor organization who have gone on strike within the state.
-```{r Who is Going on Strike?, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
-data <- execute_sql("
-            SELECT 
-            `Labor Organization`
-            FROM 'Labor-prod' WHERE State LIKE '%Maryland%' 
-            GROUP BY `Labor Organization`
-            ORDER BY Year
-            ")
-data |> 
-  tibble::as_tibble() |> 
-  print.data.frame()
+#### Strikes from formalized labor unions 
 
+Below is a list of labor organization who have gone on strike within the state, along with their reasons for striking. Please note that there are additional records in the charts not included here, which could be strikes conducted without a formalized labor organization.
+
+
+
+```{sql, connection=db, max.print = 50, echo = FALSE}
+SELECT 
+"Labor Organization",
+"Worker Demands",
+ Year
+FROM 'Labor-prod'
+WHERE State LIKE "%Maryland%" AND "Labor Organization" IS NOT NULL AND NOT "NA"
+GROUP BY `Labor Organization`
+ORDER BY Year DESC
 
 ```
 
-## Here are the year to year strike numbers
+### Charts of Number of Strikes per each year
 
 ```{r What does the data Look like nationally, echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
 strike_month <- function(state, year){
@@ -117,7 +133,7 @@ chart <- data |>
 ##    ggplot2::xlim(1, 12)+
     scale_x_continuous(limits=c(1,12), breaks=seq(1,12,1))+
     scale_y_continuous(limits=c(0,10), breaks=seq(1,10,1))+
-    hrbrthemes::theme_ipsum() +
+#    hrbrthemes::theme_ipsum() +
     ggtitle(paste0("Strikes in ",state," ",year,""))
 return(chart)
 }
@@ -131,4 +147,8 @@ strike_month("Maryland",2025)
 
 ```
 
-
+Kallas, J., Iyer, D. K., & Friedman, E. (2025).
+"Labor Action Tracker" Cornell University ILR School & University of Illinois LER School.
+  Addison Wesley, Massachusetts,
+  2nd Edition,
+  1994.
