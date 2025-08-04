@@ -10,8 +10,8 @@ load_and_transform_data <- function(index) {
   read_and_transform <- function(file_path) {
     # Read Excel file and convert to tibble
     excel_tibble <- readxl::read_excel(file_path)
-    excel_tibble$Timestamp <- as.POSIXct(excel_tibble$Timestamp,
-      format = "%m/%d/%Y %H:%M:%S", tz = "UTC"
+    excel_tibble$Timestamp <- as.POSIXct(excel_tibble$'Start Date',
+      format = "%m/%d/%Y", tz = "UTC"
     )
     excel_tibble$Year <- lubridate::year(excel_tibble$Timestamp)
     excel_tibble$Month <- lubridate::month(excel_tibble$Timestamp)
@@ -40,14 +40,13 @@ load_and_transform_data <- function(index) {
   message("Transformed data saved successfully")
 }
 
-    
 super_function <- function() {
 
   write_to_sql <- function(data, name) {
     driver <- RSQLite::dbDriver("SQLite")
     sql_location <- "~/trade_union-strikes.db"
     conn <- RSQLite::dbConnect(driver, sql_location)
-    RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
+    RSQLite::dbWriteTable(conn, name, data, append = TRUE)
     RSQLite::dbDisconnect(conn)
   }
 
@@ -76,7 +75,7 @@ write_to_sql <- function(data, name) {
   driver <- RSQLite::dbDriver("SQLite")
   sql_location <- "~/trade_union-strikes.db"
   conn <- RSQLite::dbConnect(driver, sql_location)
-  RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
+  RSQLite::dbWriteTable(conn, name, data, append = TRUE)
   RSQLite::dbDisconnect(conn)
 }
 
@@ -162,7 +161,7 @@ write_data_to_excel <- function(data_list, output_path) {
     openxlsx::addWorksheet(wb, name)
     openxlsx::writeData(wb, name, data)
   })
-  openxlsx::saveWorkbook(wb, output_path, overwrite = TRUE)
+  openxlsx::saveWorkbook(wb, output_path, append = TRUE)
   return(output_path)
 }
 
