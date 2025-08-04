@@ -23,9 +23,9 @@ list(
   ),
   tar_target(
     writes_to_sql,
-    super_function(),
+    write_to_sql(data = transformed_, name = "Labor-prod"),
     format = "rds"
   ),
   tar_render(strike_DSA_report, here::here("strike_DSA_report.Rmd"))
-  )
+   )
 
