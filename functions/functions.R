@@ -10,11 +10,11 @@ load_and_transform_data <- function(index) {
   read_and_transform <- function(file_path) {
     # Read Excel file and convert to tibble
     excel_tibble <- readxl::read_excel(file_path)
-    excel_tibble$'Start Date' <- as.POSIXct(excel_tibble$'Start Date',
+    excel_tibble$Timestamp <- as.POSIXct(excel_tibble$'Start Date',
       format = "%m/%d/%Y", tz = "UTC"
     )
-    excel_tibble$Year <- lubridate::year(excel_tibble$'Start Date')
-    excel_tibble$Month <- lubridate::month(excel_tibble$'Start Date')
+    excel_tibble$Year <- lubridate::year(excel_tibble$Timestamp)
+    excel_tibble$Month <- lubridate::month(excel_tibble$Timestamp)
     return(excel_tibble)
     # Mutate columns as needed
     transformed_data <- excel_tibble |>
@@ -24,8 +24,8 @@ load_and_transform_data <- function(index) {
           readr::parse_number(as.character('Bargaining Unit Size')),
         ApproximateNumberofParticipants =
           readr::parse_number(as.character('Approximate Number of Participants')),
-        Date = format('Start Date', "%m-%d-%Y"),
-        month = format('Start Date', "%B"),
+        Date = format(Timestamp, "%m-%d-%Y"),
+        month = format(Timestamp, "%B"),
         DurationAmount = as.integer('Duration Amount')
       )
     return(transformed_data)
@@ -39,7 +39,7 @@ load_and_transform_data <- function(index) {
   # Return a message indicating successful saving
   message("Transformed data saved successfully")
 }
-    
+
 super_function <- function() {
 
   write_to_sql <- function(data, name) {
