@@ -46,7 +46,7 @@ super_function <- function() {
     driver <- RSQLite::dbDriver("SQLite")
     sql_location <- "~/trade_union-strikes.db"
     conn <- RSQLite::dbConnect(driver, sql_location)
-    RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
+    RSQLite::dbWriteTable(conn, name, data, append = TRUE)
     RSQLite::dbDisconnect(conn)
   }
 
@@ -75,7 +75,7 @@ write_to_sql <- function(data, name) {
   driver <- RSQLite::dbDriver("SQLite")
   sql_location <- "~/trade_union-strikes.db"
   conn <- RSQLite::dbConnect(driver, sql_location)
-  RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
+  RSQLite::dbWriteTable(conn, name, data, append = TRUE)
   RSQLite::dbDisconnect(conn)
 }
 
@@ -161,7 +161,7 @@ write_data_to_excel <- function(data_list, output_path) {
     openxlsx::addWorksheet(wb, name)
     openxlsx::writeData(wb, name, data)
   })
-  openxlsx::saveWorkbook(wb, output_path, overwrite = TRUE)
+  openxlsx::saveWorkbook(wb, output_path, append = TRUE)
   return(output_path)
 }
 
