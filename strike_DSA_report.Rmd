@@ -3,11 +3,9 @@ title: "Maryland Labour Stike Analysis"
 author: "Michael V Cumbo"
 date: "`r Sys.Date()`"
 output:
+  word_document: 
   html_document:
     df_print: paged
-  word_document: null
-  pdf_document:
-    latex_engine: xelatex
 ---
 
 ```{r connector, include=FALSE}
@@ -24,7 +22,7 @@ db = dbConnect(driver, dbname = sql_location)
 ```
 ### Introductions
 
-##### data was updated on **Monday, 7th July 2025**
+##### data updated on **Monday, 7th July 2025**
 
 
 This report details the strike activity that has taken place in Maryland,and the number of the strikes and the labor unions involved. Thanks to Cornell university and the research team providing the data.
@@ -145,9 +143,10 @@ return(chart)
 strike_month("Maryland",2021)
 strike_month("Maryland",2022)
 strike_month("Maryland",2023)
+```
+```{r data output, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 strike_month("Maryland",2024)
 strike_month("Maryland",2025)
-
 ```
 
 ##### Citation 
