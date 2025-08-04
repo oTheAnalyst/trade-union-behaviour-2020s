@@ -76,11 +76,11 @@
           gccgo
           neovim
           sqlite
-          (python313.withPackages (ps: with ps;
-          [
-          numpy
-          pandas
-          ]
+          (python313.withPackages (
+            ps: with ps; [
+              numpy
+              pandas
+            ]
           ))
           (rWrapper.override {packages = rPackages;})
           (rstudioWrapper.override {packages = rPackages;})
