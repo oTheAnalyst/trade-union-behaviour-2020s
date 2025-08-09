@@ -75,7 +75,7 @@ write_to_sql <- function(data, name) {
   driver <- RSQLite::dbDriver("SQLite")
   sql_location <- "~/trade_union-strikes.db"
   conn <- RSQLite::dbConnect(driver, sql_location)
-  RSQLite::dbWriteTable(conn, name, data, append = TRUE)
+  RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
   RSQLite::dbDisconnect(conn)
 }
 
