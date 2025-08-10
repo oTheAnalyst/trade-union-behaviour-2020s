@@ -26,10 +26,10 @@ load_list <- function(input) {
  files <- file_paths |> 
   purrr::map(readxl::read_xlsx) 
  # set the name as a list
-# names <-  basename(file_paths )
-# names <- gsub(".xlsx", "", names)
-#  files <- files |> 
-#   purrr::set_names(names) 
+ names <-  basename(file_paths )
+ names <- gsub(".xlsx", "", names)
+  files <- files |> 
+   purrr::set_names(names) 
  return(files)
 }
 
@@ -37,44 +37,43 @@ transform_data <- function(input) {
   # Read Excel file and convert to tibble
   excel_tibble <- input
   
-  excel_tibble$s_action <- as.POSIXct(
+  excel_tibble$'Start Date' <- as.POSIXct(
         excel_tibble$'Start Date',
         format = "%m/%d/%Y", tz = "UTC"
         )
-  excel_tibble$Year <- lubridate::year(excel_tibble$s_action)
-  excel_tibble$Month <- lubridate::month(excel_tibble$s_action)
-  tx_data <- excel_tibble
-  # Mutate columns as needed
-#  tx_data <- excel_tibble |>
-#    dplyr::mutate(
-#      ZipCode = as.character('Zip Code'),
-#      BargainingUnitSize =
-#        readr::parse_number(as.character('Bargaining Unit Size')),
-#      ApproximateNumberofParticipants =
-#        readr::parse_number(as.character('Approximate Number of Participants')),
-#      Date = format(s_action, "%m-%d-%Y"),
-#      month = format(s_action, "%B"),
-#      DurationAmount = as.integer('Duration Amount')
-#    )
-# 
-  tx_data <- tx_data |>
-    janitor::clean_names(case = "snake")
+  excel_tibble$Year <- lubridate::year(excel_tibble$'Start Date')
+  excel_tibble$Month <- lubridate::month(excel_tibble$'Start Date')
   
+  tx_data <- excel_tibble |>
+    janitor::clean_names(case = "lower_camel")
+  
+  # Mutate columns as needed
+  tx_data <- tx_data |>
+    dplyr::mutate(
+      id = as.integer(id),
+      durationAmount = as.integer(durationAmount),
+      approximateNumberOfParticipants = as.integer(approximateNumberOfParticipants),
+      durationAmount = as.integer(durationAmount),
+      numberOfLocations = as.integer(numberOfLocations),
+      year = as.integer(year),
+      month = as.integer(month)
+    )
+ 
   return(tx_data)
 }
 
+
+### this is the full and proper function for the formatting the table
 load_transform_data <- function(input) {
   #input list
   input_list <- load_list(input)
   #this transforms the the data
   tx_list <- purrr::map(input_list, transform_data)
-  
   return(tx_list)
   # Return a message indicating successful saving
   message("Transformed data saved successfully")
 }
 
-load_transform_data(here::here("data"))
 
 
 write_to_sql <- function(data, name) {
@@ -84,5 +83,4 @@ write_to_sql <- function(data, name) {
   RSQLite::dbWriteTable(conn, name, data, overwrite = TRUE)
   RSQLite::dbDisconnect(conn)
 }
-
 
