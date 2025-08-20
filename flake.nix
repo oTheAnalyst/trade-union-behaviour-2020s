@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/24.11";
   };
   outputs = {
     self,
@@ -61,35 +61,35 @@
       })
     ];
   in {
-    devShells.${system}.default =
-      pkgs.mkShell {
-        LANG = "en_US.UTF-8";
-        LC_ALL = "en_US.UTF-8";
+    devShells.${system}.default = pkgs.mkShell {
+      LANG = "en_US.UTF-8";
+      LC_ALL = "en_US.UTF-8";
 
-        buildInputs = with pkgs; [
-          pandoc
-          glibcLocales
-          dbt
-          nix
-          gnumake
-          libgcc
-          gccgo
-          neovim
-          sqlite
-          (python313.withPackages (
-            ps: with ps; [
+      buildInputs = with pkgs; [
+        pandoc
+        glibcLocales
+        dbt
+        nix
+        gnumake
+        libgcc
+        gccgo
+        neovim
+        sqlite
+        (python313.withPackages (
+          ps:
+            with ps; [
               numpy
               pandas
             ]
-          ))
-          (rWrapper.override {packages = rPackages;})
-          (rstudioWrapper.override {packages = rPackages;})
-        ];
+        ))
+        (rWrapper.override {packages = rPackages;})
+        (rstudioWrapper.override {packages = rPackages;})
+      ];
 
-        shellHook = "
-  Rscript -e 'targets::tar_make()'
-        echo 'Welcome to the trade union analysis shell the data for your models\n has already been build. Please update your data via the inputs\n folder, all your data will be generated in outputs and summarized\n in the paper. When you add more data or make changes\n rebuildthe data by:\n running _targets.R\n then inputting tar_make() in the console'
-      ";
-      };
+      #        shellHook = "
+      #  Rscript -e 'targets::tar_make()'
+      #        echo 'Welcome to the trade union analysis shell the data for your models\n has already been build. Please update your data via the inputs\n folder, all your data will be generated in outputs and summarized\n in the paper. When you add more data or make changes\n rebuildthe data by:\n running _targets.R\n then inputting tar_make() in the console'
+      #      ";
+    };
   };
 }
