@@ -11,7 +11,6 @@ output:
 ```{r connector, include=FALSE}
 
 library(DBI)
-library(reticulate)
 library(RSQLite)
 
   sql_location <- "~/trade_union-strikes.db"
@@ -145,14 +144,10 @@ strike_month("Maryland",2021)
 strike_month("Maryland",2022)
 strike_month("Maryland",2023)
 ```
-
-
-
 ```{r data output, echo=FALSE, message=FALSE, warning=FALSE, paged.print=TRUE}
 strike_month("Maryland",2024)
 strike_month("Maryland",2025)
 ```
-
 
 ##### Citation 
 Kallas, J., Iyer, D. K., & Friedman, E. (2025).
