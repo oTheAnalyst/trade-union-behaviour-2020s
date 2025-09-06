@@ -14,6 +14,14 @@
 #   Test Package:              'Ctrl + Shift + T'
 #
 
+#' Title
+#'
+#' @param input 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 load_list <- function(input) {
  #load in the data paths  
   file_paths <- list.files(
@@ -33,6 +41,14 @@ load_list <- function(input) {
  return(files)
 }
 
+#' Title
+#'
+#' @param input 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 transform_data <- function(input) {
   # Read Excel file and convert to tibble
   excel_tibble <- input
@@ -64,6 +80,14 @@ transform_data <- function(input) {
 
 
 ### this is the full and proper function for the formatting the table
+#' Title
+#'
+#' @param input 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 load_transform_data <- function(input) {
   #input list
   input_list <- load_list(input)
@@ -76,6 +100,15 @@ load_transform_data <- function(input) {
 
 
 
+#' Title
+#'
+#' @param data 
+#' @param name 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 write_to_sql <- function(data, name) {
   driver <- RSQLite::dbDriver("SQLite")
   sql_location <- "~/trade_union-strikes.db"
