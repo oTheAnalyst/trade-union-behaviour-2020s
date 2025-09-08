@@ -41,6 +41,16 @@ load_list <- function(input) {
  return(files)
 }
 
+
+knit2docs::knit2docs(
+  rmd_file = system.file("test2.Rmd", package = "dsa"),
+  doc_name = "dsa_report",
+  overwrite = TRUE
+)
+system.file("paper/strike_DSA_report.Rmd", package = "dsa")
+system.file(package = "dsa")
+
+
 #' Title
 #'
 #' @param input 
