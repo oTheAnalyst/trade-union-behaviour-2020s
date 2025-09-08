@@ -17,6 +17,7 @@
       reticulate
       esquisse
       DT
+      janitor
       ragg
       DBI
       gridExtra
