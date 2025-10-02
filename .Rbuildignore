@@ -1,2 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^flake\.lock$
+^flake\.nix$
+^paper$
+^data$
+^LICENSE\.md$
