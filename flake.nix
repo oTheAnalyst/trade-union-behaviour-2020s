@@ -17,6 +17,7 @@
       reticulate
       esquisse
       DT
+      duckdb
       ragg
       DBI
       gridExtra
