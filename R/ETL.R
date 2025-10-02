@@ -60,17 +60,17 @@ transform_data <- function(input) {
   tx_data <- excel_tibble |>
     janitor::clean_names(case = "lower_camel")
   
-  # Mutate columns as needed
- # tx_data <- tx_data |>
- #   dplyr::mutate(
- #     id = as.integer(id),
- #     durationAmount = as.integer(durationAmount),
- #     approximateNumberOfParticipants = as.integer(approximateNumberOfParticipants),
- #     durationAmount = as.integer(durationAmount),
- #     numberOfLocations = as.integer(numberOfLocations),
- #     year = as.integer(year),
- #     month = as.integer(month)
- #   )
+ # Mutate columns as needed
+  tx_data <- tx_data |>
+    dplyr::mutate(
+      id = as.integer(id),
+      durationAmount = as.integer(durationAmount),
+      approximateNumberOfParticipants = as.integer(approximateNumberOfParticipants),
+      durationAmount = as.integer(durationAmount),
+      numberOfLocations = as.integer(numberOfLocations),
+      year = as.integer(year),
+      month = as.integer(month)
+    )
  #
   return(tx_data)
 }
@@ -100,11 +100,11 @@ load_transform_data <- function(input) {
 #' @return writes data to sql
 #' @export
 write_to_sql <- function(data, name) {
-  driver <- duckdb::dbDriver("SQLite")
   sql_location <- "~/production.duckdb"
-  conn <- duckdb::dbConnect(duckdb::duckdb(), sql_location, read_only = false)
+  conn <- duckdb::dbConnect(duckdb::duckdb(), dbdir = sql_location)
   duckdb::dbWriteTable(conn, name, data, overwrite = TRUE)
   duckdb::dbDisconnect(conn)
+  return("written to a db")
 }
 
 
