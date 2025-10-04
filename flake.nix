@@ -41,25 +41,8 @@
       rmarkdown
       openxlsx
       readxl
-      shinydashboard
-      htmltools
-      bslib
       packrat
       rsconnect
-      shiny
-      (pkgs.rPackages.buildRPackage {
-        name = "htmltools";
-        src = pkgs.fetchzip {
-          url = "https://cran.r-project.org/src/contrib/Archive/htmltools/htmltools_0.5.8.tar.gz";
-          sha256 = "sha256-a7ORSO6bXB2M+lPbn5w460VSY7wCXHTz1KDW+OBqlWQ=";
-        };
-        propagatedBuildInputs = with pkgs.rPackages; [
-          base64enc
-          digest
-          fastmap
-          rlang
-        ];
-      })
     ];
   in {
     devShells.${system}.default = pkgs.mkShell {
@@ -74,8 +57,7 @@
         gnumake
         libgcc
         gccgo
-        neovim
-        sqlite
+        duckdb
         (python313.withPackages (
           ps:
             with ps; [
