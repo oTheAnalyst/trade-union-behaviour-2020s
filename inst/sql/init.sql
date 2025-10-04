@@ -1,38 +1,9 @@
-SELECT id, 
-employer, 
-laborOrganization, 
-"local", 
-industry, 
-bargainingUnitSize, 
-numberOfLocations, address, 
-city, 
-state, 
-zipCode, 
-latitudeLongitude, 
-approximateNumberOfParticipants, 
-startDate, 
-endDate, durationAmount, 
-durationUnit, 
-strikeOrProtest, 
-authorized, 
-workerDemands, 
-"source", 
-notes, 
-"year", 
-"month"
-FROM production.main.labor_stagging_table;
-
-
-
-
 -- production.main.labor_stagging_table definition
-
-CREATE 
-TABLE labor_stagging_table(
+CREATE TABLE labor_stagging_table(
 id INTEGER,
 employer VARCHAR,
 laborOrganization VARCHAR,
-"local" VARCHAR,
+"local" VARCHAR ,
 industry VARCHAR,
 bargainingUnitSize DOUBLE,
 numberOfLocations INTEGER,
@@ -55,20 +26,87 @@ notes VARCHAR,
 "month" INTEGER
 );
 
-CREATE 
-TABLE date_location(
-startDate timestamp,
-endDate	timestamp,
-id	integer,
+drop table date_location
+CREATE TABLE date_location(
+startDate TIMESTAMP,
+endDate	TIMESTAMP,
+id INTEGER PRIMARY KEY,
 latitudeLongitude VARCHAR
-)
+);
+
+CREATE TABLE trade_union(
+id integer,
+laborOrganization varchar,
+bargainingUnitSize integer,
+workerDemands varchar
+);
+
+CREATE TABLE strike(
+approximateNumberOfParticipants INTEGER,
+durationUnit varchar,
+durationAmount INTEGER,
+strikeOrProtest VARCHAR,
+authorized VARCHAR,
+numberOfLocations INTEGER,
+source VARCHAR,
+notes VARCHAR,
+id INTEGER
+);
+
+CREATE TABLE employer(
+id INTEGER,
+local VARCHAR,
+industry VARCHAR,
+employer VARCHAR,
+address VARCHAR,
+city VARCHAR,
+zipCode VARCHAR,
+);
+
+-- insert statement
+insert into production.main.employer
+select
+id,
+local,
+industry,
+employer,
+address,
+city,
+zipcode
+from labor_stagging_table 
 
 
-INSERT INTO production.main.date_location
-SELECT
+insert into production.main.date_location 
+select 
 startDate,
 endDate,
 id,
-latitudeLongitude
-FROM production.main.labor_stagging_table
-where id is not NULL;
+latitudeLongitude 
+from labor_stagging_table;
+
+insert into production.main.trade_union 
+select 
+id,
+laborOrganization,
+bargainingUnitSize,
+latitudeLongitude,
+from labor_stagging_table;
+
+insert into production.main.strike  
+select 
+approximateNumberOfParticipants,
+durationUnit,
+durationAmount,
+strikeOrProtest,
+authorized,
+numberOfLocations,
+source,
+notes,
+id
+from labor_stagging_table 
+
+
+
+
+
+
