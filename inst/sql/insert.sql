@@ -1,10 +1,9 @@
 
-INSERT INTO production.main.date_location 
+INSERT INTO production.main.date_key 
 select
 startDate,
 endDate,
-id,
-latitudeLongitude 
+id
 from labor_stagging_table;
 
 
