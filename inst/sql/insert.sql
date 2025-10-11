@@ -4,9 +4,7 @@ select
 startDate,
 endDate,
 id
-from labor_stagging_table;
-
-
+from production.dataImports.stg_lat;
 
 
 INSERT INTO production.main.trade_union 
@@ -15,9 +13,7 @@ id,
 STRING_SPLIT(laborOrganization,';').UNNEST() as t2,
 bargainingUnitSize,
 STRING_SPLIT(workerDemands,';').UNNEST() as t1
-from labor_stagging_table;
-
-
+from production.dataImports.stg_lat;
 
 
 INSERT INTO production.main.strike  
@@ -31,8 +27,7 @@ numberOfLocations,
 STRING_SPLIT(source,';').UNNEST() as s,
 notes,
 id
-from labor_stagging_table;
-
+from production.dataImports.stg_lat;
 
 
 INSERT INTO production.main.employer
@@ -41,7 +36,20 @@ id,
 STRING_SPLIT(local, ';').UNNEST() as local,
 industry,
 STRING_SPLIT(employer, ';').UNNEST() Employer,
+from production.dataImports.stg_lat;
+
+INSERT INTO production.main.lat_lon 
+select 
+id,
+STRING_SPLIT(latitudeLongitude, ';').UNNEST() latitudeLongitude
+from production.dataImports.stg_lat;
+
+
+INSERT INTO production.main.location 
+select 
+id,
+STRING_SPLIT(state, ';').UNNEST() State,
 STRING_SPLIT(address, ';').UNNEST() Address,
 STRING_SPLIT(city, ';').UNNEST() City,
 STRING_SPLIT(zipCode, ';').UNNEST() zipcode
-from labor_stagging_table;
+from production.dataImports.stg_lat;

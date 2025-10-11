@@ -1,7 +1,7 @@
--- production.main.labor_stagging_table definition
---DROP TABLE labor_stagging_table
-CREATE TABLE labor_stagging_table(
-id INTEGER,
+
+--drop table production.dataImports.stg_lat ;
+CREATE TABLE production.dataImports.stg_lat(
+id INTEGER,   
 employer VARCHAR,
 laborOrganization VARCHAR,
 "local" VARCHAR ,
@@ -26,6 +26,7 @@ notes VARCHAR,
 "year" INTEGER,
 "month" INTEGER
 );
+
 
 --DROP TABLE date_key;
 CREATE TABLE date_key(
@@ -72,6 +73,13 @@ id INTEGER,
 local VARCHAR,
 industry VARCHAR,
 employer VARCHAR,
+FOREIGN KEY (id) REFERENCES date_key (id)
+);
+
+
+CREATE TABLE location(
+id INTEGER,
+state VARCHAR,
 address VARCHAR,
 city VARCHAR,
 zipCode VARCHAR,
