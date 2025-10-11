@@ -53,3 +53,7 @@ STRING_SPLIT(address, ';').UNNEST() Address,
 STRING_SPLIT(city, ';').UNNEST() City,
 STRING_SPLIT(zipCode, ';').UNNEST() zipcode
 from production.dataImports.stg_lat;
+
+INSERT production.dataImports.stg_lat_imports 
+select * from 
+production.dataImports.stg_lat  

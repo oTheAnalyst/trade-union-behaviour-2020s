@@ -28,6 +28,36 @@ notes VARCHAR,
 );
 
 
+CREATE TABLE production.dataImports.stg_lat_imports(
+import_id INTEGER PRIMARY KEY DEFAULT nextval('serial'),
+id INTEGER,   
+employer VARCHAR,
+laborOrganization VARCHAR,
+"local" VARCHAR ,
+industry VARCHAR,
+bargainingUnitSize DOUBLE,
+numberOfLocations INTEGER,
+address VARCHAR,
+city VARCHAR,
+state VARCHAR,
+zipCode VARCHAR,
+latitudeLongitude VARCHAR,
+approximateNumberOfParticipants INTEGER,
+startDate TIMESTAMP,
+endDate TIMESTAMP,
+durationAmount INTEGER,
+durationUnit VARCHAR,
+strikeOrProtest VARCHAR,
+authorized VARCHAR,
+workerDemands VARCHAR,
+"source" VARCHAR,
+notes VARCHAR,
+"year" INTEGER,
+"month" INTEGER
+);
+
+
+
 --DROP TABLE date_key;
 CREATE TABLE date_key(
 startDate TIMESTAMP,
@@ -85,4 +115,31 @@ city VARCHAR,
 zipCode VARCHAR,
 FOREIGN KEY (id) REFERENCES date_key (id)
 );
+
+CREATE SEQUENCE serial START 101 INCREMENT BY 3; 
+
+-- import table
+-- psuedo sql, not tested :)
+create table production.dataImports.stg_imports (
+   import_id INTEGER PRIMARY KEY DEFAULT nextval('serial'),
+   import_dt TIMESTAMP,
+   source_name VARCHAR,
+   original_file_path VARCHAR,
+   bucket_uri VARCHAR,
+   md5_checksum VARCHAR
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
