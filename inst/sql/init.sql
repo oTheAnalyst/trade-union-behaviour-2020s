@@ -27,13 +27,19 @@ notes VARCHAR,
 "month" INTEGER
 );
 
---DROP TABLE date_location;
-CREATE TABLE date_location(
+--DROP TABLE date_key;
+CREATE TABLE date_key(
 startDate TIMESTAMP,
 endDate	TIMESTAMP,
 id INTEGER PRIMARY KEY,
-latitudeLongitude VARCHAR
 );
+
+--DROP TABLE lat_lon
+CREATE TABLE lat_lon(
+id INTEGER,
+latitudeLongitude VARCHAR,
+FOREIGN KEY (id) REFERENCES date_key (id)
+)
 
 
 --DROP TABLE trade_union;
@@ -42,7 +48,7 @@ id INTEGER,
 laborOrganization varchar,
 bargainingUnitSize integer,
 workerDemands varchar,
-FOREIGN KEY (id) REFERENCES date_location (id)
+FOREIGN KEY (id) REFERENCES date_key (id)
 );
 
 --DROP TABLE strike;
@@ -56,7 +62,7 @@ numberOfLocations INTEGER,
 source VARCHAR,
 notes VARCHAR,
 id INTEGER,
-FOREIGN KEY (id) REFERENCES date_location (id)
+FOREIGN KEY (id) REFERENCES date_key (id)
 );
 
 
@@ -69,6 +75,6 @@ employer VARCHAR,
 address VARCHAR,
 city VARCHAR,
 zipCode VARCHAR,
-FOREIGN KEY (id) REFERENCES date_location (id)
+FOREIGN KEY (id) REFERENCES date_key (id)
 );
 
