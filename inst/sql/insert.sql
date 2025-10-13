@@ -1,4 +1,17 @@
 
+-- DELETE FROM  production.dataImports.stg_imports 
+-- INSERT INTO production.dataImports.stg_imports 
+-- SELECT 
+-- nextval('serial'),
+-- sli.import_id,
+-- 'email',
+-- '/home/pretender/R/x86_64-pc-linux-gnu-library/4.4/dsa/extdata',
+-- 'NA',
+-- 'NA'
+-- FROM production.dataImports.stg_lat_imports sli 
+-- GROUP BY sli.import_id;
+-- select * from production.dataImports.stg_imports
+
 INSERT INTO production.main.date_key 
 select
 startDate,
