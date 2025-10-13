@@ -104,6 +104,7 @@ write_to_sql <- function(data, name) {
   sql_location <- "~/production.duckdb"
   conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbWriteTable(conn, name2, data, append = TRUE)
+  DBI::dbDisconnect(conn)
   return("written to a db")
 }
 
