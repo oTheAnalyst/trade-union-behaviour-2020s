@@ -57,3 +57,12 @@ from production.dataImports.stg_lat;
 INSERT production.dataImports.stg_lat_imports 
 select * from 
 production.dataImports.stg_lat  
+
+
+
+INSERT production.dataImports.stg_lat_imports 
+select * from 
+production.main.stg_lat_imports;
+
+
+
