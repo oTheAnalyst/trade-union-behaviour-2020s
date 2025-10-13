@@ -100,10 +100,10 @@ load_transform_data <- function(input) {
 #' @return writes data to sql
 #' @export
 write_to_sql <- function(data, name) {
+  name2 <- DBI::SQL(name)
   sql_location <- "~/production.duckdb"
-  conn <- duckdb::dbConnect(duckdb::duckdb(), dbdir = sql_location)
-  duckdb::dbWriteTable(conn, name, data, overwrite = TRUE)
-  duckdb::dbDisconnect(conn)
+  conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
+  DBI::dbWriteTable(conn, name2, data, append = TRUE)
   return("written to a db")
 }
 

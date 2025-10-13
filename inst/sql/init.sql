@@ -30,7 +30,7 @@ notes VARCHAR,
 
 --DROP TABLE  production.dataImports.stg_lat_imports
 CREATE TABLE production.dataImports.stg_lat_imports(
-import_id INTEGER NOT NULL DEFAULT nextval('serial'),
+import_id TIMESTAMP NOT NULL DEFAULT current_timestamp , 
 id INTEGER,   
 employer VARCHAR,
 laborOrganization VARCHAR,
