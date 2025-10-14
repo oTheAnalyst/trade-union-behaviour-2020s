@@ -2,5 +2,6 @@
 
 export(load_list)
 export(load_transform_data)
+export(main_write)
 export(transform_data)
 export(write_to_sql)
