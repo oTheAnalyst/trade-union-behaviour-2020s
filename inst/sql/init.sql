@@ -1,11 +1,64 @@
+DROP SCHEMA dataImports
+
 CREATE SEQUENCE serial START 101 INCREMENT BY 3; 
 CREATE SCHEMA dataImports
---DROP TABLE production.dataImports.stg_lat ;
-CREATE TABLE production.dataImports.stg_lat(
+
+
+-- import table
+-- psuedo sql, not tested :)
+-- DROP TABLE production.dataImports.stg_imports
+CREATE TABLE production.dataImports.stg_imports (
+   import_id BIGINT NOT NULL DEFAULT nextval('serial'),
+   import_dt TIMESTAMP PRIMARY KEY,
+   source_name VARCHAR,
+   original_file_path VARCHAR,
+   bucket_uri VARCHAR,
+   md5_checksum VARCHAR,
+);
+
+-- DROP TABLE date_key;
+CREATE TABLE date_key(
+startDate DATE,
+endDate	DATE,
+id INTEGER PRIMARY KEY,
+);
+
+
+-- DROP TABLE production.dataImports.stg_lat_imports
+CREATE TABLE production.dataImports.stg_lat_imports(
+import_dt TIMESTAMP NOT NULL DEFAULT current_timestamp, 
 id INTEGER,   
 employer VARCHAR,
 laborOrganization VARCHAR,
-"local" VARCHAR ,
+local VARCHAR ,
+industry VARCHAR,
+bargainingUnitSize DOUBLE,
+numberOfLocations INTEGER,
+address VARCHAR,
+city VARCHAR,
+state VARCHAR,
+zipCode VARCHAR,
+latitudeLongitude VARCHAR,
+approximateNumberOfParticipants INTEGER,
+startDate DATE,
+endDate DATE,
+durationAmount INTEGER,
+durationUnit VARCHAR,
+strikeOrProtest VARCHAR,
+authorized VARCHAR,
+workerDemands VARCHAR,
+source VARCHAR,
+notes VARCHAR
+);
+
+
+-- DROP TABLE production.dataImports.stg_lat ;
+CREATE TABLE production.dataImports.stg_lat(
+import_id BIGINT,
+id INTEGER PRIMARY KEY,   
+employer VARCHAR,
+laborOrganization VARCHAR,
+local VARCHAR ,
 industry VARCHAR,
 bargainingUnitSize DOUBLE,
 numberOfLocations INTEGER,
@@ -22,74 +75,8 @@ durationUnit VARCHAR,
 strikeOrProtest VARCHAR,
 authorized VARCHAR,
 workerDemands VARCHAR,
-"source" VARCHAR,
-notes VARCHAR,
-"year" INTEGER,
-"month" INTEGER
-);
-
---DROP TABLE  production.dataImports.stg_lat_imports
-CREATE TABLE production.dataImports.stg_lat_imports(
-import_id TIMESTAMP NOT NULL DEFAULT current_timestamp , 
-id INTEGER,   
-employer VARCHAR,
-laborOrganization VARCHAR,
-"local" VARCHAR ,
-industry VARCHAR,
-bargainingUnitSize DOUBLE,
-numberOfLocations INTEGER,
-address VARCHAR,
-city VARCHAR,
-state VARCHAR,
-zipCode VARCHAR,
-latitudeLongitude VARCHAR,
-approximateNumberOfParticipants INTEGER,
-startDate DATE,
-endDate DATE,
-durationAmount INTEGER,
-durationUnit VARCHAR,
-strikeOrProtest VARCHAR,
-authorized VARCHAR,
-workerDemands VARCHAR,
-"source" VARCHAR,
-notes VARCHAR,
-"year" INTEGER,
-"month" INTEGER
-);
-
-CREATE TABLE production.main.stg_lat_imports(
-import_id TIMESTAMP NOT NULL DEFAULT current_timestamp , 
-id INTEGER,   
-employer VARCHAR,
-laborOrganization VARCHAR,
-"local" VARCHAR ,
-industry VARCHAR,
-bargainingUnitSize DOUBLE,
-numberOfLocations INTEGER,
-address VARCHAR,
-city VARCHAR,
-state VARCHAR,
-zipCode VARCHAR,
-latitudeLongitude VARCHAR,
-approximateNumberOfParticipants INTEGER,
-startDate DATE,
-endDate DATE,
-durationAmount INTEGER,
-durationUnit VARCHAR,
-strikeOrProtest VARCHAR,
-authorized VARCHAR,
-workerDemands VARCHAR,
-"source" VARCHAR,
-notes VARCHAR,
-"year" INTEGER,
-"month" INTEGER
-);
-
---DROP TABLE date_key;
-CREATE TABLE date_key(
-startDate DATE,
-endDate	DATE,
-id INTEGER PRIMARY KEY,
+source VARCHAR,
+notes VARCHAR
 );
 
 --DROP TABLE lat_lon
@@ -139,17 +126,4 @@ address VARCHAR,
 city VARCHAR,
 zipCode VARCHAR,
 FOREIGN KEY (id) REFERENCES date_key (id)
-);
-
-
---import table
---psuedo sql, not tested :)
---DROP TABLE production.dataImports.stg_imports
-CREATE TABLE production.dataImports.stg_imports (
-   import_id INTEGER NOT NULL DEFAULT nextval('serial'),
-   import_dt TIMESTAMP,
-   source_name VARCHAR,
-   original_file_path VARCHAR,
-   bucket_uri VARCHAR,
-   md5_checksum VARCHAR
 );

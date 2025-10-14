@@ -54,8 +54,6 @@ transform_data <- function(input) {
         excel_tibble$'Start Date',
         format = "%m/%d/%Y", tz = "UTC"
         )
-  excel_tibble$Year <- lubridate::year(excel_tibble$'Start Date')
-  excel_tibble$Month <- lubridate::month(excel_tibble$'Start Date')
   
   tx_data <- excel_tibble |>
     janitor::clean_names(case = "lower_camel")
@@ -68,8 +66,6 @@ transform_data <- function(input) {
       approximateNumberOfParticipants = as.integer(approximateNumberOfParticipants),
       durationAmount = as.integer(durationAmount),
       numberOfLocations = as.integer(numberOfLocations),
-      year = as.integer(year),
-      month = as.integer(month)
     )
  #
   return(tx_data)
@@ -105,7 +101,20 @@ write_to_sql <- function(data, name) {
   conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbWriteTable(conn, name2, data, append = TRUE)
   DBI::dbDisconnect(conn)
-  return("written to a db")
+  return(paste0("written to table ", name2))
+}
+
+
+
+
+#' main_write
+#'
+#' @return for running package function to database
+#' @export
+main_write <- function(){
+ dt <- dsa::load_transform_data(system.file("extdata", package = "dsa")) 
+ dt1 <- dt$`Labor action tracker data 6.2.25`
+return(dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports"))
 }
 
 
