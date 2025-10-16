@@ -1,3 +1,8 @@
+INSTALL ducklake;
+ATTACH 'ducklake:metadata.ducklake' AS my_ducklake (DATA_PATH 'data_files');
+USE my_ducklake;
+FROM ducklake_snapshots('my_ducklake');
+
 DROP SCHEMA dataImports
 
 CREATE SEQUENCE serial START 101 INCREMENT BY 3; 
