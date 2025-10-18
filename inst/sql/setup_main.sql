@@ -1,7 +1,7 @@
 -- DROP TABLE date_key;
 CREATE TABLE date_key(
-startDate DATE,
-endDate	DATE,
+startDate DATE NOT NULL,
+endDate DATE,
 id INTEGER PRIMARY KEY,
 );
 
