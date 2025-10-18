@@ -117,7 +117,7 @@ main_write <- function(){
  dt <- dsa::load_transform_data(loc) 
  dt1 <- dt$Labor_prod
  
-return(dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports"))
+dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports")
 
 insert <- paste0("
  INSERT INTO production.dataImports.stg_imports 
@@ -136,9 +136,11 @@ select import_dt from dataImports.stg_imports
  GROUP BY sli.import_dt;
  ")
 
-  conn <<- DBI::dbConnect(duckdb::duckdb(), sql_location)
+  sql_location <- "~/production.duckdb"
+  conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbSendQuery(conn,insert)
   DBI::dbDisconnect(conn)
+  return("Wrote data to dataImports.stg_lat_imports, added timestamp and unique id stg_imports")
 }
 
 
