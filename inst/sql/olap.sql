@@ -1,4 +1,3 @@
-
 -- past 5 year protest
 SELECT 
 distinct
