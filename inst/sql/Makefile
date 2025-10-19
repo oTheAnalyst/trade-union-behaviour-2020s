@@ -5,6 +5,7 @@ reload_dataImports:
 	@echo "reloaded dataImports schema"
 	@duckdb $(plat) < teardown_dataImports.sql
 	@duckdb $(plat) < setup_dataImports.sql
+	@Rscript --default-package=dsa -e 'dsa::main_write()'
 	@duckdb $(plat) < insert_dataImports.sql
 
 reload_main:
