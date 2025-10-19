@@ -29,7 +29,7 @@ select id from production.main.trade_union
 ;
 
 
-INSERT INTO production.main.strike  
+INSERT INTO production.main.strikeOrProtest
 select
 approximateNumberOfParticipants,
 startDate,
@@ -39,14 +39,25 @@ durationAmount,
 strikeOrProtest,
 authorized,
 numberOfLocations,
-STRING_SPLIT(source,';').UNNEST() as s,
-notes,
 id
 from production.dataImports.stg_lat
 WHERE startDate IS NOT NULL
 and
 id NOT IN(
-select id from production.main.strike
+select id from production.main.strikeOrProtest
+)
+;
+
+INSERT INTO production.main.citations
+select
+id,
+STRING_SPLIT(source,';').UNNEST() as s,
+notes,
+from production.dataImports.stg_lat
+WHERE startDate IS NOT NULL
+and
+id NOT IN(
+select id from production.main.citations
 )
 ;
 

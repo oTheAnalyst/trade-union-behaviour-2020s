@@ -5,7 +5,6 @@ endDate DATE,
 id INTEGER PRIMARY KEY,
 );
 
-
 --DROP TABLE lat_lon
 CREATE TABLE lat_lon(
 id INTEGER,
@@ -23,7 +22,7 @@ FOREIGN KEY (id) REFERENCES date_key (id)
 );
 
 --DROP TABLE strike;
-CREATE TABLE strike(
+CREATE TABLE strikeOrProtest(
 approximateNumberOfParticipants INTEGER,
 startDate DATE,
 endDate DATE,
@@ -32,9 +31,14 @@ durationAmount INTEGER,
 strikeOrProtest VARCHAR,
 authorized VARCHAR,
 numberOfLocations INTEGER,
+id INTEGER,
+FOREIGN KEY (id) REFERENCES date_key (id)
+);
+
+CREATE TABLE citations(
+id INTEGER,
 source VARCHAR,
 notes VARCHAR,
-id INTEGER,
 FOREIGN KEY (id) REFERENCES date_key (id)
 );
 
