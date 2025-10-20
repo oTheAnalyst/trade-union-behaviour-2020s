@@ -1,5 +1,5 @@
 -- past 5 year protest
-SELECT 
+SELECT
 distinct
 count(s.*) as NumberofProtestInMarylandInThePast5years
 FROM production.main.date_key d
@@ -263,4 +263,45 @@ and s.startDate in(
 GROUP BY month
 ORDER BY month asc
 ;
+
+
+
+-- Most active trade_unions in the country
+SELECT
+count(t.laborOrganization) as Union_Strike_Leaderboard,
+t.laborOrganization
+FROM production.main.date_key d
+LEFT JOIN production.main.strikeOrProtest s
+ON d.id = s.id
+LEFT JOIN production.main.location e
+ON e.id = d.id
+LEFT JOIN production.main.trade_union t
+ON d.id = t.id
+WHERE
+s.strikeOrProtest ILIKE 'strike'
+AND t.laborOrganization is not null
+AND s.startDate
+IN(
+    SELECT
+    startDate
+    FROM production.main.strikeOrProtest
+    WHERE year(startDate) = 2025
+)
+GROUP BY t.laborOrganization
+ORDER BY Union_Strike_Leaderboard DESC
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
