@@ -18,7 +18,8 @@ and e.state ILIKE 'maryland'
 SELECT
 distinct
 count(s.*) as numberofprotest2021,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -33,15 +34,15 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2021
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
-
--- strikes in maryland 
 SELECT
+distinct
 count(s.*) as numberofprotest2022,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -56,15 +57,17 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2022
 )
-GROUP BY  s.startDate
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
+
 -- strikes in maryland 
-SELECT 
+SELECT
 distinct
 count(s.*) as numberofprotest2023,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -79,15 +82,16 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2023
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
 -- strikes in maryland 
-SELECT 
+SELECT
 distinct
 count(s.*) as numberofprotest2024,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -102,14 +106,15 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2024
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
-SELECT 
+SELECT
 distinct
 count(s.*) as numberofprotest2025,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -124,13 +129,9 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2025
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
-
-
-
-
 
 
 
@@ -154,7 +155,8 @@ and e.state ILIKE 'maryland'
 SELECT
 distinct
 count(s.*) as numberofstrikes2021,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -169,15 +171,17 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2021
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
 
 -- strikes in maryland 
 SELECT
+distinct
 count(s.*) as numberofstrikes2022,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -192,15 +196,16 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2022
 )
-GROUP BY  s.startDate
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
 -- strikes in maryland 
-SELECT 
+SELECT
 distinct
 count(s.*) as numberofstrikes2023,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -215,15 +220,16 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2023
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
 -- strikes in maryland 
-SELECT 
+SELECT
 distinct
 count(s.*) as numberofstrikes2024,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -238,14 +244,15 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2024
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
 
-SELECT 
+SELECT
 distinct
 count(s.*) as numberofstrikes2025,
-month(s.startDate) as month
+monthname(s.startDate) as monthname,
+month(s.startDate) numMonth
 FROM production.main.date_key d
 left join production.main.strikeOrProtest s
 on d.id = s.id
@@ -260,10 +267,9 @@ and s.startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2025
 )
-GROUP BY month
-ORDER BY month asc
+GROUP BY monthname, numMonth
+ORDER BY numMonth ASC
 ;
-
 
 
 -- Most active trade_unions in the country
@@ -290,18 +296,5 @@ IN(
 GROUP BY t.laborOrganization
 ORDER BY Union_Strike_Leaderboard DESC
 ;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
