@@ -13,11 +13,10 @@ and e.state ILIKE 'maryland'
 ;
 
 
-
--- strikes in maryland 
+PREPARE protestyear AS 
 SELECT
 distinct
-count(s.*) as numberofprotest2021,
+count(s.*) as numberofprotestinayear,
 monthname(s.startDate) as monthname,
 month(s.startDate) numMonth
 FROM production.main.date_key d
@@ -26,17 +25,20 @@ on d.id = s.id
 left join production.main.location e
 on e.id = d.id
 where s.id is not null
-and s.strikeOrProtest ILIKE 'protest'
+and s.strikeOrProtest ILIKE $strikeorprotest 
 and e.state ILIKE 'maryland'
 and s.startDate in(
     SELECT
     startDate
     FROM production.main.strikeOrProtest
-    WHERE year(startDate) = 2021
+    WHERE year(startDate) = $year
 )
 GROUP BY monthname, numMonth
 ORDER BY numMonth ASC
 ;
+
+
+EXECUTE protestyear(strikeorprotest := 'protest', year := 2021);
 
 SELECT
 distinct
