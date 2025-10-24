@@ -164,7 +164,7 @@ ASC
 
 SELECT
 DISTINCT
-count(*) as numberofstrike2023,
+count(*) as numberofstrike2022,
 monthname(startDate) as monthname
 FROM sop
 WHERE
