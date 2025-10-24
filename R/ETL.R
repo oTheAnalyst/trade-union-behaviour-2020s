@@ -122,24 +122,23 @@ dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports")
 insert <- paste0("
  INSERT INTO production.dataImports.stg_imports 
  SELECT nextval('serial'),
- sli.import_dt,
+ import_dt,
  'email',
  '",loc,"',
  'NA',
  'NA'
- FROM production.dataImports.stg_lat_imports sli 
+ FROM production.dataImports.stg_lat_imports
  WHERE 
- sli.import_dt
+ import_dt
  NOT IN(
 select import_dt from dataImports.stg_imports 
  )
- GROUP BY sli.import_dt;
- ")
+ GROUP BY import_dt;")
 
   sql_location <- "~/production.duckdb"
   conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbSendQuery(conn,insert)
-  DBI::dbDisconnect(conn)
+  
   return("Wrote data to dataImports.stg_lat_imports, added timestamp and unique id stg_imports")
 }
 
