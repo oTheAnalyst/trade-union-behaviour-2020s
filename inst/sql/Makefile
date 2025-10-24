@@ -1,6 +1,5 @@
 plat = ~/production.duckdb
 
-
 reload_dataImports:
 	@echo "reloaded dataImports schema"
 	@duckdb $(plat) < teardown_dataImports.sql
@@ -14,5 +13,9 @@ reload_main:
 	@duckdb $(plat) < setup_main.sql
 	@duckdb $(plat) < insert_main.sql
 
-
-
+ingest_data:
+	@echo "ingested new data into database"
+	@Rscript --default-package=dsa -e 'dsa::main_write()'
+	@duckdb $(plat) < insert_dataImports.sql
+	@duckdb $(plat) < insert_main.sql
+	@duckdb $(plat) < olap.sql
