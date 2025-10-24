@@ -30,7 +30,6 @@ SELECT
 DISTINCT
 count(*) as numberofprotest2021,
 monthname(startDate) as monthname,
-month(startDate) numMonth
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'protest'
@@ -41,16 +40,17 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2021
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 
 SELECT
 DISTINCT
 count(*) as numberofprotest2022,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'protest'
@@ -61,15 +61,16 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2022
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 SELECT
 DISTINCT
 count(*) as numberofprotest2023,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'protest'
@@ -80,15 +81,16 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2023
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 SELECT
 DISTINCT
 count(*) as numberofprotest2024,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'protest'
@@ -99,15 +101,16 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2024
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 SELECT
 DISTINCT
 count(*) as numberofprotest2025,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'protest'
@@ -118,8 +121,10 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2025
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 
@@ -139,8 +144,7 @@ and state ILIKE 'maryland'
 SELECT
 DISTINCT
 count(*) as numberofstrike2021,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'strike'
@@ -151,16 +155,17 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2021
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 
 SELECT
 DISTINCT
 count(*) as numberofstrike2023,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'strike'
@@ -171,15 +176,16 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2022
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 SELECT
 DISTINCT
 count(*) as numberofstrike2023,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'strike'
@@ -190,15 +196,16 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2023
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 SELECT
 DISTINCT
 count(*) as numberofstrike2024,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'strike'
@@ -209,15 +216,16 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2024
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
 SELECT
 DISTINCT
 count(*) as numberofstrike2025,
-monthname(startDate) as monthname,
-month(startDate) numMonth
+monthname(startDate) as monthname
 FROM sop
 WHERE
 strikeOrProtest ILIKE 'strike'
@@ -228,7 +236,9 @@ and startDate in(
     FROM production.main.strikeOrProtest
     WHERE year(startDate) = 2025
 )
-GROUP BY monthname, numMonth
-ORDER BY numMonth ASC
+GROUP BY monthname, month(startDate)
+ORDER BY
+month(startDate)
+ASC
 ;
 
