@@ -1,4 +1,3 @@
-#
 # This is an example function named 'hello' 
 # which prints 'Hello, world!'.
 #
@@ -97,7 +96,7 @@ load_transform_data <- function(input) {
 #' @export
 write_to_sql <- function(data, name) {
   name2 <- DBI::SQL(name)
-  sql_location <<- "~/production.duckdb"
+  sql_location <<- system.file("dev.duckdb",package = 'dsa')
   conn <<- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbWriteTable(conn, name2, data, append = TRUE)
   DBI::dbDisconnect(conn)
@@ -112,37 +111,10 @@ write_to_sql <- function(data, name) {
 #' @return for running package function to database
 #' @export
 main_write <- function(){
- 
- loc <-  system.file("extdata", package = "dsa")
+ loc <-  system.file("extdata", package = 'dsa')
  dt <- dsa::load_transform_data(loc) 
  dt1 <- dt$Labor_prod
- 
 dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports")
-
-insert <- paste0("
- INSERT INTO production.dataImports.stg_imports 
- SELECT nextval('serial'),
- sli.import_dt,
- 'email',
- '",loc,"',
- 'NA',
- 'NA'
- FROM production.dataImports.stg_lat_imports sli 
- WHERE 
- sli.import_dt
- NOT IN(
-select import_dt from dataImports.stg_imports 
- )
- GROUP BY sli.import_dt;
- ")
-
-  sql_location <- "~/production.duckdb"
-  conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
-  DBI::dbSendQuery(conn,insert)
-  DBI::dbDisconnect(conn)
-  return("Wrote data to dataImports.stg_lat_imports, added timestamp and unique id stg_imports")
+return("Wrote data to dataImports.stg_lat_imports, added timestamp and unique id stg_imports")
 }
-
-
-
 
