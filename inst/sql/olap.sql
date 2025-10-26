@@ -5,10 +5,10 @@ CREATE TEMP TABLE sop AS
     d.*,
     s.*,
     e.*
-    FROM production.main.date_key d
-    left join production.main.strikeOrProtest s
+    FROM dev.main.date_key d
+    left join dev.main.strikeOrProtest s
     on d.id = s.id 
-    left join production.main.location e
+    left join dev.main.location e
     on e.id = d.id 
     where s.id is not null
 ;
@@ -37,7 +37,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2021
 )
 GROUP BY monthname, month(startDate)
@@ -58,7 +58,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2022
 )
 GROUP BY monthname, month(startDate)
@@ -78,7 +78,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2023
 )
 GROUP BY monthname, month(startDate)
@@ -98,7 +98,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2024
 )
 GROUP BY monthname, month(startDate)
@@ -118,7 +118,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2025
 )
 GROUP BY monthname, month(startDate)
@@ -152,7 +152,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2021
 )
 GROUP BY monthname, month(startDate)
@@ -173,7 +173,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2022
 )
 GROUP BY monthname, month(startDate)
@@ -193,7 +193,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2023
 )
 GROUP BY monthname, month(startDate)
@@ -213,7 +213,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2024
 )
 GROUP BY monthname, month(startDate)
@@ -233,7 +233,7 @@ and state ILIKE 'maryland'
 and startDate in(
     SELECT
     startDate
-    FROM production.main.strikeOrProtest
+    FROM dev.main.strikeOrProtest
     WHERE year(startDate) = 2025
 )
 GROUP BY monthname, month(startDate)
