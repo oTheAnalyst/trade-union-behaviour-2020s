@@ -1,6 +1,6 @@
 -- INIT inset for this query 
--- DELETE FROM production.dataImports.stg_lat 
-INSERT INTO production.dataImports.stg_lat
+-- DELETE FROM dev.dataImports.stg_lat 
+INSERT INTO dev.dataImports.stg_lat
 select
 distinct
 si.import_id,
@@ -26,12 +26,11 @@ sli.authorized,
 sli.workerDemands,
 sli.source,
 sli.notes 
-from production.dataImports.stg_lat_imports sli 
-LEFT JOIN production.dataImports.stg_imports si 
+from dev.dataImports.stg_lat_imports sli 
+LEFT JOIN dev.dataImports.stg_imports si 
 ON sli.import_dt = si.import_dt
-where 
+where
 sli.id NOT IN(
-select id from production.dataImports.stg_lat
+select id from dev.dataImports.stg_lat
 )
-and si.import_id = 12650
 ;
