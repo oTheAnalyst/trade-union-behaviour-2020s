@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/24.11";
+    nixpkgs.url = "github:nixos/nixpkgs/25.05";
   };
   outputs = {
     self,
@@ -10,26 +10,19 @@
     pkgs = import nixpkgs {inherit system;};
     rPackages = with pkgs.rPackages; [
       tidyverse
+      httpgd
+      visNetwork
+      lintr
+      languageserver
+      duckdb
+      DBI
+      rmarkdown
+      readxl
       devtools
       testthat
       reshape2
       repurrrsive
-      reticulate
-      esquisse
-      duckdb
-      ragg
-      DBI
-      gridExtra
-      plotly
-      visNetwork
-      lintr
-      languageserver
-      here
-      hrbrthemes
-      rmarkdown
-      openxlsx
-      readxl
-      rsconnect
+      esquisse # need it all up from here 
     ];
   in {
     devShells.${system}.default = pkgs.mkShell {
