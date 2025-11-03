@@ -49,10 +49,14 @@
         (rstudioWrapper.override {packages = rPackages;})
       ];
 
-      #        shellHook = "
-      #  Rscript -e 'targets::tar_make()'
-      #        echo 'Welcome to the trade union analysis shell the data for your models\n has already been build. Please update your data via the inputs\n folder, all your data will be generated in outputs and summarized\n in the paper. When you add more data or make changes\n rebuildthe data by:\n running _targets.R\n then inputting tar_make() in the console'
-      #      ";
+      shellHook = "
+        if [ ! -f ./inst/dev.duckdb ]; then
+        duckdb ./inst/dev.duckdb < ./inst/sql/setup_schema_sequence.sql
+        echo 'dev.ddb initiating database creation'
+        echo 'initiating schema creation'
+        fi
+
+           ";
     };
   };
 }

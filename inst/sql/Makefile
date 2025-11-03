@@ -1,4 +1,4 @@
-plat = ~/production.duckdb
+plat = ../dev.duckdb
 
 reload_dataImports:
 	@echo "reloaded dataImports schema"
