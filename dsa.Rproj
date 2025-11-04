@@ -1,8 +1,9 @@
 Version: 1.0
+ProjectId: 6a173699-6b12-487e-8e42-1f4b0b8c2053
 
-RestoreWorkspace: Default
-SaveWorkspace: Default
-AlwaysSaveHistory: Default
+RestoreWorkspace: No
+SaveWorkspace: No
+AlwaysSaveHistory: No
 
 EnableCodeIndexing: Yes
 UseSpacesForTab: Yes
@@ -15,3 +16,9 @@ LaTeX: pdfLaTeX
 BuildType: Package
 PackageUseDevtools: Yes
 PackageInstallArgs: --no-multiarch --with-keep.source
+
+PythonType: system
+PythonVersion: 3.13.3
+PythonPath: /nix/store/pjvb99xmq64kpjfnyh3768p5ygnj2nhg-python3-3.13.3-env/bin/python3.13
+
+ProjectName: dsa

@@ -5,8 +5,7 @@
 #
 #   https://r-pkgs.org
 #
-# Some useful keyboard shortcuts for package authoring:
-#
+# Some useful keyboard shortcuts for package authoring: #
 #   Install Package:           'Ctrl + Shift + B'
 #   Check Package:             'Ctrl + Shift + E'
 #   Test Package:              'Ctrl + Shift + T'
@@ -36,7 +35,6 @@ load_list <- function(input) {
    purrr::set_names(names) 
  return(files)
 }
-#'
 
 
 #' transform_data
@@ -58,14 +56,14 @@ transform_data <- function(input) {
     janitor::clean_names(case = "lower_camel")
   
  # Mutate columns as needed
-  tx_data <- tx_data |>
-    dplyr::mutate(
-      id = as.integer(id),
-      durationAmount = as.integer(durationAmount),
-      approximateNumberOfParticipants = as.integer(approximateNumberOfParticipants),
-      durationAmount = as.integer(durationAmount),
-      numberOfLocations = as.integer(numberOfLocations),
-    )
+ # tx_data <- tx_data |>
+ #   dplyr::mutate(
+ #     id = as.integer(ID),
+ #     durationAmount = as.integer(durationAmount),
+ #     approximateNumberOfParticipants = as.integer(approximateNumberOfParticipants),
+ #     durationAmount = as.integer(durationAmount),
+ #     numberOfLocations = as.integer(numberOfLocations),
+ #   )
  #
   return(tx_data)
 }
@@ -94,14 +92,15 @@ load_transform_data <- function(input) {
 #'
 #' @return writes data to sql
 #' @export
-write_to_sql <- function(data, name) {
+write_to_sql <- function(data, name, dbl) {
   name2 <- DBI::SQL(name)
-  sql_location <<- system.file("dev.duckdb",package = 'dsa')
+  sql_location <<- system.file(dbl,package = 'dsa')
   conn <<- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbWriteTable(conn, name2, data, append = TRUE)
-  DBI::dbDisconnect(conn)
   return(paste0("written to table ", name2))
+  DBI::dbDisconnect(conn)
 }
+
 
 
 
@@ -110,33 +109,32 @@ write_to_sql <- function(data, name) {
 #'
 #' @return for running package function to database
 #' @export
-main_write <- function(){
- loc <-  system.file("extdata", package = 'dsa')
- dt <- dsa::load_transform_data(loc) 
- dt1 <- dt$Labor_prod
-dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports")
-
-
-insert <- paste0("
- INSERT INTO production.dataImports.stg_imports 
- SELECT nextval('serial'),
+main_write <- function(dbl){
+  loc <-  system.file("extdata", package = 'dsa')
+  dt <- dsa::load_transform_data(loc) 
+  dt1 <- dt$Labor_prod
+  dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports",dbl = {{dbl}})
+  
+  
+  insert <- paste0("
+ INSERT INTO dataImports.stg_imports 
+ SELECT 
+ nextval('dataImports.serial'),
  import_dt,
  'email',
  '",loc,"',
  'NA',
  'NA'
- FROM production.dataImports.stg_lat_imports
+ FROM dataImports.stg_lat_imports
  WHERE 
  import_dt
  NOT IN(
 select import_dt from dataImports.stg_imports 
- )
- GROUP BY import_dt;")
-
-  sql_location <- "~/production.duckdb"
+ ) GROUP BY import_dt;")
+  
+  sql_location <- system.file(dbl,package = 'dsa')
   conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbSendQuery(conn,insert)
-  
+  DBI::dbDisconnect(conn)
   return("Wrote data to dataImports.stg_lat_imports, added timestamp and unique id stg_imports")
 }
-

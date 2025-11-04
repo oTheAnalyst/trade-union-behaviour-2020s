@@ -28,7 +28,7 @@ sli.notes
 from dataImports.stg_lat_imports sli 
 LEFT JOIN dataImports.stg_imports si 
 ON sli.import_dt = si.import_dt
-where
+where 
 sli.id NOT IN(
 select id from dataImports.stg_lat
 ) 
@@ -55,6 +55,7 @@ sli.durationUnit,
 sli.strikeOrProtest,
 sli.authorized,
 sli.workerDemands,
+
 sli.source,
 sli.notes 
 ;
