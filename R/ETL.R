@@ -94,14 +94,12 @@ load_transform_data <- function(input) {
 #' @export
 write_to_sql <- function(data, name, dbl) {
   name2 <- DBI::SQL(name)
-  sql_location <<- system.file(dbl,package = 'dsa')
-  conn <<- DBI::dbConnect(duckdb::duckdb(), sql_location)
+  sql_location <- system.file(dbl,package = 'dsa')
+  conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbWriteTable(conn, name2, data, append = TRUE)
-  return(paste0("written to table ", name2))
   DBI::dbDisconnect(conn)
+  return(paste0("written to table ", name2))
 }
-
-
 
 
 
