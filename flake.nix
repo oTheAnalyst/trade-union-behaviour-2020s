@@ -52,6 +52,7 @@
       shellHook = "
         if [ ! -f ./inst/dev.duckdb ]; then
         duckdb ./inst/dev.duckdb < ./inst/sql/setup_schema_sequence.sql
+        duckdb ./inst/prod.duckdb < ./inst/sql/setup_schema_sequence.sql
         echo 'dev.ddb initiating database creation'
         echo 'initiating schema creation'
         fi
