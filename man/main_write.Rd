@@ -4,7 +4,7 @@
 \alias{main_write}
 \title{main_write}
 \usage{
-main_write(db1)
+main_write()
 }
 \value{
 for running package function to database

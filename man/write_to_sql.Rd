@@ -4,7 +4,7 @@
 \alias{write_to_sql}
 \title{write_to_sql}
 \usage{
-write_to_sql(data, name, db)
+write_to_sql(data, name)
 }
 \arguments{
 \item{input}{}
