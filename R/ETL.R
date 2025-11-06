@@ -92,9 +92,9 @@ load_transform_data <- function(input) {
 #'
 #' @return writes data to sql
 #' @export
-write_to_sql <- function(data, name, dbl) {
+write_to_sql <- function(data, name) {
   name2 <- DBI::SQL(name)
-  sql_location <- system.file(dbl,package = 'dsa')
+  sql_location <- "../dev.duckdb"
   conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbWriteTable(conn, name2, data, append = TRUE)
   DBI::dbDisconnect(conn)
@@ -102,16 +102,15 @@ write_to_sql <- function(data, name, dbl) {
 }
 
 
-
 #' main_write
 #'
 #' @return for running package function to database
 #' @export
-main_write <- function(dbl){
-  loc <-  system.file("extdata", package = 'dsa')
+main_write <- function(){
+  loc <- system.file("extdata", package = "dsa") 
   dt <- dsa::load_transform_data(loc) 
   dt1 <- dt$Labor_prod
-  dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports",dbl = {{dbl}})
+  dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports")
   
   
   insert <- paste0("
@@ -130,7 +129,7 @@ main_write <- function(dbl){
 select import_dt from dataImports.stg_imports 
  ) GROUP BY import_dt;")
   
-  sql_location <- system.file(dbl,package = 'dsa')
+  sql_location <- "../dev.duckdb"
   conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbSendQuery(conn,insert)
   DBI::dbDisconnect(conn)
