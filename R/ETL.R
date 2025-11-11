@@ -102,6 +102,36 @@ write_to_sql <- function(data, name) {
 }
 
 
+
+
+#' record insert
+#'
+#' @returns record each write
+#' @export
+record_insert <- function(flocation){
+  insert <- paste0("
+   INSERT INTO dataImports.stg_imports 
+   SELECT 
+   nextval('dataImports.serial'),
+   import_dt,
+   'email',
+   '",flocation,"',
+   'NA',
+   'NA'
+   FROM dataImports.stg_lat_imports
+   WHERE 
+   import_dt
+   NOT IN(
+  select import_dt from dataImports.stg_imports 
+   ) GROUP BY import_dt;")
+  
+    sql_location <- "../dev.duckdb"
+    conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
+    DBI::dbSendQuery(conn,insert)
+    DBI::dbDisconnect(conn)
+}
+
+
 #' main_write
 #'
 #' @return for running package function to database
@@ -110,28 +140,7 @@ main_write <- function(){
   loc <- system.file("extdata", package = "dsa") 
   dt <- dsa::load_transform_data(loc) 
   dt1 <- dt$Labor_prod
-  dsa::write_to_sql(data = dt1, name = "dataImports.stg_lat_imports")
-  
-  
-  insert <- paste0("
- INSERT INTO dataImports.stg_imports 
- SELECT 
- nextval('dataImports.serial'),
- import_dt,
- 'email',
- '",loc,"',
- 'NA',
- 'NA'
- FROM dataImports.stg_lat_imports
- WHERE 
- import_dt
- NOT IN(
-select import_dt from dataImports.stg_imports 
- ) GROUP BY import_dt;")
-  
-  sql_location <- "../dev.duckdb"
-  conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
-  DBI::dbSendQuery(conn,insert)
-  DBI::dbDisconnect(conn)
+  dsa::write_to_sql(data = dt1, name = 'dataImports.stg_lat_imports')
+  dsa::record_insert(loc)
   return("Wrote data to dataImports.stg_lat_imports, added timestamp and unique id stg_imports")
 }
