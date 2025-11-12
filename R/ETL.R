@@ -94,7 +94,7 @@ load_transform_data <- function(input) {
 #' @export
 write_to_sql <- function(data, name) {
   name2 <- DBI::SQL(name)
-  sql_location <- "../dev.duckdb"
+  sql_location <- system.file("extdata","db","dev.duckdb",package = "dsa")
   conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
   DBI::dbWriteTable(conn, name2, data, append = TRUE)
   DBI::dbDisconnect(conn)
@@ -125,7 +125,7 @@ record_insert <- function(flocation){
   select import_dt from dataImports.stg_imports 
    ) GROUP BY import_dt;")
   
-    sql_location <- "../dev.duckdb"
+    sql_location <- system.file("extdata","db","dev.duckdb",package = "dsa")
     conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
     DBI::dbSendQuery(conn,insert)
     DBI::dbDisconnect(conn)
