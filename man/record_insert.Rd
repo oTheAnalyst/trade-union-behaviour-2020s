@@ -4,7 +4,7 @@
 \alias{record_insert}
 \title{record insert}
 \usage{
-record_insert()
+record_insert(flocation)
 }
 \value{
 record each write
