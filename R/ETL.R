@@ -11,6 +11,27 @@
 #   Test Package:              'Ctrl + Shift + T'
 #
 
+
+#' motherduck_df
+#'
+#' @param input 
+#'
+#'
+#' @returns this function reads data from mother duck and pulls it in as a dataframe
+#' @export 
+motherduck_df <- function(input) {
+    con <- DBI::dbConnect(duckdb::duckdb())
+    DBI::dbExecute(con, "INSTALL 'motherduck'")
+    DBI::dbExecute(con, "LOAD 'motherduck'")
+    DBI::dbExecute(con, "ATTACH 'md:'")
+    DBI::dbExecute(con, "USE prod_lat")
+     token  <<- DBI::dbExecute(con, "PRAGMA PRINT_MD_TOKEN;")
+    res <- DBI::dbGetQuery(con, paste0("SELECT * FROM ",input,"")) |>
+           tibble::as_tibble()
+    print(res)
+}
+
+
 #' load_list
 #'
 #' @param input 
@@ -52,6 +73,12 @@ transform_data <- function(input) {
         format = "%m/%d/%Y", tz = "UTC"
         )
   
+  
+  excel_tibble$'End Date' <- as.POSIXct(
+        excel_tibble$'End Date',
+        format = "%m/%d/%Y", tz = "UTC"
+        )
+  
   tx_data <- excel_tibble |>
     janitor::clean_names(case = "lower_camel")
   
@@ -76,9 +103,10 @@ transform_data <- function(input) {
 #' @export
 load_transform_data <- function(input) {
   #input list
-  input_list <- load_list(input)
+  # input_list <- load_list(input)
+  input_df <- dsa::motherduck_df(input)
   #this transforms the the data
-  tx_list <- purrr::map(input_list, transform_data)
+  tx_list <- dsa::transform_data(input_df) 
   return(tx_list)
   # Return a message indicating successful saving
   message("Transformed data saved successfully")
@@ -95,9 +123,15 @@ load_transform_data <- function(input) {
 write_to_sql <- function(data, name) {
   name2 <- DBI::SQL(name)
   sql_location <- system.file("extdata","db","dev.duckdb",package = "dsa")
-  conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
-  DBI::dbWriteTable(conn, name2, data, append = TRUE)
-  DBI::dbDisconnect(conn)
+  con <- DBI::dbConnect(duckdb::duckdb())
+    con <- DBI::dbConnect(duckdb::duckdb())
+    DBI::dbExecute(con, "INSTALL 'motherduck'")
+    DBI::dbExecute(con, "LOAD 'motherduck'")
+    DBI::dbExecute(con, token)
+    DBI::dbExecute(con, "ATTACH 'md:'")
+    DBI::dbExecute(con, "USE prod_lat")
+  DBI::dbWriteTable(con, name2, data, append = TRUE)
+  DBI::dbDisconnect(con)
   return(paste0("written to table ", name2))
 }
 
@@ -110,25 +144,31 @@ write_to_sql <- function(data, name) {
 #' @export
 record_insert <- function(flocation){
   insert <- paste0("
-   INSERT INTO dataImports.stg_imports 
+   INSERT INTO stg_imports 
    SELECT 
-   nextval('dataImports.serial'),
+   nextval('serial'),
    import_dt,
    'email',
    '",flocation,"',
    'NA',
    'NA'
-   FROM dataImports.stg_lat_imports
+   FROM stg_lat_imports
    WHERE 
    import_dt
    NOT IN(
-  select import_dt from dataImports.stg_imports 
+  select import_dt from stg_imports 
    ) GROUP BY import_dt;")
   
     sql_location <- system.file("extdata","db","dev.duckdb",package = "dsa")
-    conn <- DBI::dbConnect(duckdb::duckdb(), sql_location)
-    DBI::dbSendQuery(conn,insert)
-    DBI::dbDisconnect(conn)
+    
+    con <- DBI::dbConnect(duckdb::duckdb())
+    DBI::dbExecute(con, "INSTALL 'motherduck'")
+    DBI::dbExecute(con, "load 'motherduck'")
+    DBI::dbExecute(con, "attach 'md:'")
+    DBI::dbGetQuery(con, "PRAGMA PRINT_MD_TOKEN")
+    DBI::dbExecute(con, "use prod_lat")
+    DBI::dbSendQuery(con,insert)
+    DBI::dbDisconnect(con)
 }
 
 
@@ -138,9 +178,8 @@ record_insert <- function(flocation){
 #' @export
 main_write <- function(){
   loc <- system.file("extdata", package = "dsa") 
-  dt <- dsa::load_transform_data(loc) 
-  dt1 <- dt$Labor_prod
-  dsa::write_to_sql(data = dt1, name = 'dataImports.stg_lat_imports')
+  dt <- dsa::load_transform_data("stg_lat_unformatted") 
+  dsa::write_to_sql(data = dt, name = 'stg_lat_imports')
   dsa::record_insert(loc)
-  return("Wrote data to dataImports.stg_lat_imports, added timestamp and unique id stg_imports")
+  return("Wrote data to stg_lat_imports, added timestamp and unique id stg_imports")
 }
