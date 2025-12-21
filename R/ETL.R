@@ -20,14 +20,14 @@
 #' @returns this function reads data from mother duck and pulls it in as a dataframe
 #' @export 
 motherduck_df <- function(input) {
-    con <- DBI::dbConnect(duckdb::duckdb())
+    con <- DBI::dbConnect(duckdb::duckdb(dbdir = "md:prod_lat"))
     DBI::dbExecute(con, "INSTALL 'motherduck'")
     DBI::dbExecute(con, "LOAD 'motherduck'")
     DBI::dbExecute(con, "ATTACH 'md:'")
     DBI::dbExecute(con, "USE prod_lat")
-     token  <<- DBI::dbExecute(con, "PRAGMA PRINT_MD_TOKEN;")
     res <- DBI::dbGetQuery(con, paste0("SELECT * FROM ",input,"")) |>
            tibble::as_tibble()
+    DBI::dbDisconnect(con)
     print(res)
 }
 
@@ -123,11 +123,9 @@ load_transform_data <- function(input) {
 write_to_sql <- function(data, name) {
   name2 <- DBI::SQL(name)
   sql_location <- system.file("extdata","db","dev.duckdb",package = "dsa")
-  con <- DBI::dbConnect(duckdb::duckdb())
-    con <- DBI::dbConnect(duckdb::duckdb())
+    con <- DBI::dbConnect(duckdb::duckdb(dbdir = "md:prod_lat"))
     DBI::dbExecute(con, "INSTALL 'motherduck'")
     DBI::dbExecute(con, "LOAD 'motherduck'")
-    DBI::dbExecute(con, token)
     DBI::dbExecute(con, "ATTACH 'md:'")
     DBI::dbExecute(con, "USE prod_lat")
   DBI::dbWriteTable(con, name2, data, append = TRUE)
@@ -161,12 +159,11 @@ record_insert <- function(flocation){
   
     sql_location <- system.file("extdata","db","dev.duckdb",package = "dsa")
     
-    con <- DBI::dbConnect(duckdb::duckdb())
+    con <- DBI::dbConnect(duckdb::duckdb(dbdir = "md:prod_lat"))
     DBI::dbExecute(con, "INSTALL 'motherduck'")
-    DBI::dbExecute(con, "load 'motherduck'")
-    DBI::dbExecute(con, "attach 'md:'")
-    DBI::dbGetQuery(con, "PRAGMA PRINT_MD_TOKEN")
-    DBI::dbExecute(con, "use prod_lat")
+    DBI::dbExecute(con, "LOAD 'motherduck'")
+    DBI::dbExecute(con, "ATTACH 'md:'")
+    DBI::dbExecute(con, "USE prod_lat")
     DBI::dbSendQuery(con,insert)
     DBI::dbDisconnect(con)
 }
