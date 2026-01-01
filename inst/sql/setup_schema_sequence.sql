@@ -1,3 +1,3 @@
 CREATE SCHEMA dataImports;
-CREATE SEQUENCE dataImports.serial START 101 INCREMENT BY 3; 
+CREATE SEQUENCE .serial START 101 INCREMENT BY 2; 
 CALL enable_logging();
