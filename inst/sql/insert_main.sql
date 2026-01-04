@@ -1,4 +1,4 @@
-DELETE FROM dataImports.stg_lat
+DELETE FROM stg_lat
 where startDate IS NULL;
 
 
@@ -8,7 +8,7 @@ select
 startDate,
 endDate,
 id
-from dataImports.stg_lat
+from stg_lat
 WHERE 
 id NOT IN(
 select id from main.date_key
@@ -21,7 +21,7 @@ id,
 STRING_SPLIT(laborOrganization,';').UNNEST() as t2,
 bargainingUnitSize,
 STRING_SPLIT(workerDemands,';').UNNEST() as t1
-from dataImports.stg_lat
+from stg_lat
 WHERE 
 id NOT IN(
 select id from main.trade_union
@@ -40,7 +40,7 @@ strikeOrProtest,
 authorized,
 numberOfLocations,
 id
-from dataImports.stg_lat
+from stg_lat
 WHERE startDate IS NOT NULL
 and
 id NOT IN(
@@ -53,7 +53,7 @@ select
 id,
 STRING_SPLIT(source,';').UNNEST() as s,
 notes,
-from dataImports.stg_lat
+from stg_lat
 WHERE startDate IS NOT NULL
 and
 id NOT IN(
@@ -68,7 +68,7 @@ id,
 STRING_SPLIT(local, ';').UNNEST() as local,
 industry,
 STRING_SPLIT(employer, ';').UNNEST() Employer,
-from dataImports.stg_lat
+from stg_lat
 WHERE
 id NOT IN(
 select id from main.employer
@@ -80,7 +80,7 @@ INSERT INTO main.lat_lon
 select 
 id,
 STRING_SPLIT(latitudeLongitude, ';').UNNEST() latitudeLongitude
-from dataImports.stg_lat
+from stg_lat
 WHERE
 id NOT IN(
 select id from main.lat_lon
@@ -95,7 +95,7 @@ STRING_SPLIT(state, ';').UNNEST() State,
 STRING_SPLIT(address, ';').UNNEST() Address,
 STRING_SPLIT(city, ';').UNNEST() City,
 STRING_SPLIT(zipCode, ';').UNNEST() zipcode
-from dataImports.stg_lat
+from stg_lat
 WHERE
 id NOT IN(
 select id from main.location
