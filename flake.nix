@@ -1,10 +1,12 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/25.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
@@ -35,9 +37,9 @@
         dbt
         nix
         gnumake
+        nixpkgs-unstable.legacyPackages.${pkgs.system}.duckdb
         libgcc
         gccgo
-        duckdb
         (python313.withPackages (
           ps:
             with ps; [
@@ -50,10 +52,11 @@
       ];
 
       shellHook = "
-        if [ ! -f ./inst/dev.duckdb ]; then
-        duckdb ./inst/dev.duckdb < ./inst/sql/setup_schema_sequence.sql
-        echo 'dev.ddb initiating database creation'
-        echo 'initiating schema creation'
+        if [ ! -f ./inst/extdata/db/dev.duckdb ]; then
+        mkdir ./inst/extdata/db
+        duckdb ./inst/extdata/db/dev.duckdb < ./inst/sql/setup_schema_sequence.sql
+        echo 'duckdb initiating database creation \n
+        initiating schema creation'
         fi
 
            ";
