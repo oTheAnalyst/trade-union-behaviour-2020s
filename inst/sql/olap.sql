@@ -228,9 +228,7 @@ count(*) as numberofstrike2025,
 monthname(startDate) as monthname
 FROM sop
 WHERE
-strikeOrProtest ILIKE 'strike'
-and state ILIKE 'maryland'
-and startDate in(
+startDate in(
     SELECT
     startDate
     FROM main.strikeOrProtest
@@ -242,23 +240,3 @@ month(startDate)
 ASC
 ;
 
-
- INSERT INTO stg_imports
- SELECT nextval('serial'),
- import_dt,
- 'email',
- '",loc,"',
- 'NA',
- 'NA'
- FROM stg_lat_imports
- WHERE
- import_dt
- NOT IN(
-select import_dt from stg_imports
- )
- GROUP BY import_dt;
-
- 
- 
- 
- 
