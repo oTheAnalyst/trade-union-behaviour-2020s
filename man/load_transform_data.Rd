@@ -4,7 +4,7 @@
 \alias{load_transform_data}
 \title{load_and_transform_data}
 \usage{
-load_transform_data(input)
+load_transform_data()
 }
 \arguments{
 \item{input}{}
