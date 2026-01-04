@@ -25,7 +25,7 @@ sli.authorized,
 sli.workerDemands,
 sli.source,
 sli.notes 
-from stg_csv sli 
+from stg_excel sli 
 LEFT JOIN stg_imports si 
 ON sli.import_dt = si.import_dt
 where 

@@ -1,19 +1,5 @@
 load excel;
 
-INSERT INTO stg_excel (startDate, endDate, local) 
-  SELECT 
-COALESCE(
-        TRY_CAST("Start Date" AS DATE), 
-        DATE '1899-12-30' + CAST("Start Date" AS INTEGER)
-    ) AS "Start Date",
-COALESCE(
-        TRY_CAST("End Date" AS DATE), 
-        DATE '1899-12-30' + CAST("End Date" AS INTEGER)
-    ) AS "End Date",  
-    local
-FROM read_xlsx('./inst/extdata/12.1.25.xlsx', 
-                  all_varchar = true);
-
 INSERT INTO stg_excel (
 import_dt,
 id,
@@ -28,6 +14,8 @@ state,
 zipCode,                         
 latitudeLongitude,               
 approximateNumberOfParticipants, 
+startDate,
+endDate,
 durationAmount,
 durationUnit,                    
 strikeOrProtest,                 
@@ -50,6 +38,14 @@ State,
 "Zip Code",
 "Latitude, Longitude",               
 "Approximate Number Of Participants", 
+COALESCE(
+        TRY_CAST("Start Date" AS DATE), 
+        DATE '1899-12-30' + CAST("Start Date" AS INTEGER)
+    ) AS "Start Date",
+COALESCE(
+        TRY_CAST("End Date" AS DATE), 
+        DATE '1899-12-30' + CAST("End Date" AS INTEGER)
+    ) AS "End Date",  
 "Duration Amount",
 "Duration Unit",                    
 "Strike Or Protest",                 
@@ -59,7 +55,11 @@ Source,
 Notes
 FROM
 read_xlsx('./inst/extdata/12.1.25.xlsx', 
-  ignore_errors = true);
+  all_varchar = true)
+WHERE 
+COALESCE(
+        TRY_CAST("Start Date" AS DATE), 
+        DATE '1899-12-30' + CAST("Start Date" AS INTEGER)
+    ) is not null 
+;
 
-
-delete from stg_excel where import_dt is null;
