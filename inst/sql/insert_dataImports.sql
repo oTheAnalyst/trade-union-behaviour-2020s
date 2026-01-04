@@ -1,5 +1,5 @@
 -- INIT inset for this query 
--- DELETE FROM dataImports.stg_lat 
+-- DELETE FROM stg_lat 
 INSERT INTO stg_lat
 select
 si.import_id,
