@@ -1,26 +1,41 @@
-DELETE FROM stg_lat
-where startDate IS NULL;
-
-
-
-INSERT INTO main.date_key
+INSERT INTO main.strikeOrProtest
 select
+id,
+approximateNumberOfParticipants,
 startDate,
 endDate,
-id
+durationUnit,
+durationAmount,
+strikeOrProtest,
+authorized,
+numberOfLocations
+from stg_lat
+WHERE startDate IS NOT NULL
+and
+id NOT IN(
+select id from main.strikeOrProtest
+)
+;
+
+
+
+INSERT INTO main.workerDemands 
+select
+id,
+STRING_SPLIT(workerDemands,';').UNNEST() as t1
 from stg_lat
 WHERE 
 id NOT IN(
-select id from main.date_key
+select id from main.workerDemands
 )
 ;
+
 
 INSERT INTO main.trade_union 
 select
 id,
 STRING_SPLIT(laborOrganization,';').UNNEST() as t2,
-bargainingUnitSize,
-STRING_SPLIT(workerDemands,';').UNNEST() as t1
+bargainingUnitSize
 from stg_lat
 WHERE 
 id NOT IN(
@@ -29,24 +44,6 @@ select id from main.trade_union
 ;
 
 
-INSERT INTO main.strikeOrProtest
-select
-approximateNumberOfParticipants,
-startDate,
-endDate,
-durationUnit,
-durationAmount,
-strikeOrProtest,
-authorized,
-numberOfLocations,
-id
-from stg_lat
-WHERE startDate IS NOT NULL
-and
-id NOT IN(
-select id from main.strikeOrProtest
-)
-;
 
 INSERT INTO main.citations
 select
