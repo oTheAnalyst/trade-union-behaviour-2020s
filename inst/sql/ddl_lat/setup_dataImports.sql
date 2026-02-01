@@ -1,7 +1,7 @@
 -- import table
 -- psuedo sql, not tested :)
 -- DROP TABLE stg_imports
-CREATE TABLE stg_imports (
+CREATE OR REPlACE TABLE stg_imports (
    import_id BIGINT NOT NULL DEFAULT nextval('serial'),
    import_dt TIMESTAMP PRIMARY KEY,
    source_name VARCHAR,
@@ -12,7 +12,7 @@ CREATE TABLE stg_imports (
 
 
 -- DROP TABLE stg_lat_imports
-CREATE TABLE stg_lat_imports(
+CREATE OR REPlACE TABLE stg_lat_imports(
 import_dt TIMESTAMP NOT NULL DEFAULT current_timestamp, 
 id INTEGER,   
 employer VARCHAR,
@@ -40,7 +40,7 @@ notes VARCHAR
 CREATE INDEX idx on stg_lat_imports (import_dt);
 
 -- DROP TABLE stg_lat ;
-CREATE TABLE stg_lat(
+CREATE OR REPlACE TABLE stg_lat(
 import_id BIGINT,
 id INTEGER PRIMARY KEY,   
 employer VARCHAR,
