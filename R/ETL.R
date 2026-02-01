@@ -25,8 +25,6 @@ motherduck_df <- function(input) {
     DBI::dbExecute(con, "LOAD 'motherduck'")
     DBI::dbExecute(con, "ATTACH 'md:'")
     DBI::dbExecute(con, "USE prod_lat")
-    res <- DBI::dbGetQuery(con, paste0("SELECT * FROM ",input,"")) |>
-           tibble::as_tibble()
     DBI::dbDisconnect(con)
     print(res)
 }
