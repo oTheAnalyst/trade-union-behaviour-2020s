@@ -1,3 +1,0 @@
-CREATE SCHEMA 
-CREATE SEQUENCE .serial START 101 INCREMENT BY 2; 
-CALL enable_logging();

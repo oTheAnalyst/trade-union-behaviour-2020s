@@ -2,14 +2,11 @@
 --drop table sop
 CREATE TEMP TABLE sop AS
     SELECT
-    d.*,
     s.*,
     e.*
-    FROM main.date_key d
-    left join main.strikeOrProtest s
-    on d.id = s.id 
+    from main.strikeOrProtest s
     left join main.location e
-    on e.id = d.id 
+    on s.id = e.id 
     where s.id is not null
 ;
 
