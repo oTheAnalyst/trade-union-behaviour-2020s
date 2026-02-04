@@ -47,6 +47,8 @@ excel.notes
 FROM stg_excel excel 
 JOIN stg_imports log 
 ON excel.import_dt = log.import_dt
+JOIN stg_excel as copy
+on excel.id = copy.id
 WHERE 
 excel.id NOT IN(
 select id from stg_lat 
