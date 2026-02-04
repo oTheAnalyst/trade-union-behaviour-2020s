@@ -6,14 +6,12 @@ DROP VIEW IF EXISTS monthly_average_strike;
 CREATE VIEW monthly_average_strike AS 
 WITH cte AS (
     SELECT
-    d.*,
     s.*,
     e.*
-    FROM main.date_key d
-    left join main.strikeOrProtest s
-    on d.id = s.id
+    from
+    main.strikeOrProtest s
     left join main.location e
-    on e.id = d.id
+    on e.id = s.id
     where s.id is not null AND
     strikeOrProtest ILIKE 'strike'
   ), cte2 AS (
@@ -51,14 +49,12 @@ WITH cte AS (
 CREATE VIEW monthly_average_protest AS 
 WITH cte AS (
     SELECT
-    d.*,
     s.*,
     e.*
-    FROM main.date_key d
-    left join main.strikeOrProtest s
-    on d.id = s.id
+    from
+    main.strikeOrProtest s
     left join main.location e
-    on e.id = d.id
+    on s.id = e.id
     where s.id is not null AND
     strikeOrProtest ILIKE 'protest'
   ), cte2 AS (
