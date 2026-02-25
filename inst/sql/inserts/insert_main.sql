@@ -63,8 +63,8 @@ INSERT INTO main.employer
 select
 id,
 STRING_SPLIT(local, ';').UNNEST() as local,
-industry,
-STRING_SPLIT(employer, ';').UNNEST() Employer,
+STRING_SPLIT(industry, ';').UNNEST() as industry,
+STRING_SPLIT(employer, ';').UNNEST() as employer
 from stg_lat
 WHERE
 id NOT IN(
