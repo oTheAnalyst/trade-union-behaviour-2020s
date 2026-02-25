@@ -54,7 +54,7 @@ COALESCE(
 Source,
 Notes
 FROM
-read_xlsx('./inst/extdata/1.5.26.xlsx', 
+read_xlsx('./inst/extdata/2.23.26.xlsx', 
   all_varchar = true)
 WHERE 
 COALESCE(
