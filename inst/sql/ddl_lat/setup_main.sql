@@ -44,6 +44,7 @@ id INTEGER,
 local VARCHAR,
 industry VARCHAR,
 employer VARCHAR,
+internal_id integer default nextval('employer_id'),
 FOREIGN KEY (id) REFERENCES strikeOrProtest (id)
 );
 
