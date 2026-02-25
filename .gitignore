@@ -54,6 +54,7 @@ rsconnect/
 *.pdf
 *.html
 
+extdata/
 data/
 
 

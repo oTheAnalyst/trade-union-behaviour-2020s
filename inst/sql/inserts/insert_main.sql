@@ -2,15 +2,12 @@ INSERT INTO main.strikeOrProtest
 select
 nextval('strikeOrProtest_id'),
 id,
-STRING_SPLIT(workerDemands,';').UNNEST(),
-approximateNumberOfParticipants,
 startDate,
 endDate,
 durationUnit,
-durationAmount,
 strikeOrProtest,
 authorized,
-numberOfLocations
+STRING_SPLIT(workerDemands,';').UNNEST()
 from stg_lat
 WHERE startDate IS NOT NULL
 and
