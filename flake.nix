@@ -34,6 +34,7 @@
       buildInputs = with pkgs; [
         pandoc
         glibcLocales
+        csv2parquet
         dbt
         nix
         gnumake

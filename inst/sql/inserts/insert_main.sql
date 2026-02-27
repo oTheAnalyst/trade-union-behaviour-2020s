@@ -2,8 +2,6 @@ INSERT INTO main.strikeOrProtest
 select
 nextval('strikeOrProtest_id'),
 id,
-startDate,
-endDate,
 durationUnit,
 strikeOrProtest,
 authorized,
@@ -67,8 +65,9 @@ select id from main.employer
 
 LOAD spatial;
 INSERT INTO main.location
+  with cte as(
 select
-nextval('location_id'),
+nextval('location_id') internal_id,
 l1.id,
 STRING_SPLIT(l1.state, ';').UNNEST() State,
 STRING_SPLIT(l1.address, ';').UNNEST() Address,
@@ -81,9 +80,15 @@ STRING_SPLIT(l1.zipCode, ';').UNNEST() zipcode,
 from stg_lat as l1
 join stg_lat as l2
 on l1.id = l2.id
-WHERE
-l1.id NOT IN(
-select id from main.location
-)
+  ) 
+  select 
+     internal_id,
+      id,
+      State,
+     split_part(Address,',', 1) as Address,
+      lower(trim(City,', \n . ')) as City,
+      zipcode,
+      point
+  from cte
 ;
 

@@ -1,4 +1,4 @@
-plat = 'md:prod_lat'
+plat = 'md:dev_lat'
 
 reload_dataImports:
 	@echo "reloaded dataImports schema"
@@ -25,7 +25,6 @@ ingest_excel:
 	duckdb $(plat) < inst/sql/inserts/insert_excel.sql
 	duckdb $(plat) < inst/sql/inserts/insert_data.sql
 	duckdb $(plat) < inst/sql/inserts/insert_main.sql
-	duckdb $(plat) < inst/sql/analysis/olap.sql
 
 sum: 
 	duckdb $(plat) < inst/sql/olap.sql
