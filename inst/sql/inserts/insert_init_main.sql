@@ -1,43 +1,6 @@
-UPDATE starLat.strikeOrProtest
-set 
-  rowExpirationDate = current_localtimestamp(),
-  rowIdicator = 'expired'
-WHERE id IN(
-    with cte as(
-      select 
-      distinct
-        id,
-        strikeOrProtest,
-        authorized,
-        (workerDemands).STRING_SPLIT(';').UNNEST() as workerDemands
-      from stg_backup.stg_lat 
-      where import_id = 107
-     order by workerDemands desc
-  )
-    select 
-    stg_lat.id, 
-    stg_lat.workerDemands,
-    strikeOrProtest.workerDemands,
-    stg_lat.strikeOrProtest,
-    stg_lat.authorized
-    from cte as stg_lat
-    join starLat.strikeOrProtest as strikeOrProtest
-    on stg_lat.id = strikeOrProtest.id
-    AND strikeOrProtest.rowIdicator = 'current'
-    WHERE 
-        ( 
-       stg_lat.strikeOrProtest <> strikeOrProtest.strikeOrProtest OR 
-       stg_lat.authorized <> strikeOrProtest.authorized OR
-       stg_lat.workerDemands <> strikeOrProtest.workerDemands 
-    )
-    group by all
-);
-
-
-
 INSERT INTO starLat.strikeOrProtest
-select
-('strikeOrProtest_id').nextval(),
+with cte as(
+  select distinct
 stg_lat.id,
 stg_lat.strikeOrProtest,
 stg_lat.authorized,
@@ -46,18 +9,19 @@ NULL,
 'current'
 FROM stg_backup.stg_lat as stg_lat
 JOIN stg_backup.stg_imports as stg_imports
-  on stg_lat.import_id = stg_imports.import_id
-LEFT JOIN  starLat.strikeOrProtest as strikeOrProtest
-  on stg_lat.id = strikeOrProtest.id
-  AND strikeOrProtest.rowIdicator = 'current'
+on stg_lat.import_id = stg_imports.import_id
 WHERE 
- (stg_lat.import_id = 107 and 
- strikeOrProtest.id IS NULL)
-OR (
-       stg_lat.strikeOrProtest <> strikeOrProtest.strikeOrProtest OR 
-       stg_lat.authorized <> strikeOrProtest.authorized OR
-       stg_lat.workerDemands <> strikeOrProtest.workerDemands 
-) ;
+ stg_lat.import_id = 105
+
+) 
+select 
+('strikeOrProtest_id').nextval(),
+    * 
+  from cte
+   group by all
+    order by id desc
+  
+
 
 
 

@@ -28,10 +28,6 @@ sli.notes
 from stg_excel sli 
 LEFT JOIN stg_imports si 
 ON sli.import_dt = si.import_dt
-where 
-sli.id NOT IN(
-select id from stg_lat
-) 
 GROUP BY 
   ALL
 ;

@@ -1,5 +1,5 @@
 -- insert excel into log excel
-INSERT INTO stg_imports 
+INSERT INTO stg_backup.stg_imports 
  SELECT 
  nextval('serial'),
  import_dt,
@@ -8,18 +8,17 @@ INSERT INTO stg_imports
  'NA',
  'NA',
  'NA'
- FROM stg_excel
+ FROM stg_backup.stg_excel
  WHERE 
  import_dt
  NOT IN(
-select import_dt from stg_imports 
- )
+select import_dt from stg_backup.stg_imports )
  GROUP BY import_dt;
 
 
 -- insert data from excel excel to 
---    stg_lat_imports setup for stagging
-insert into stg_lat
+--    stg_backup.stg_lat_imports setup for stagging
+insert into stg_backup.stg_lat
 SELECT
 log.import_id,
 excel.id,
@@ -44,15 +43,10 @@ excel.authorized,
 excel.workerDemands,
 excel.source,
 excel.notes 
-FROM stg_excel excel 
-JOIN stg_imports log 
+FROM stg_backup.stg_excel excel 
+JOIN stg_backup.stg_imports log 
 ON excel.import_dt = log.import_dt
-JOIN stg_excel as copy
+JOIN stg_backup.stg_excel as copy
 on excel.id = copy.id
-WHERE 
-excel.id NOT IN(
-select id from stg_lat 
-   where id is not null 
-   group by id 
-) 
+where log.import_id = 107
 ;

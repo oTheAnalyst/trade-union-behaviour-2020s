@@ -1,3 +1,5 @@
+DROP TABLE strike_fact;
+DROP TABLE factStrike;
 DROP TABLE citations;
 DROP TABLE lat_lon;
 DROP TABLE employer;
