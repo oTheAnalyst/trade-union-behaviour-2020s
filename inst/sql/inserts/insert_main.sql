@@ -1,63 +1,67 @@
-UPDATE starLat.strikeOrProtest
-set 
-  rowExpirationDate = current_localtimestamp(),
-  rowIdicator = 'expired'
-WHERE id IN(
-    with cte as(
-      select 
-      distinct
-        id,
-        strikeOrProtest,
-        authorized,
-        (workerDemands).STRING_SPLIT(';').UNNEST() as workerDemands
-      from stg_backup.stg_lat 
-      where import_id = 107
-     order by workerDemands desc
-  )
-    select 
-    stg_lat.id, 
-    stg_lat.workerDemands,
-    strikeOrProtest.workerDemands,
-    stg_lat.strikeOrProtest,
-    stg_lat.authorized
-    from cte as stg_lat
-    join starLat.strikeOrProtest as strikeOrProtest
-    on stg_lat.id = strikeOrProtest.id
-    AND strikeOrProtest.rowIdicator = 'current'
-    WHERE 
-        ( 
-       stg_lat.strikeOrProtest <> strikeOrProtest.strikeOrProtest OR 
-       stg_lat.authorized <> strikeOrProtest.authorized OR
-       stg_lat.workerDemands <> strikeOrProtest.workerDemands 
-    )
-    group by all
+-- run update to add expired rows
+WITH src AS (
+			select
+				distinct id,
+				strikeOrProtest,
+				authorized,
+				(workerDemands).STRING_SPLIT(';').UNNEST() as workerDemands
+			from
+				stg_lat
+			where
+				import_id = 107
+)
+UPDATE strikeOrProtest
+SET
+    rowExpirationDate = current_localtimestamp(),
+    rowIndicator = 'expired'
+FROM strikeOrProtest AS tgt
+WHERE tgt.rowIndicator = 'current'
+  AND NOT EXISTS (
+      SELECT 1
+      FROM src
+      WHERE src.id = tgt.id
+        AND IFNULL(src.strikeOrProtest, '') = IFNULL(tgt.strikeOrProtest, '')
+        AND IFNULL(src.authorized, '')      = IFNULL(tgt.authorized, '')
+        AND IFNULL(src.workerDemands, '')   = IFNULL(tgt.workerDemands, '')
+  );
+
+-- run insert to add new data
+WITH src AS (
+			select
+				distinct id,
+				strikeOrProtest,
+				authorized,
+				(workerDemands).STRING_SPLIT(';').UNNEST() as workerDemands
+			from
+				stg_lat
+			where
+				import_id = 107
+)
+INSERT INTO local.strikeOrProtest (
+    id,
+    strikeOrProtest,
+    authorized,
+    workerDemands,
+    rowExpirationDate,
+    rowIndicator
+)
+SELECT
+    src.id,
+    src.strikeOrProtest,
+    src.authorized,
+    src.workerDemands,
+    NULL,
+    'current'
+FROM src
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM strikeOrProtest AS tgt
+    WHERE tgt.rowIndicator = 'current'
+      AND tgt.id = src.id
+      AND IFNULL(tgt.strikeOrProtest, '') = IFNULL(src.strikeOrProtest, '')
+      AND IFNULL(tgt.authorized, '')      = IFNULL(src.authorized, '')
+      AND IFNULL(tgt.workerDemands, '')   = IFNULL(src.workerDemands, '')
 );
-
-
-
-INSERT INTO starLat.strikeOrProtest
-select
-('strikeOrProtest_id').nextval(),
-stg_lat.id,
-stg_lat.strikeOrProtest,
-stg_lat.authorized,
-(stg_lat.workerDemands).STRING_SPLIT(';').UNNEST(),
-NULL,
-'current'
-FROM stg_backup.stg_lat as stg_lat
-JOIN stg_backup.stg_imports as stg_imports
-  on stg_lat.import_id = stg_imports.import_id
-LEFT JOIN  starLat.strikeOrProtest as strikeOrProtest
-  on stg_lat.id = strikeOrProtest.id
-  AND strikeOrProtest.rowIdicator = 'current'
-WHERE 
- (stg_lat.import_id = 107 and 
- strikeOrProtest.id IS NULL)
-OR (
-       stg_lat.strikeOrProtest <> strikeOrProtest.strikeOrProtest OR 
-       stg_lat.authorized <> strikeOrProtest.authorized OR
-       stg_lat.workerDemands <> strikeOrProtest.workerDemands 
-) ;
 
 
 

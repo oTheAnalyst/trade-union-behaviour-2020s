@@ -494,22 +494,25 @@ from
 	cte
 group by
 	all
-;
+order by
+	id desc;
 
-with src as(
-  select distinct 
-    id,
-    strikeOrProtest,
-    authorized,
-    (workerDemands).STRING_SPLIT(';').UNNEST() as workerDemands
-  from
-    stg_lat
-  where
-    import_id = 107
+
+
+WITH src AS (
+			select
+				distinct id,
+				strikeOrProtest,
+				authorized,
+				(workerDemands).STRING_SPLIT(';').UNNEST() as workerDemands
+			from
+				stg_lat
+			where
+				import_id = 107
 )
-UPDATE tgt
+UPDATE strikeOrProtest
 SET
-    rowExpirationDate = SYSDATETIME(),
+    rowExpirationDate = current_localtimestamp(),
     rowIndicator = 'expired'
 FROM strikeOrProtest AS tgt
 WHERE tgt.rowIndicator = 'current'
@@ -517,63 +520,24 @@ WHERE tgt.rowIndicator = 'current'
       SELECT 1
       FROM src
       WHERE src.id = tgt.id
-        AND ISNULL(src.strikeOrProtest, '') = ISNULL(tgt.strikeOrProtest, '')
-        AND ISNULL(src.authorized, '')      = ISNULL(tgt.authorized, '')
-        AND ISNULL(src.workerDemands, '')   = ISNULL(tgt.workerDemands, '')
+        AND IFNULL(src.strikeOrProtest, '') = IFNULL(tgt.strikeOrProtest, '')
+        AND IFNULL(src.authorized, '')      = IFNULL(tgt.authorized, '')
+        AND IFNULL(src.workerDemands, '')   = IFNULL(tgt.workerDemands, '')
   );
 
 
-
-INSERT INTO
-	strikeOrProtest
-select
-	('strikeOrProtest_id').nextval() as internal_id,
-	stg_lat.id,
-	stg_lat.strikeOrProtest,
-	stg_lat.authorized,
-	(stg_lat.workerDemands).STRING_SPLIT(';').UNNEST() as workerDemandsUN,
-	NULL,
-	'current'
-FROM
-	stg_lat as stg_lat
-	JOIN stg_imports as stg_imports on stg_lat.import_id = stg_imports.import_id
-	LEFT JOIN strikeOrProtest on stg_lat.id = strikeOrProtest.id
-	AND strikeOrProtest.rowIndicator = 'current'
-WHERE
-	(
-		stg_lat.import_id = 107
-		and strikeOrProtest.id IS NULL
-	)
-	OR (
-		stg_lat.strikeOrProtest <> strikeOrProtest.strikeOrProtest
-		OR stg_lat.authorized <> strikeOrProtest.authorized
-		OR stg_lat.workerDemands not ilike strikeOrProtest.workerDemands 
--- rebuild everything comment out ^ this line to get workable type 2 scd
-	)
-order by stg_lat.id,   desc
-;
-
-select
-	*
-from
-	strikeOrProtest;
-
-
-
 WITH src AS (
-    SELECT DISTINCT
-    ('strikeOrProtest_id').nextval() as internal_id,
-    stg_lat.id,
-    stg_lat.strikeOrProtest,
-    stg_lat.authorized,
-    (stg_lat.workerDemands).STRING_SPLIT(';').UNNEST() as workerDemandsUN,
-    NULL,
-    'current'
-    FROM dbo.stg_lat AS s
-    CROSS APPLY STRING_SPLIT(s.workerDemands, ';') AS ss
-    WHERE s.import_id = 107
+			select
+				distinct id,
+				strikeOrProtest,
+				authorized,
+				(workerDemands).STRING_SPLIT(';').UNNEST() as workerDemands
+			from
+				stg_lat
+			where
+				import_id = 107
 )
-INSERT INTO dbo.strikeOrProtest (
+INSERT INTO local.strikeOrProtest (
     id,
     strikeOrProtest,
     authorized,
@@ -591,11 +555,14 @@ SELECT
 FROM src
 WHERE NOT EXISTS (
     SELECT 1
-    FROM dbo.strikeOrProtest AS tgt
+    FROM strikeOrProtest AS tgt
     WHERE tgt.rowIndicator = 'current'
       AND tgt.id = src.id
-      AND ISNULL(tgt.strikeOrProtest, '') = ISNULL(src.strikeOrProtest, '')
-      AND ISNULL(tgt.authorized, '')      = ISNULL(src.authorized, '')
-      AND ISNULL(tgt.workerDemands, '')   = ISNULL(src.workerDemands, '')
+      AND IFNULL(tgt.strikeOrProtest, '') = IFNULL(src.strikeOrProtest, '')
+      AND IFNULL(tgt.authorized, '')      = IFNULL(src.authorized, '')
+      AND IFNULL(tgt.workerDemands, '')   = IFNULL(src.workerDemands, '')
 );
+
+
+select * from strikeOrProtest where id = 3493;
 
