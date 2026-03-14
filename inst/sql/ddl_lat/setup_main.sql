@@ -14,7 +14,7 @@ strikeOrProtest VARCHAR,
 authorized VARCHAR,
 workerDemands VARCHAR,
 rowExpirationDate TIMESTAMP DEFAULT NULL,
-rowIdicator VARCHAR
+rowIndicator VARCHAR
 );
 
 
@@ -25,7 +25,7 @@ id INTEGER,
 laborOrganization varchar,
 bargainingUnitSize integer,
 rowExpirationDate TIMESTAMP DEFAULT NULL,
-rowIdicator VARCHAR
+rowIndicator VARCHAR
 );
 
 CREATE OR REPLACE TABLE starLat.citations(
@@ -34,7 +34,7 @@ id INTEGER,
 source VARCHAR,
 notes VARCHAR,
 rowExpirationDate TIMESTAMP DEFAULT NULL,
-rowIdicator VARCHAR
+rowIndicator VARCHAR
 );
 
 --DROP TABLE employer 
@@ -45,7 +45,7 @@ local VARCHAR,
 industry VARCHAR,
 employer VARCHAR,
 rowExpirationDate TIMESTAMP DEFAULT NULL,
-rowIdicator VARCHAR
+rowIndicator VARCHAR
 );
 
 
@@ -60,6 +60,6 @@ city VARCHAR,
 zipCode VARCHAR,
 point GEOMETRY,
 rowExpirationDate TIMESTAMP DEFAULT NULL,
-rowIdicator VARCHAR
+rowIndicator VARCHAR
 );
 

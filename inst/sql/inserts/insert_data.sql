@@ -48,5 +48,5 @@ JOIN stg_backup.stg_imports log
 ON excel.import_dt = log.import_dt
 JOIN stg_backup.stg_excel as copy
 on excel.id = copy.id
-where log.import_id = 107
+where log.import_id = 133
 ;

@@ -1,4 +1,6 @@
-CREATE TABLE factStrike(
+SET memory_limit = '4GB';
+
+CREATE OR REPLACE TABLE starLat.factStrike(
   strikeOrProtest_id bigint,
   location_id bigint, 
   trade_union_id bigint, 
@@ -9,14 +11,14 @@ CREATE TABLE factStrike(
   approximateNumberOfParticipants INTEGER,
   endDate date,
   startDate date,
-  FOREIGN KEY (strikeOrProtest_id) REFERENCES strikeOrProtest(internal_id), 
-  FOREIGN KEY (employer_id) REFERENCES employer(internal_id), 
-  FOREIGN KEY (location_id) REFERENCES location(internal_id), 
-  FOREIGN KEY (trade_union_id) REFERENCES tradeUnion(internal_id), 
-  FOREIGN KEY (citations_id) REFERENCES citations(internal_id)
+  FOREIGN KEY (strikeOrProtest_id) REFERENCES starLat.strikeOrProtest(internal_id), 
+  FOREIGN KEY (employer_id) REFERENCES starLat.employer(internal_id), 
+  FOREIGN KEY (location_id) REFERENCES starLat.location(internal_id), 
+  FOREIGN KEY (trade_union_id) REFERENCES starLat.tradeUnion(internal_id), 
+  FOREIGN KEY (citations_id) REFERENCES starLat.citations(internal_id)
 );
 
-insert into factStrike 
+insert into starLat.factStrike 
 select 
   "strikeOrProtest".internal_id as strike_or_protest_id,
   "location".internal_id as location_id,
@@ -28,15 +30,16 @@ select
   stg_lat.approximateNumberOfParticipants,
   stg_lat.endDate,
   stg_lat.startDate
-from "strikeOrProtest"
-join tradeUnion
+from starLat."strikeOrProtest" as "strikeOrProtest"
+join starLat.tradeUnion as tradeUnion
 on "strikeOrProtest".id = tradeUnion.id
-join employer
+join starLat.employer as employer
 on "strikeOrProtest".id = employer.id
-join "location" 
+join starLat."location" as "location"
 on "strikeOrProtest".id = "location".id
-join citations
+join starLat.citations as citations
 on "strikeOrProtest".id = "citations".id
-join stg_lat
+join stg_backup.stg_lat as stg_lat
 on "strikeOrProtest".id = stg_lat.id
 order by "strikeOrProtest".id desc;
+

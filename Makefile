@@ -1,4 +1,4 @@
-plat = 'md:dev_lat'
+plat = 'inst/dev.duckdb'
 
 reload_dataImports:
 	@echo "reloaded dataImports schema"
@@ -37,4 +37,11 @@ setup:
 teardown:
 	duckdb $(plat) < inst/sql/teardown_dataImports.sql
 	duckdb $(plat) < inst/sql/teardown_main.sql
+
+sdc_inserts:
+	duckdb $(plat) < inst/sql/inserts/insert_employer.sql
+	duckdb $(plat) < inst/sql/inserts/insert_strikeOrProtest.sql
+	duckdb $(plat) < inst/sql/inserts/insert_citations.sql
+	duckdb $(plat) < inst/sql/inserts/insert_location.sql
+	duckdb $(plat) < inst/sql/inserts/insert_tradeUnion.sql
 
