@@ -65,20 +65,77 @@ WHERE NOT EXISTS (
 
 
 
+with cte as(
+  INSERT INTO starLat.tradeUnion 
+  select
+    nextval('trade_union_id'),
+    id,
+    STRING_SPLIT(laborOrganization,';').UNNEST() as laborOrganization,
+    bargainingUnitSize,
+    NULL,
+    'current'
+  from stg_backup.stg_lat
+  WHERE 
+  (startDate IS NOT NULL
+  and import_id = 107)
+) 
+UPDATE strikeOrProtest
+SET
+    rowExpirationDate = current_localtimestamp(),
+    rowIndicator = 'expired'
+FROM strikeOrProtest AS tgt
+WHERE tgt.rowIndicator = 'current'
+  AND NOT EXISTS (
+      SELECT 1
+      FROM src
+      WHERE src.id = tgt.id
+        AND IFNULL(src.laborOrganization, '') = IFNULL(tgt.laborOrganization, '')
+        AND IFNULL(src.bargainingUnitSize, '')      = IFNULL(tgt.bargainingUnitSize, '')
+  );
 
-INSERT INTO starLat.tradeUnion 
-select
-nextval('trade_union_id'),
-id,
-STRING_SPLIT(laborOrganization,';').UNNEST() as t2,
-bargainingUnitSize,
-NULL,
-'current'
-from stg_backup.stg_lat
-WHERE 
-(startDate IS NOT NULL
-and import_id = 105)
-;
+
+
+WITH src AS (
+			select distinct
+              nextval('trade_union_id'),
+              id,
+              STRING_SPLIT(laborOrganization,';').UNNEST() as laborOrganization,
+              bargainingUnitSize,
+			from
+				stg_lat
+			where
+				import_id = 107
+)
+INSERT INTO tradeUnion (
+    id,
+     laborOrganization,
+     bargainingUnitSize,
+     rowExpirationDate,
+     rowIndicator
+)
+SELECT
+    src.id,
+    src.laborOrganization,
+    src.bargainingUnitSize,
+    src.rowExpirationDate,
+    NULL,
+    'current'
+FROM src
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM tradeUnion AS tgt
+    WHERE tgt.rowIndicator = 'current'
+      AND tgt.id = src.id
+      AND IFNULL(tgt.laborOrganization, '') = IFNULL(src.laborOrganization, '')
+      AND IFNULL(tgt.bargainingUnitSize, '')      = IFNULL(src.bargainingUnitSize, '')
+);
+
+
+
+
+
+
+
 
 
 
