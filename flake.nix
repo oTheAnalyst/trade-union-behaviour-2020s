@@ -24,8 +24,13 @@
       testthat
       reshape2
       repurrrsive
-      esquisse # need it all up from here 
+      esquisse # need it all up from here
     ];
+    pythonEnv = pkgs.python3.withPackages (ps:
+      with ps; [
+        numpy
+        pandas
+      ]);
   in {
     devShells.${system}.default = pkgs.mkShell {
       LANG = "en_US.UTF-8";
@@ -41,26 +46,10 @@
         nixpkgs-unstable.legacyPackages.${pkgs.system}.duckdb
         libgcc
         gccgo
-        (python313.withPackages (
-          ps:
-            with ps; [
-              numpy
-              pandas
-            ]
-        ))
+        pythonEnv
         (rWrapper.override {packages = rPackages;})
         (rstudioWrapper.override {packages = rPackages;})
       ];
-
-      shellHook = "
-        if [ ! -f ./inst/extdata/db/dev.duckdb ]; then
-        mkdir ./inst/extdata/db
-        duckdb ./inst/extdata/db/dev.duckdb < ./inst/sql/setup_schema_sequence.sql
-        echo 'duckdb initiating database creation \n
-        initiating schema creation'
-        fi
-
-           ";
     };
   };
 }
