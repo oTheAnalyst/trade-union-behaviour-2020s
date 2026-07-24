@@ -3,63 +3,51 @@
     nixpkgs.url = "github:nixos/nixpkgs/25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-unstable,
-  }: let
+
+  outputs = {nixpkgs-unstable, ...}: let
     system = "x86_64-linux";
-    pkgs = import nixpkgs {inherit system;};
-    rPackages = with pkgs.rPackages; [
-      tidyverse
-      httpgd
-      visNetwork
-      lintr
-      languageserver
-      duckdb
-      DBI
-      rmarkdown
-      readxl
-      devtools
-      testthat
-      reshape2
-      repurrrsive
-      esquisse # need it all up from here 
-    ];
+    #       ↑ Swap it for your system if needed
+    #       "aarch64-linux" / "x86_64-darwin" / "aarch64-darwin"
+    pkgs = nixpkgs-unstable.legacyPackages.${system};
   in {
-    devShells.${system}.default = pkgs.mkShell {
-      LANG = "en_US.UTF-8";
-      LC_ALL = "en_US.UTF-8";
-
-      buildInputs = with pkgs; [
-        pandoc
-        glibcLocales
-        dbt
-        nix
-        gnumake
-        nixpkgs-unstable.legacyPackages.${pkgs.system}.duckdb
-        libgcc
-        gccgo
-        (python313.withPackages (
-          ps:
-            with ps; [
-              numpy
-              pandas
-            ]
-        ))
-        (rWrapper.override {packages = rPackages;})
-        (rstudioWrapper.override {packages = rPackages;})
+    pkgs = import nixpkgs-unstable {inherit system;};
+    devShells.${system}.default = let
+      rPackages = with pkgs.rPackages; [
+        tidyverse
+        visNetwork
+        lintr
+        languageserver
+        reticulate
+        #duckdb
+        DBI
+        rmarkdown
+        readxl
+        devtools
+        testthat
+        reshape2
+        repurrrsive
+        esquisse # need it all up from here
       ];
-
-      shellHook = "
-        if [ ! -f ./inst/extdata/db/dev.duckdb ]; then
-        mkdir ./inst/extdata/db
-        duckdb ./inst/extdata/db/dev.duckdb < ./inst/sql/setup_schema_sequence.sql
-        echo 'duckdb initiating database creation \n
-        initiating schema creation'
-        fi
-
-           ";
-    };
+      pythonpkgs = (pkgs.python3.withPackages (ps:
+        with ps; [
+          duckdb
+          numpy
+          requests
+        ])).override {ignoreCollisions = true;};
+    in
+      pkgs.mkShell {
+        packages = with pkgs; [
+          pandoc
+          glibcLocales
+          nix
+          gnumake
+          duckdb
+          libgcc
+          gccgo
+          pythonpkgs
+          (rWrapper.override {packages = rPackages;})
+          (rstudioWrapper.override {packages = rPackages;})
+        ];
+      };
   };
 }
